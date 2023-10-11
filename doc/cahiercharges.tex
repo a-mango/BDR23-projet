@@ -1,6 +1,14 @@
 \documentclass{article}
-\usepackage[T1]{fontenc}\usepackage[main=french]{babel}\usepackage{lastpage}
-\usepackage{fancyhdr}\usepackage{graphicx}\usepackage[a4paper, margin=2.2cm, footskip=12.3pt]{geometry}
+
+% \usepackage[latin1]{inputenc}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+
+\usepackage[a4paper, margin=2.2cm, footskip=12.3pt]{geometry}
 
 \setcounter{secnumdepth}{0}
 
@@ -11,7 +19,7 @@
     \fancyfoot[R]{Page \thepage~sur \pageref{LastPage}}\renewcommand{\footrulewidth}{0.3pt}
 }
 
-\title{Cahier des charges \\[1ex] \large Gestion d'un service de réparation d'objets}
+\title{Gestion d'un service de réparation d'objets\\[1ex]Cahier des charges}
 \author{Vitória Cosmo, Aubry Mangold, Eva Ray}
 \date{11 octobre 2023}
 
@@ -22,9 +30,9 @@
 \maketitle
 
 \section{Introduction}
-Le présent projet a pour but de concevoir une base de données dotée d'un système graphique de manipulation des données. Le travail est réalisé dans le cadre du cours "Bases de données relationnelles" du département Informatique de la HEIG-VD.
+Le présent projet a pour but de concevoir une base de données dotée d'un système graphique de manipulation des données. Le travail est réalisé dans le cadre du cours \og Bases de données relationnelles\fg{}  du département Informatique de la HEIG-VD.
 
-Le choix du sujet de ce projet est inspiré de la collaboration bénévole de l'un des membres du groupe avec l'Association "l'Écrou" (ci-après “l'Association”) qui est un atelier de réparation à but non lucratif proposant un service de réparation pour divers appareils et objets afin de promouvoir l'économie circulaire. L'Association désire développer une nouvelle solution de gestion des ressources internes afin de remplacer le système actuellement utilisé.
+Le choix du sujet de ce projet est inspiré de la collaboration bénévole de l'un des membres du groupe avec l'Association \og l'Écrou\fg{}  (ci-après \og l'Association\fg{}) qui est un atelier de réparation à but non lucratif proposant un service de réparation pour divers appareils et objets afin de promouvoir l'économie circulaire. L'Association désire développer une nouvelle solution de gestion des ressources internes afin de remplacer le système actuellement utilisé.
 
 \section{Problématique}
 Les collaborateurs de l'Association utilisent actuellement une suite de logiciels de traitement de données inappropriée à leurs besoins. L'objectif du projet est de développer une solution de gestion des ressources internes pour remplacer le système actuel.
@@ -32,7 +40,7 @@ Les collaborateurs de l'Association utilisent actuellement une suite de logiciel
 \section{Projet}
 Les exigences du projet stipulent que l'on puisse stocker les données relatives aux clients, au personnel et aux objets à réparer. L'application doit permettre de gérer les réparations en cours et terminées, la vente des objets réparés, la qualification des réparateurs pour les différents types de travaux et la gestion des messages SMS échangés avec les clients. 
 
-Le personnel de l'Écrou est composé de techniciens, de réceptionnistes et de managers. Chaque type de personnel doit avoir accès à des fonctionnalités différentes de l'application. Un bénévole de l'Association peut remplir plusieurs rôles simultanément.
+Le personnel de l'Association est composé de techniciens, de réceptionnistes et de managers. Chaque type de personnel doit avoir accès à des fonctionnalités différentes de l'application. Un bénévole de l'Association peut remplir plusieurs rôles simultanément.
 
 Un client doit accepter les termes et conditions de vente oralement et fournir son nom et son numéro de téléphone avant de pouvoir demander une réparation. Lorsqu'une réparation est traitée, un devis est envoyé au client par SMS. Le client répond par SMS en stipulant qu'il choisit de soit accepter le devis, auquel cas la réparation peut commencer, soit de refuser le devis. Dans ce dernier cas, le client peut choisir de récupérer son article endommagé ou de le céder à l'Association. Celle-ci se chargera alors de le réparer et de le proposer à la vente dans son magasin. Si le client choisit d'accepter le devis, il peut entretenir une conversation par SMS avec l'Association à propos de la réparation.
 
