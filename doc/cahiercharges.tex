@@ -1,0 +1,164 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}\usepackage[main=french]{babel}\usepackage{lastpage}
+\usepackage{fancyhdr}\usepackage{graphicx}\usepackage[a4paper, margin=2.2cm, footskip=12.3pt]{geometry}
+
+\setcounter{secnumdepth}{0}
+
+\newcommand{\header} {
+    \setlength{\headheight}{30pt}\pagestyle{fancy}
+    \fancyhead[L]{\includegraphics[height=20pt]{../logo.pdf}}\fancyhead[C]{}
+    \fancyhead[R]{Vitória Cosmo, Aubry Mangold, Eva Ray\\\today}\fancyfoot[C]{}
+    \fancyfoot[R]{Page \thepage~sur \pageref{LastPage}}\renewcommand{\footrulewidth}{0.3pt}
+}
+
+\title{Cahier des charges \\[1ex] \large Gestion d'un service de réparation d'objets}
+\author{Vitória Cosmo, Aubry Mangold, Eva Ray}
+\date{11 octobre 2023}
+
+\begin{document}
+\header
+
+
+\maketitle
+
+\section{Introduction}
+Le présent projet a pour but de concevoir une base de données dotée d'un système graphique de manipulation des données. Le travail est réalisé dans le cadre du cours "Bases de données relationnelles" du département Informatique de la HEIG-VD.
+
+Le choix du sujet de ce projet est inspiré de la collaboration bénévole de l'un des membres du groupe avec l'Association "l'Écrou" (ci-après “l'Association”) qui est un atelier de réparation à but non lucratif proposant un service de réparation pour divers appareils et objets afin de promouvoir l'économie circulaire. L'Association désire développer une nouvelle solution de gestion des ressources internes afin de remplacer le système actuellement utilisé.
+
+\section{Problématique}
+Les collaborateurs de l'Association utilisent actuellement une suite de logiciels de traitement de données inappropriée à leurs besoins. L'objectif du projet est de développer une solution de gestion des ressources internes pour remplacer le système actuel.
+
+\section{Projet}
+Les exigences du projet stipulent que l'on puisse stocker les données relatives aux clients, au personnel et aux objets à réparer. L'application doit permettre de gérer les réparations en cours et terminées, la vente des objets réparés, la qualification des réparateurs pour les différents types de travaux et la gestion des messages SMS échangés avec les clients. 
+
+Le personnel de l'Écrou est composé de techniciens, de réceptionnistes et de managers. Chaque type de personnel doit avoir accès à des fonctionnalités différentes de l'application. Un bénévole de l'Association peut remplir plusieurs rôles simultanément.
+
+Un client doit accepter les termes et conditions de vente oralement et fournir son nom et son numéro de téléphone avant de pouvoir demander une réparation. Lorsqu'une réparation est traitée, un devis est envoyé au client par SMS. Le client répond par SMS en stipulant qu'il choisit de soit accepter le devis, auquel cas la réparation peut commencer, soit de refuser le devis. Dans ce dernier cas, le client peut choisir de récupérer son article endommagé ou de le céder à l'Association. Celle-ci se chargera alors de le réparer et de le proposer à la vente dans son magasin. Si le client choisit d'accepter le devis, il peut entretenir une conversation par SMS avec l'Association à propos de la réparation.
+
+\section{Technologies}
+Une application de type client/serveur est développée afin de permettre à l'Association de gérer les réparations des objets qui lui sont confiés. La solution doit utiliser le système de gestion de base de données PostgreSQL. Le reste des technologies est laissé au libre choix des membres du groupe de projet, qui ont décidé que la partie serveur de l'application doit être développée dans le langage Java. Le choix des technologies pour la partie client est déféré à une phase ultérieure du projet. La programmation de l'application est faite en anglais, et l'affichage se fait en français.
+
+\section{Description des données}
+Les informations suivantes doivent être prises en compte lors de la conception de l'application :
+
+\subsection*{Objet}
+Un objet est caractérisé par :
+\begin{itemize}
+    \item Un nom.
+    \item Une catégorie.
+    \item Une description de la panne.
+    \item Un état de réparation (en attente, en réparation, réparé).
+    \item Une localisation (en stock, en vente, restitué, vendu).
+\end{itemize}
+
+De plus, un objet peut optionnellement avoir les caractéristiques suivants :
+\begin{itemize}
+    \item Une marque.
+    \item Un numéro de série du fabricant.
+    \item Une remarque.
+\end{itemize}
+
+\subsection*{Réparation}
+Une réparation est caractérisée par :
+\begin{itemize}
+    \item La date de demande initiale.
+    \item Un devis (coût de la réparation en CHF).
+    \item L'état d'acceptation du devis (accepté, refusé, en attente).
+    \item L'état de la réparation (en attente, en cours, terminée, abandonnée).
+    \item Un descriptif de la réparation.
+    \item Le temps estimé de réparation.
+    \item Le temps effectif passé par les réparateurs à effectuer la réparation.
+\end{itemize}
+
+Une réparation est associée à un client auquel l'objet appartient, un réceptionniste qui a traité la demande, un ou plusieurs techniciens qui effectuent la réparation, et une communication SMS.
+
+\subsection*{Vente}
+Une vente est caractérisée par :
+\begin{itemize}
+    \item Un prix en CHF.
+    \item Une date de mise en vente.
+    \item Une date de vente.
+\end{itemize}
+
+Chaque vente est associée à un unique objet.
+
+\subsection*{Client}
+Un client est caractérisé par :
+\begin{itemize}
+    \item Un numéro de téléphone, supposé unique.
+    \item Un nom complet.
+    \item Un éventuel commentaire.
+    \item Une éventuelle note privée, destinée aux collaborateurs de l'Association.
+\end{itemize}
+
+\subsection*{Personnel}
+Un membre du personnel est caractérisé par :
+\begin{itemize}
+    \item Un numéro de téléphone, supposé unique.
+    \item Un nom complet.
+    \item Une adresse de courrier électronique.
+    \item Un éventuel commentaire.
+    \item Un ou plusieurs rôles parmi les suivants :
+    \begin{itemize}
+        \item Technicien
+        \item Réceptionniste
+        \item Manager
+    \end{itemize}
+\end{itemize}
+
+Un technicien possède une ou plusieurs spécialisations. Un réceptionniste possède un ou plusieurs langages de communication.
+
+\subsection*{SMS}
+Un SMS est caractérisé par :
+\begin{itemize}
+    \item Un émetteur (l'Association ou le client).
+    \item Un message.
+    \item Une date et heure.
+    \item Un état de traitement du message.
+\end{itemize}
+
+Un ensemble de SMS forment une conversation. Une conversation est liée à une unique réparation.
+
+\section{Formats}
+Les normes suivantes sont utilisées dans l'application :
+\begin{itemize}
+    \item Les dates et heures sont traitées au format ISO 8601.
+    \item Les numéros de téléphone sont traités dans la norme RFC 3966.
+    \item Les sommes d'argent sont traitées au format ISO 4217. La devise utilisée est le Franc Suisse et les montants sont arrondis au centime près.
+    \item Les textes sont traités et enregistrés en UTF-8
+\end{itemize}
+
+\section{Fonctionnalités}
+L'application développée pour ce projet est destinée à être utilisée par les collaborateurs de l'Association. Toutes les fonctionnalités de l'application sont utilisées en remplissant un des rôles (technicien, réceptionniste, manager). Tous les collaborateurs ont accès à l'inventaire des objets. à la liste des réparations et la liste des ventes.
+
+\subsection*{Technicien}
+Un technicien doit pouvoir entreprendre les actions suivantes :
+\begin{itemize}
+    \item Consulter les réparations qui lui sont attribuées.
+    \item Modifier l'état de la réparation.
+    \item Modifier le descriptif du travail effectué.
+    \item Ajouter un temps travaillé sur une réparation.
+\end{itemize}
+
+\subsection*{Réceptionniste}
+Un réceptionniste doit pouvoir entreprendre les actions suivantes :
+\begin{itemize}
+    \item Consulter, créer et modifier un client.
+    \item Consulter, créer et modifier une réparation.
+    \item Consulter, créer et modifier une vente.
+    \item Envoyer et consulter des SMS.
+\end{itemize}
+
+\subsection*{Manager}
+En plus des actions entreprenables par les réceptionnistes et techniciens, un manager doit pouvoir entreprendre les actions suivantes :
+\begin{itemize}
+    \item Créer, modifier et supprimer des collaborateurs.
+    \item Assigner un ou des rôles à des collaborateurs.
+    \item Toute autre action manipulant les données de l'application.
+\end{itemize}
+
+\subsection*{Remarques}
+L'implémentation de l'API SMS et les mécanismes d'authentification des utilisateurs n'ont pas été inclus dans ce projet car la mise en place de cette technologie dépasse les compétences techniques enseignées dans ce cours et la portée de ce projet.
+
+\end{document}
