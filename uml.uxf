@@ -1,0 +1,22 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>130</x><y>50</y><w>100</w><h>90</h></coordinates><panel_attributes>Object
+--
+name
+desc
+serialNo
+remark
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>340</x><y>50</y><w>100</w><h>90</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+RepairState
+--
+WAITING
+UNDER_REPAIR
+REPARED</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>480</x><y>50</y><w>100</w><h>110</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+Localisatoin
+--
+IN_STOCK
+FOR_SALE
+RETURNED
+SOLD</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>130</x><y>200</y><w>100</w><h>50</h></coordinates><panel_attributes>Category
+--
+name</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>130</x><y>300</y><w>100</w><h>40</h></coordinates><panel_attributes>Brand
+--
+name</panel_attributes><additional_attributes></additional_attributes></element></diagram>
