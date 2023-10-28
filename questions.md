@@ -32,4 +32,22 @@ Général : - client, receptionist, manager, technician peuvent tous hériter de
           - Attention à ajouter les "disjoint, totale" etc. dans le diagramme pour préciser qu'on peut êtr eplusieurs choses à la fois !
 
 
+## Décisions
+- Est-ce que'on devrait avoir une seule enum pour les états de réparation?
+    On a remarqué qu'il fallait une association entre Object et Reparation. Sans ça, on n'arrive pas à remonter à la réparation depuis l'objet. 
+    Par conséquent, on n'a plus besoin de ObjectRepairState dans Object vu qu'on a l'information dans Reparation.
+- On a rajouté des noms aux associations qui concernent des enum.    
+- Est-ce que la réparation ne devrait pas préciser de quels domaines de spécilisation elle a besoin pour être faite? 
+    On a rajouté une association entre Reparation et Specialization qui décrit les spécilisations dont a besoin la réparation.
+- On a mis Sale comme entité faible de Object (n'existe pas si l'objet n'existe pas). On a rajouté id_sale comme clé unique de Sale.
+- On a décidé de garder la classe d'association TimeWorked et d'enlever l'attribut effectiveTime de Reparation. On s'est dit que c'est une information intéressante 
+pour faire des statistiques.
+- On a fait une classe Person dont toutes les personnes héritent. Pour montret qu'un manager peut aussi avoir un autre rôle, on a séparé les flèches d'héritage. 
+On n'a pas fait hériter manager de Receptionist et Techncien parce que c'est pas très logique qu'un manager ait toutes leurs associations. (genre il répare pas des trucs de base)
+- Pour la clé unique de SMS, on a mis deux clés candidates: timestamp et message (même si je trouve tjs ça un peu excessif #E)
+- Au final, on a fait une association entre SMS et Personne en précisant en CI qui a le droit d'envoyer des messages. Par conséquent, on a enlevé sender de SMS.
+
+## TO-DO
+- Il faut penser à changer le cahier des charges en fonction de nos petits changements.
+- Il faut mettre au propre l'UML
 
