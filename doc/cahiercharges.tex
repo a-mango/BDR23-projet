@@ -53,10 +53,10 @@ Les informations suivantes doivent être prises en compte lors de la conception 
 \subsection*{Objet}
 Un objet est caractérisé par :
 \begin{itemize}
+    \item Un identifiant unique.
     \item Un nom.
     \item Une catégorie.
     \item Une description de la panne.
-    \item Un état de réparation (en attente, en réparation, réparé).
     \item Une localisation (en stock, en vente, restitué, vendu).
 \end{itemize}
 
@@ -67,9 +67,12 @@ De plus, un objet peut optionnellement avoir les caractéristiques suivants :
     \item Une remarque.
 \end{itemize}
 
+Un objet est possédé par un unique client.
+
 \subsection*{Réparation}
 Une réparation est caractérisée par :
 \begin{itemize}
+    \item Un identifiant unique.
     \item La date de demande initiale.
     \item Un devis (coût de la réparation en CHF).
     \item L'état d'acceptation du devis (accepté, refusé, en attente).
@@ -77,14 +80,15 @@ Une réparation est caractérisée par :
     \item La ou les expertises nécessaires à la réparation.
     \item Un descriptif de la réparation.
     \item Le temps estimé de réparation.
-    \item Le temps effectif passé par les réparateurs à effectuer la réparation.
 \end{itemize}
 
-Une réparation est associée à un client auquel l'objet appartient, un réceptionniste qui a traité la demande, un ou plusieurs techniciens qui effectuent la réparation, et une communication SMS.
+Une réparation est associée à un client auquel l'objet appartient, l'objet en lui-même, un réceptionniste qui a traité la demande, un ou plusieurs techniciens qui effectuent la réparation, et une communication SMS.
+On souhaite pouvoir savoir le temps que chaque technicien a passé sur une réparation.
 
 \subsection*{Vente}
 Une vente est caractérisée par :
 \begin{itemize}
+    \item Un identifiant unique.
     \item Un prix en CHF.
     \item Une date de mise en vente.
     \item Une date de vente.
@@ -121,13 +125,15 @@ Un technicien possède une ou plusieurs expertises. Un réceptionniste possède 
 \subsection*{SMS}
 Un SMS est caractérisé par :
 \begin{itemize}
+    \item Un identifiant unique.
     \item Un émetteur (l'Association ou le client).
+    \item Un destinataire.
     \item Un message.
     \item Une date et heure.
-    \item Un état de traitement du message.
+    \item Un état de traitement du message (reçu, lu, traité).
 \end{itemize}
 
-Un ensemble de SMS forment une conversation. Une conversation est liée à une unique réparation.
+Un ensemble de SMS forment une conversation. Une conversation est liée à une unique réparation. Un SMS ne concerne qu'une seule réparation.
 
 \section{Formats}
 Les normes suivantes sont utilisées dans l'application :
