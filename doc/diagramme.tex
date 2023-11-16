@@ -39,4 +39,30 @@
 \end{figure}
 \end{landscape}
 
+\pagebreak
+
+\section{Contraintes d'intégrité}
+
+\begin{itemize}
+    \item Un client doit accepter les termes et conditions de vente avant de demander un devis.
+    \item Le technicien doit être spécialisé dans le bon domaine.
+    \item Si \texttt{QuoteState} est \texttt{WAITING}, alors \texttt{ReparationState} est \texttt{WAITING} et \texttt{Location} est \texttt{IN\_STOCK}.
+    \item \texttt{Sale} n'existe que si \texttt{QuoteState} est \texttt{DECLINED}.
+    \item Si \texttt{Location} est \texttt{FOR\_SALE} ou \texttt{SOLD}, alors \texttt{Quote} doit être \texttt{DECLINED}.
+    \item Si \texttt{ReparationState} est \texttt{ONGOING} ou \texttt{DONE}, alors \texttt{QuoteState} est \texttt{ACCEPTED}.
+\end{itemize}
+
+\pagebreak
+\section{Modifications}
+
+\subsection*{Révision du 16.11.2023}
+
+\begin{itemize}
+    \item Renommage de la table \texttt{Client} en \texttt{Customer}.
+    \item Suppression de la relation \texttt{accueille} entre les tables \texttt{Client} et \texttt{Receptionist}.
+    \item Ajout de la relation \texttt{cree} entre les tables {Receptionist} et {Reparation}
+    \item Ajout du membre \texttt{tosAccepted} dans la table \texttt{Client}.
+    \item Ajout des contraintes d'intégrité.
+\end{itemize}
+
 \end{document}
