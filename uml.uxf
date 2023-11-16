@@ -1,20 +1,23 @@
-<diagram program="umletino" version="15.1"><zoom_level>18</zoom_level><help_text></help_text><element><id>UMLClass</id><coordinates><x>108</x><y>1260</y><w>180</w><h>198</h></coordinates><panel_attributes>Object
+<diagram program="umletino" version="15.1"><zoom_level>6</zoom_level><help_text>CI : Si QuoteState est WAITING, alors ReparationState est WAITING et Location est  IN_STOCK.
+    \item \texttt{Sale} n'existe que si \texttt{QuoteState} est \texttt{DECLINED}.
+    \item Si \texttt{Location} est \texttt{FOR\_SALE} ou \texttt{SOLD}, alors \texttt{Quote} doit être \texttt{DECLINED}.
+    \item Si \texttt{ReparationState} est \texttt{ONGOING} ou \texttt{DONE}, alors \texttt{QuoteState} est \texttt{ACCEPTED}.</help_text><element><id>UMLClass</id><coordinates><x>196</x><y>438</y><w>60</w><h>66</h></coordinates><panel_attributes>Object
 --
 _id_
 name
 faultDesc
 remark [0..1]
-serialNo [0..1]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>630</x><y>1116</y><w>180</w><h>180</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+serialNo [0..1]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>370</x><y>390</y><w>60</w><h>60</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
 Location
 --
 IN_STOCK
 FOR_SALE
 RETURNED
-SOLD</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>630</x><y>1422</y><w>180</w><h>90</h></coordinates><panel_attributes>Category
+SOLD</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>370</x><y>492</y><w>60</w><h>30</h></coordinates><panel_attributes>Category
 --
-_name_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>630</x><y>1314</y><w>180</w><h>90</h></coordinates><panel_attributes>Brand
+_name_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>370</x><y>456</y><w>60</w><h>30</h></coordinates><panel_attributes>Brand
 --
-_name_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1134</x><y>936</y><w>198</w><h>198</h></coordinates><panel_attributes>Reparation
+_name_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>538</x><y>330</y><w>66</w><h>66</h></coordinates><panel_attributes>Reparation
 --
 _id_
 initDate
@@ -22,110 +25,121 @@ quote
 repairDesc
 estimTime
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1818</x><y>1044</y><w>198</w><h>162</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>766</x><y>366</y><w>66</w><h>54</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
 QuoteState
 --
 ACCEPTED
 DECLINED
-WAITING</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1818</x><y>846</y><w>198</w><h>180</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+WAITING</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>766</x><y>300</y><w>66</w><h>60</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
 ReparationState
 --
 WAITING
 ONGOING
 DONE
 ABANDONNED
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>108</x><y>1674</y><w>180</w><h>126</h></coordinates><panel_attributes>Sale
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>196</x><y>576</y><w>60</w><h>42</h></coordinates><panel_attributes>Sale
 --
 price
 listingDate
-saleDate</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>90</x><y>252</y><w>216</w><h>90</h></coordinates><panel_attributes>Client
+saleDate</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>190</x><y>102</y><w>72</w><h>36</h></coordinates><panel_attributes>Customer
 --
-privateNote [0..1]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1134</x><y>252</y><w>180</w><h>90</h></coordinates><panel_attributes>/Collaborator/
+privateNote [0..1]
+tosAccepted</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>538</x><y>102</y><w>60</w><h>30</h></coordinates><panel_attributes>/Collaborator/
 --
-email</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1134</x><y>1314</y><w>198</w><h>180</h></coordinates><panel_attributes>SMS
+email</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>538</x><y>456</y><w>66</w><h>60</h></coordinates><panel_attributes>SMS
 --
 _id_
 timestamp
 message
 sender
-receiver</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>270</x><y>1404</y><w>396</w><h>90</h></coordinates><panel_attributes>lt=-
+receiver</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>250</x><y>486</y><w>132</w><h>30</h></coordinates><panel_attributes>lt=-
 m1=1
 m2=*
 appartient à &gt;
-</panel_attributes><additional_attributes>200;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>270</x><y>1332</y><w>396</w><h>90</h></coordinates><panel_attributes>lt=-
+</panel_attributes><additional_attributes>200;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>250</x><y>462</y><w>132</w><h>30</h></coordinates><panel_attributes>lt=-
 m1=0..1
 m2=*
-a &gt;</panel_attributes><additional_attributes>200;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>270</x><y>1242</y><w>396</w><h>90</h></coordinates><panel_attributes>lt=-
+a &gt;</panel_attributes><additional_attributes>200;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>250</x><y>432</y><w>132</w><h>30</h></coordinates><panel_attributes>lt=-
 m1=1
 m2=*
-a &gt;</panel_attributes><additional_attributes>200;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>0</x><y>270</y><w>198</w><h>1170</h></coordinates><panel_attributes>lt=-
+a &gt;</panel_attributes><additional_attributes>200;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>160</x><y>108</y><w>66</w><h>390</h></coordinates><panel_attributes>lt=-
 m1=*
 m2=1
-appartient à ^</panel_attributes><additional_attributes>60;620;10;620;10;10;50;10</additional_attributes></element><element><id>Relation</id><coordinates><x>180</x><y>1494</y><w>180</w><h>216</h></coordinates><panel_attributes>lt=-
+appartient à ^</panel_attributes><additional_attributes>60;620;10;620;10;10;50;10</additional_attributes></element><element><id>Relation</id><coordinates><x>220</x><y>516</y><w>60</w><h>72</h></coordinates><panel_attributes>lt=-
 m1=1
 m2=0..1
-concerne ^</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>162</x><y>324</y><w>1008</w><h>774</h></coordinates><panel_attributes>lt=-
+concerne ^</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>214</x><y>132</y><w>336</w><h>252</h></coordinates><panel_attributes>lt=-
 m1=1
 m2=*
-&lt; associée à </panel_attributes><additional_attributes>10;10;10;400;540;400</additional_attributes></element><element><id>Relation</id><coordinates><x>1314</x><y>1044</y><w>540</w><h>90</h></coordinates><panel_attributes>lt=-
+&lt; associée à </panel_attributes><additional_attributes>10;10;10;390;540;390</additional_attributes></element><element><id>Relation</id><coordinates><x>598</x><y>366</y><w>180</w><h>30</h></coordinates><panel_attributes>lt=-
 m1=*
 m2=1
-a &gt;</panel_attributes><additional_attributes>10;20;280;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1314</x><y>954</y><w>540</w><h>90</h></coordinates><panel_attributes>lt=-
+a &gt;</panel_attributes><additional_attributes>10;20;280;20</additional_attributes></element><element><id>Relation</id><coordinates><x>598</x><y>336</y><w>180</w><h>30</h></coordinates><panel_attributes>lt=-
 m1=*
 m2=1
-a &gt;</panel_attributes><additional_attributes>10;20;280;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1206</x><y>1116</y><w>180</w><h>234</h></coordinates><panel_attributes>lt=-
+a &gt;</panel_attributes><additional_attributes>10;20;280;20</additional_attributes></element><element><id>Relation</id><coordinates><x>562</x><y>390</y><w>60</w><h>78</h></coordinates><panel_attributes>lt=-
 m1=1
 m2=*
-concerne ^</panel_attributes><additional_attributes>10;10;10;110</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1134</x><y>486</y><w>180</w><h>54</h></coordinates><panel_attributes>Technician
---</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1836</x><y>486</y><w>180</w><h>54</h></coordinates><panel_attributes>Manager
---</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>540</x><y>486</y><w>180</w><h>54</h></coordinates><panel_attributes>Receptionist
---</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>612</x><y>324</y><w>648</w><h>198</h></coordinates><panel_attributes>lt=&lt;&lt;-
+concerne ^</panel_attributes><additional_attributes>10;10;10;110</additional_attributes></element><element><id>UMLClass</id><coordinates><x>538</x><y>180</y><w>60</w><h>18</h></coordinates><panel_attributes>Technician
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>772</x><y>180</y><w>60</w><h>18</h></coordinates><panel_attributes>Manager
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>310</x><y>180</y><w>60</w><h>18</h></coordinates><panel_attributes>Receptionist
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>334</x><y>126</y><w>246</w><h>66</h></coordinates><panel_attributes>lt=&lt;&lt;-
 {Chevauchante, Totale}
-</panel_attributes><additional_attributes>340;10;340;50;10;50;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>1206</x><y>324</y><w>774</w><h>198</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;50;410;50;410;90</additional_attributes></element><element><id>UMLClass</id><coordinates><x>540</x><y>702</y><w>180</w><h>90</h></coordinates><panel_attributes>Language
+</panel_attributes><additional_attributes>390;10;390;50;10;50;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>562</x><y>126</y><w>258</w><h>66</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;50;410;50;410;90</additional_attributes></element><element><id>UMLClass</id><coordinates><x>310</x><y>252</y><w>60</w><h>30</h></coordinates><panel_attributes>Language
 --
-_name_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1566</x><y>468</y><w>180</w><h>90</h></coordinates><panel_attributes>Specialization
+_name_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>682</x><y>174</y><w>60</w><h>30</h></coordinates><panel_attributes>Specialization
 --
-_name_</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>612</x><y>522</y><w>126</w><h>216</h></coordinates><panel_attributes>lt=-
+_name_</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>334</x><y>192</y><w>42</w><h>72</h></coordinates><panel_attributes>lt=-
 m1=*
 m2=1..*
-parle v</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>1296</x><y>468</y><w>306</w><h>90</h></coordinates><panel_attributes>lt=-
+parle v</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>592</x><y>174</y><w>102</w><h>30</h></coordinates><panel_attributes>lt=-
 m1=*
 m2=1..*
-se spécialise en &gt;</panel_attributes><additional_attributes>10;20;150;20</additional_attributes></element><element><id>UMLNote</id><coordinates><x>450</x><y>882</y><w>378</w><h>108</h></coordinates><panel_attributes>CI: un client doit accepter les termes 
+se spécialise en &gt;</panel_attributes><additional_attributes>10;20;150;20</additional_attributes></element><element><id>UMLNote</id><coordinates><x>268</x><y>312</y><w>126</w><h>36</h></coordinates><panel_attributes>CI: Un client doit accepter les termes 
 et conditions de vente avant de 
-demander un devis</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1206</x><y>522</y><w>198</w><h>450</h></coordinates><panel_attributes>lt=-
+demander un devis</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>562</x><y>192</y><w>66</w><h>150</h></coordinates><panel_attributes>lt=-
 m1=*
 m2=*
-travaille sur v</panel_attributes><additional_attributes>10;230;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1080</x><y>756</y><w>180</w><h>72</h></coordinates><panel_attributes>lt=.
-</panel_attributes><additional_attributes>10;20;80;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>918</x><y>756</y><w>180</w><h>72</h></coordinates><panel_attributes>TimeWorked
+travaille sur v</panel_attributes><additional_attributes>10;230;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>532</x><y>270</y><w>48</w><h>24</h></coordinates><panel_attributes>lt=.
+</panel_attributes><additional_attributes>10;20;60;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>478</x><y>270</y><w>60</w><h>24</h></coordinates><panel_attributes>TimeWorked
 --
-time</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>252</x><y>324</y><w>324</w><h>234</h></coordinates><panel_attributes>lt=-
+time</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>364</x><y>180</y><w>186</w><h>186</h></coordinates><panel_attributes>lt=-
 m1=*
 m2=1
-&lt; acueille</panel_attributes><additional_attributes>10;10;10;100;160;100</additional_attributes></element><element><id>Relation</id><coordinates><x>630</x><y>972</y><w>54</w><h>108</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;40;10;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>828</x><y>594</y><w>270</w><h>108</h></coordinates><panel_attributes>CI: Le technicien doit 
+crée &gt;</panel_attributes><additional_attributes>290;280;90;280;90;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>328</x><y>342</y><w>18</w><h>36</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;40;10;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>448</x><y>216</y><w>90</w><h>36</h></coordinates><panel_attributes>CI: Le technicien doit 
 être spécialisé dans le 
-bon domaine.</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1080</x><y>612</y><w>180</w><h>72</h></coordinates><panel_attributes>lt=.
-</panel_attributes><additional_attributes>10;20;80;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1134</x><y>1638</y><w>198</w><h>162</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+bon domaine.</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>532</x><y>222</y><w>48</w><h>24</h></coordinates><panel_attributes>lt=.
+</panel_attributes><additional_attributes>10;20;60;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>538</x><y>564</y><w>66</w><h>54</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
 ProcessingState
 --
 RECEIVED
 READ
-PROCESSED</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1206</x><y>1476</y><w>90</w><h>198</h></coordinates><panel_attributes>lt=-
+PROCESSED</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>562</x><y>510</y><w>30</w><h>66</h></coordinates><panel_attributes>lt=-
 m1=*
 m2=1
- a v</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>1206</x><y>324</y><w>54</w><h>198</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>1314</x><y>540</y><w>504</w><h>468</h></coordinates><panel_attributes>lt=-
+ a v</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>562</x><y>126</y><w>18</w><h>66</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>598</x><y>198</y><w>168</w><h>156</h></coordinates><panel_attributes>lt=-
 m1=*
 m2=1..*
-nécessite ^</panel_attributes><additional_attributes>10;230;190;230;190;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>144</x><y>1458</y><w>108</w><h>54</h></coordinates><panel_attributes>id_sale</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>630</x><y>0</y><w>216</w><h>126</h></coordinates><panel_attributes>/Person/
+nécessite ^</panel_attributes><additional_attributes>10;230;190;230;190;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>208</x><y>504</y><w>36</w><h>18</h></coordinates><panel_attributes>id_sale</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>370</x><y>18</y><w>72</w><h>42</h></coordinates><panel_attributes>/Person/
 --
 _phoneNo_
 name [1..*]
-comment [0..1]</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>720</x><y>108</y><w>540</w><h>180</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;40;280;40;280;80</additional_attributes></element><element><id>Relation</id><coordinates><x>180</x><y>108</y><w>594</w><h>198</h></coordinates><panel_attributes>lt=&lt;&lt;-
+comment [0..1]</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>400</x><y>54</y><w>180</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;40;280;40;280;80</additional_attributes></element><element><id>Relation</id><coordinates><x>220</x><y>54</y><w>198</w><h>66</h></coordinates><panel_attributes>lt=&lt;&lt;-
 {Chevauchante, Totale}
-</panel_attributes><additional_attributes>310;10;310;40;10;40;10;84</additional_attributes></element><element><id>Relation</id><coordinates><x>180</x><y>1062</y><w>990</w><h>234</h></coordinates><panel_attributes>lt=-
+</panel_attributes><additional_attributes>310;10;310;40;10;40;10;84</additional_attributes></element><element><id>Relation</id><coordinates><x>220</x><y>372</y><w>330</w><h>78</h></coordinates><panel_attributes>lt=-
 m1=1
 m2=1
-&lt; concerne</panel_attributes><additional_attributes>530;20;10;20;10;110</additional_attributes></element><element><id>UMLNote</id><coordinates><x>1386</x><y>1350</y><w>288</w><h>90</h></coordinates><panel_attributes>Les champs sender et 
+&lt; concerne</panel_attributes><additional_attributes>530;20;10;20;10;110</additional_attributes></element><element><id>UMLNote</id><coordinates><x>622</x><y>468</y><w>96</w><h>30</h></coordinates><panel_attributes>Les champs sender et 
 receiver sont des numéros 
 de téléphone
-bg=blue</panel_attributes><additional_attributes></additional_attributes></element></diagram>
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>274</x><y>102</y><w>120</w><h>36</h></coordinates><panel_attributes>bg=blue
+Un client doit accepter les termes 
+et conditions de vente avant de 
+demander un devis.</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>850</x><y>270</y><w>132</w><h>42</h></coordinates><panel_attributes>CI: Si QuoteState est WAITING, alors 
+ReparationState est WAITING et 
+Location est IN_STOCK.
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>850</x><y>324</y><w>132</w><h>30</h></coordinates><panel_attributes>CI : Sale n'existe que si QuoteState 
+est DECLINED.</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>850</x><y>366</y><w>132</w><h>36</h></coordinates><panel_attributes>CI: Si Location est FOR_SALE ou SOLD, 
+alors Quote doit être DECLINED.</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>850</x><y>414</y><w>132</w><h>42</h></coordinates><panel_attributes>CI : Si ReparationState est ONGOING 
+ou DONE, alors QuoteState est 
+ACCEPTED.</panel_attributes><additional_attributes></additional_attributes></element></diagram>
