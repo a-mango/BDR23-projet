@@ -65,7 +65,7 @@ m2=*
 a &gt;</panel_attributes><additional_attributes>200;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>160</x><y>108</y><w>66</w><h>390</h></coordinates><panel_attributes>lt=-
 m1=*
 m2=1
-appartient à ^</panel_attributes><additional_attributes>60;620;10;620;10;10;50;10</additional_attributes></element><element><id>Relation</id><coordinates><x>220</x><y>516</y><w>60</w><h>72</h></coordinates><panel_attributes>lt=-
+appartient à ^</panel_attributes><additional_attributes>60;620;10;620;10;10;50;10</additional_attributes></element><element><id>Relation</id><coordinates><x>220</x><y>516</y><w>54</w><h>72</h></coordinates><panel_attributes>lt=-
 m1=1
 m2=0..1
 concerne ^</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>214</x><y>132</y><w>336</w><h>252</h></coordinates><panel_attributes>lt=-
@@ -77,7 +77,7 @@ m2=1
 a &gt;</panel_attributes><additional_attributes>10;20;280;20</additional_attributes></element><element><id>Relation</id><coordinates><x>598</x><y>336</y><w>180</w><h>30</h></coordinates><panel_attributes>lt=-
 m1=*
 m2=1
-a &gt;</panel_attributes><additional_attributes>10;20;280;20</additional_attributes></element><element><id>Relation</id><coordinates><x>562</x><y>390</y><w>60</w><h>78</h></coordinates><panel_attributes>lt=-
+a &gt;</panel_attributes><additional_attributes>10;20;280;20</additional_attributes></element><element><id>Relation</id><coordinates><x>562</x><y>390</y><w>54</w><h>78</h></coordinates><panel_attributes>lt=-
 m1=1
 m2=*
 concerne ^</panel_attributes><additional_attributes>10;10;10;110</additional_attributes></element><element><id>UMLClass</id><coordinates><x>538</x><y>180</y><w>60</w><h>18</h></coordinates><panel_attributes>Technician
@@ -117,13 +117,13 @@ READ
 PROCESSED</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>562</x><y>510</y><w>30</w><h>66</h></coordinates><panel_attributes>lt=-
 m1=*
 m2=1
- a v</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>562</x><y>126</y><w>18</w><h>66</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>598</x><y>198</y><w>168</w><h>156</h></coordinates><panel_attributes>lt=-
+ a v</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>562</x><y>126</y><w>18</w><h>66</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>598</x><y>198</y><w>162</w><h>156</h></coordinates><panel_attributes>lt=-
 m1=*
 m2=1..*
 nécessite ^</panel_attributes><additional_attributes>10;230;190;230;190;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>208</x><y>504</y><w>36</w><h>18</h></coordinates><panel_attributes>id_sale</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>370</x><y>18</y><w>72</w><h>42</h></coordinates><panel_attributes>/Person/
 --
 _phoneNo_
-name [1..*]
+name
 comment [0..1]</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>400</x><y>54</y><w>180</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;40;280;40;280;80</additional_attributes></element><element><id>Relation</id><coordinates><x>220</x><y>54</y><w>198</w><h>66</h></coordinates><panel_attributes>lt=&lt;&lt;-
 {Chevauchante, Totale}
 </panel_attributes><additional_attributes>310;10;310;40;10;40;10;84</additional_attributes></element><element><id>Relation</id><coordinates><x>220</x><y>372</y><w>330</w><h>78</h></coordinates><panel_attributes>lt=-
