@@ -1,0 +1,109 @@
+\documentclass{article}
+
+% \usepackage[latin1]{inputenc}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{pdflscape}
+
+\usepackage[a4paper, margin=2.2cm, footskip=12.3pt]{geometry}
+
+\setcounter{secnumdepth}{0}
+
+\newcommand{\header} {
+    \setlength{\headheight}{30pt}\pagestyle{fancy}
+    \fancyhead[L]{\includegraphics[height=20pt]{../logo.pdf}}\fancyhead[C]{}
+    \fancyhead[R]{Vitória Cosmo, Aubry Mangold, Eva Ray\\\today}\fancyfoot[C]{}
+    \fancyfoot[R]{Page \thepage~sur \pageref{LastPage}}\renewcommand{\footrulewidth}{0.3pt}
+}
+
+\newcommand{\ul}{\underline}
+\newcommand{\ttt}{\texttt}
+
+\title{Gestion d'un service de réparation d'objets\\[1ex]Modélisation relationnelle}
+\author{Vitória Cosmo, Aubry Mangold, Eva Ray}
+\date{22 novembre 2023}
+
+\begin{document}
+\header
+
+
+\maketitle
+
+\section{Conversion EA-relationnel}
+
+\begin{itemize}
+    \item \ttt{person (\ul{phone\_no}, name, comment)}
+    \subitem \ttt{name} \ttt{NOT NULL}
+
+    \item \ttt{customer (\ul{phone\_no}, tos\_accepted, private\_note)}
+    \subitem \ttt{phone\_no} référence \ttt{person.phone\_no}
+    \subitem \ttt{tos\_accepted} \ttt{NOT NULL}
+
+    \item \ttt{collaborator (\ul{phone\_no}, email)}
+    \subitem \ttt{phone\_no} référence \ttt{Person.phone\_no}
+    \subitem \ttt{email} \ttt{NOT NULL}
+
+    \item \ttt{manager (\ul{phone\_no})}
+    \subitem \ttt{phone\_no} référence \ttt{collaborator.phone\_no} 
+
+    \item \ttt{technician (\ul{phone\_no})}
+    \subitem \ttt{phone\_no} référence \ttt{collaborator.phone\_no}
+
+    \item \ttt{receptionist (\ul{phone\_no})}
+    \subitem \ttt{phone\_no} référence \ttt{collaborator.phone\_no}
+
+    \item \ttt{language (\ul{name})}
+
+    \item \ttt{receptionist\_language (\ul{phone\_no}, \ul{language\_id})}
+    \subitem \ttt{phone\_no} référence \ttt{receptionist.phone\_no}
+    \subitem \ttt{language\_id} référence \ttt{language.name}
+
+    \item \ttt{specialization (\ul{name})}
+    
+    \item \ttt{technician\_specialization (\ul{phone\_no}, \ul{spec\_id})}
+    \subitem \ttt{phone\_no} référence \ttt{technician.phone\_no}
+    \subitem \ttt{spec\_id} référence \ttt{specialization.name}
+
+    \item \ttt{Reparation (\ul{id}, object\_id, customer\_id, receptionist\_id, date\_created, quote, description, estimated\_duration, reparation\_state, quote\_state)}
+    \subitem \ttt{date\_created}, \ttt{description}, \ttt{reparation\_state}, \ttt{quote\_state} \ttt{NOT NULL}
+    \subitem \ttt{object\_id} référence \ttt{object.id} \ttt{UNIQUE, NOT NULL}
+    \subitem \ttt{customer\_id} référence \ttt{customer.phone\_no} \ttt{NOT NULL}
+    \subitem \ttt{receptionist\_id} référence \ttt{receptionist.phone\_no} \ttt{NOT NULL}
+
+    \item \ttt{technician\_reparation (\ul{technician\_id}, \ul{reparation\_id})}
+    \subitem \ttt{technician\_id} référence \ttt{technician.phone\_no} 
+    \subitem \ttt{reparation\_id} référence \ttt{reparation.id}
+
+    \item \ttt{specialization\_reparation (\ul{spec\_id}, \ul{reparation\_id})}
+    \subitem \ttt{spec\_id} référence \ttt{specialization.name}
+    \subitem \ttt{reparation\_id} référence \ttt{reparation.id}
+
+    \item \ttt{sms (\ul{id}, reparation\_id, timestamp, message, sender, receiver, processing\_state)}
+    \subitem \ttt{reparation\_id} référence \ttt{reparation.id} \ttt{NOT NULL}
+
+    \item \ttt{object (\ul{id}, customer\_id, name, fault\_desc, location, remark, serial\_no, brand, category)}
+    \subitem \ttt{name}, \ttt{fault\_desc}, \ttt{location}, \ttt{brand}, \ttt{category} \ttt{NOT NULL}
+    \subitem \ttt{customer\_id} référence \ttt{customer.phone\_no} \ttt{NOT NULL}
+
+    \item \ttt{brand (\ul{name})}
+    \item \ttt{category (\ul{name})}
+    \item \ttt{sale (\ul{object\_id}, \ul{id\_sale}, price, date\_created, date\_sold)}
+    \subitem \ttt{object\_id} référence \ttt{object.id}
+
+\end{itemize}
+
+
+\pagebreak
+% \begin{landscape}
+% \begin{figure}[!htb]
+%         \centering
+%         \includegraphics[height=0.93\textheight]{../assets/uml.pdf}
+%         \caption{Schéma relationnel de la base de données.}
+% \end{figure}
+% \end{landscape}
+
+\end{document}

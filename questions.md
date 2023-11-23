@@ -51,3 +51,11 @@ On n'a pas fait hériter manager de Receptionist et Techncien parce que c'est pa
 - Il faut penser à changer le cahier des charges en fonction de nos petits changements.
 - Il faut mettre au propre l'UML
 
+
+
+# Notes conceptualisation
+
+- Beaucoup de renommage d'attributs dans réparation.
+- Manque date created et last updated dans pas mal d'endroits -> est-ce aussi sensé apparaitre dans le diagramme ?
+- Finalement c'est un peu pourri le numéro de téléphone comme id... :^(
+- Dans Pagila, quasi toutes les tables ont un champ `last_update`, est-ce qu'on devrait s'inspirer de ça et en mettre partout aussi ?
