@@ -38,7 +38,7 @@
 \begin{itemize}
     \item \ttt{person (\ul{person\_id}, phone\_no, name, comment)}
     \subitem \ttt{name} \ttt{NOT NULL}
-    \subitem \ttt{phone\_no} \ttt{UNIQUE}
+    \subitem \ttt{phone\_no} \ttt{UNIQUE NOT NULL}
 
     \item \ttt{customer (\ul{customer\_id}, tos\_accepted, private\_note)}
     \subitem \ttt{customer\_id} référence \ttt{person.id}
@@ -46,7 +46,7 @@
 
     \item \ttt{collaborator (\ul{collaborator\_id}, email)}
     \subitem \ttt{collaborator\_id} référence \ttt{Person.id}
-    \subitem \ttt{email} \ttt{NOT NULL}
+    \subitem \ttt{email} \ttt{UNIQUE NOT NULL}
 
     \item \ttt{manager (\ul{manager\_id})}
     \subitem \ttt{manager\_id} référence \ttt{collaborator.id} 
