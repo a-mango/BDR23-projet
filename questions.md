@@ -53,7 +53,7 @@ On n'a pas fait hériter manager de Receptionist et Techncien parce que c'est pa
 
 
 
-# Notes conceptualisation
+# Conceptualisation relationnelle
 
 - Beaucoup de renommage d'attributs dans réparation.
     E: oui c'est vrai c'est parce que la classe est un peu liée à tout et au milieu :/ mais je vois pas trop comment faire autrement?
@@ -65,3 +65,7 @@ On n'a pas fait hériter manager de Receptionist et Techncien parce que c'est pa
     le numéro de téléphone et on rajoute dans l'UML?
 - Dans Pagila, quasi toutes les tables ont un champ `last_update`, est-ce qu'on devrait s'inspirer de ça et en mettre partout aussi ?
     E: C'est peut être pas pertinent partout? Mais dans Reparation et Sale (et peut être d'autres) pourquoi pas?
+
+- Ajouter `date_modified` dans réparation
+- Modifier clé de `Person` en un `id`
+- Renommer `SMS.timestamp` en `date_created`
