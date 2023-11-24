@@ -56,6 +56,12 @@ On n'a pas fait hériter manager de Receptionist et Techncien parce que c'est pa
 # Notes conceptualisation
 
 - Beaucoup de renommage d'attributs dans réparation.
+    E: oui c'est vrai c'est parce que la classe est un peu liée à tout et au milieu :/ mais je vois pas trop comment faire autrement?
+    J'ai l'impression que si on reomme pas un minimum, les attributs de Reparation seront pas très clair.
 - Manque date created et last updated dans pas mal d'endroits -> est-ce aussi sensé apparaitre dans le diagramme ?
+    E: Je pense autant les rajouter dans l'UML pour qu'ils soit complet.
 - Finalement c'est un peu pourri le numéro de téléphone comme id... :^(
+    E: c'est vrai qu'on est tout le temps en train renommer des trucs. On peut générer un id pour chaque nouveau client au lieu d'utiliser
+    le numéro de téléphone et on rajoute dans l'UML?
 - Dans Pagila, quasi toutes les tables ont un champ `last_update`, est-ce qu'on devrait s'inspirer de ça et en mettre partout aussi ?
+    E: C'est peut être pas pertinent partout? Mais dans Reparation et Sale (et peut être d'autres) pourquoi pas?
