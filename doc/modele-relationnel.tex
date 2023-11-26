@@ -90,6 +90,8 @@
     \item \ttt{object (\ul{object\_id}, customer\_id, name, fault\_desc, location, remark, serial\_no, brand, category)}
     \subitem \ttt{name}, \ttt{fault\_desc}, \ttt{location}, \ttt{brand}, \ttt{category} \ttt{NOT NULL}
     \subitem \ttt{customer\_id} référence \ttt{customer.id} \ttt{NOT NULL}
+    \subitem \ttt{brand} référence \ttt{brand.name} \ttt{NOT NULL}
+    \subitem \ttt{category} référence \ttt{category.name} \ttt{NOT NULL}
 
     \item \ttt{brand (\ul{name})}
     \item \ttt{category (\ul{name})}

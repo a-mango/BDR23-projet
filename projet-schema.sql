@@ -19,7 +19,8 @@ CREATE TABLE person
 (
     person_id SERIAL PRIMARY KEY,
     name      VARCHAR(128) NOT NULL,
-    phone_no  VARCHAR(11)  NOT NULL UNIQUE CHECK (phone_no ~ '^(?:\+[1-9]\d{0,3}|\d{1,4})(?:[ -]?\d{1,14})*$')
+    phone_no  VARCHAR(11)  NOT NULL UNIQUE CHECK (phone_no ~ '^(?:\+[1-9]\d{0,3}|\d{1,4})(?:[ -]?\d{1,14})*$'),
+    comment   TEXT
 );
 
 --
@@ -70,7 +71,7 @@ CREATE TABLE receptionist
 --
 CREATE TABLE language
 (
-    language VARCHAR(32) PRIMARY KEY
+    name VARCHAR(32) PRIMARY KEY
 );
 
 --
@@ -79,7 +80,7 @@ CREATE TABLE language
 CREATE TABLE receptionist_language
 (
     receptionist_id INT REFERENCES receptionist (receptionist_id),
-    language        VARCHAR(32) REFERENCES language (language),
+    language        VARCHAR(32) REFERENCES language (name),
     PRIMARY KEY (receptionist_id, language)
 );
 
@@ -113,8 +114,8 @@ CREATE TABLE object
     location    location     NOT NULL,
     remark      TEXT,
     serial_no   VARCHAR(128),
-    brand       VARCHAR(128) NOT NULL,
-    category    VARCHAR(128) NOT NULL
+    brand       VARCHAR(128) NOT NULL REFERENCES brand (name),
+    category    VARCHAR(128) NOT NULL REFERENCES category (name)
 );
 
 --
@@ -138,11 +139,12 @@ CREATE TABLE category
 --
 CREATE TABLE sale
 (
-    object_id    INT PRIMARY KEY REFERENCES object (object_id),
+    object_id    INT REFERENCES object (object_id),
     id_sale      VARCHAR(128)   NOT NULL,
     price        NUMERIC(10, 2) NOT NULL,
     date_created TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    date_sold    TIMESTAMP
+    date_sold    TIMESTAMP,
+    PRIMARY KEY (object_id, id_sale)
 );
 
 --

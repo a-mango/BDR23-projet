@@ -69,3 +69,9 @@ On n'a pas fait hériter manager de Receptionist et Techncien parce que c'est pa
 - Ajouter `date_modified` dans réparation
 - Modifier clé de `Person` en un `id`
 - Renommer `SMS.timestamp` en `date_created`
+
+Modif script
+- changer "language" en "name"
+- ajout comment dans person
+- ajouter références à brand et category dans object
+- ajoute primary key dans sale
