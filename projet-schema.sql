@@ -105,22 +105,6 @@ CREATE TABLE technician_specialization
 --
 -- Table `object`
 --
-CREATE TABLE object
-(
-    object_id   SERIAL PRIMARY KEY,
-    customer_id INT          NOT NULL REFERENCES customer (customer_id),
-    name        VARCHAR(128) NOT NULL,
-    fault_desc  TEXT         NOT NULL,
-    location    location     NOT NULL,
-    remark      TEXT,
-    serial_no   VARCHAR(128),
-    brand       VARCHAR(128) NOT NULL REFERENCES brand (name),
-    category    VARCHAR(128) NOT NULL REFERENCES category (name)
-);
-
---
--- Table `brand`
---
 CREATE TABLE brand
 (
     name VARCHAR(128) PRIMARY KEY
@@ -132,6 +116,22 @@ CREATE TABLE brand
 CREATE TABLE category
 (
     name VARCHAR(128) PRIMARY KEY
+);
+
+--
+-- Table `brand`
+--
+CREATE TABLE object
+(
+    object_id   SERIAL PRIMARY KEY,
+    customer_id INT          NOT NULL REFERENCES customer (customer_id),
+    name        VARCHAR(128) NOT NULL,
+    fault_desc  TEXT         NOT NULL,
+    location    location     NOT NULL,
+    remark      TEXT,
+    serial_no   VARCHAR(128),
+    brand       VARCHAR(128) NOT NULL REFERENCES brand (name),
+    category    VARCHAR(128) NOT NULL REFERENCES category (name)
 );
 
 --
