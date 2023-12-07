@@ -80,6 +80,11 @@ Triggers
 Remplir base de données
 Requêtes
 
+## TODO
+
+- Changer certains not null pour être capable de faire des updates/delete
+- Rajouter timeWorked dans technician_reparation
+
 ## Vues
 
 ## Requêtes (ou fonctions)
@@ -88,27 +93,26 @@ Requêtes
 
 ### Technician
 
-- Consulter les réparations qui lui sont attribuées.
-- Modifier l’état de la réparation.
-- Modifier le descriptif du travail effectué.
-- Ajouter un temps travaillé sur une réparation.
+- Consulter les réparations qui lui sont attribuées
+- Modifier l’état de la réparation
+- Modifier le descriptif du travail effectué
+- Ajouter un temps travaillé sur une réparation
 
 ### Réceptionniste
 
-- Consulter, créer et modifier un client.
-- Consulter, créer et modifier une réparation.
-- Modifier l'état de devis (quoteState).
-- Consulter, créer et modifier une vente.
-- Envoyer et consulter des SMS.
+- Consulter, créer et modifier un client
+- Consulter, créer et modifier une réparation
+- Modifier l'état de devis (quoteState)
+- Consulter, créer et modifier une vente
+- Envoyer et consulter des SMS liés à une réparation
 
 ### Manager
 
-En plus des actions entreprenables par les réceptionnistes et techniciens, un manager doit pouvoir entreprendre
-les actions suivantes (reprendre les requêtes ci-dessus).
+En plus des actions entreprenables par les réceptionnistes et techniciens, un manager doit pouvoir entreprendre les actions suivantes (reprendre les requêtes ci-dessus).
 
-— Créer, modifier et supprimer des collaborateurs.
-— Assigner un ou des rôles à des collaborateurs.
-— Créer, modifier et supprimer des réparation, clients, ventes (<= toute autre action manipulant les données de l’application).
+— Créer, modifier et supprimer des collaborateurs
+— Assigner un ou des rôles à des collaborateurs
+— Créer, modifier et supprimer des réparation, clients, ventes (<= toute autre action manipulant les données de l’application)
 
 ### Statistiques
 
@@ -134,8 +138,3 @@ les actions suivantes (reprendre les requêtes ci-dessus).
 - Nombre de SMS répondus par jour
 
 ## Triggers
-
-Demander pour les updates et delete en cascade pour notre projet.
-
-A faire:
-Rajouter timeWorked dans technician_reparation
