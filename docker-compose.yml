@@ -9,7 +9,7 @@ networks:
 services:
   postgresql:
     image: 'bitnami/postgresql:16'
-    container_name: bdr-postgresql
+    container_name: bdr-projet-postgresql
     environment:
       - POSTGRESQL_USERNAME=bdr
       - POSTGRESQL_PASSWORD=bdr
