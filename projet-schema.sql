@@ -153,8 +153,8 @@ CREATE TABLE sale
 CREATE TABLE reparation
 (
     reparation_id      SERIAL PRIMARY KEY,
-    object_id          INT UNIQUE               REFERENCES object (object_id) ON UPDATE CASCADE ON DELETE CASCADE,
-    customer_id        INT                      NOT NULL REFERENCES customer (customer_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    object_id          INT UNIQUE               NOT NULL REFERENCES object (object_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    customer_id        INT                      REFERENCES customer (customer_id) ON UPDATE CASCADE ON DELETE SET NULL,
     receptionist_id    INT                      REFERENCES receptionist (receptionist_id) ON UPDATE CASCADE ON DELETE SET NULL,
     date_created       TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     date_modified      TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),

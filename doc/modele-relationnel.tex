@@ -73,8 +73,8 @@
     
     \subitem \ttt{date\_created}, \ttt{description}, \ttt{reparation\_state}, \ttt{quote\_state} \ttt{NOT NULL}
     \subitem \ttt{object\_id} référence \ttt{object.object\_id} \ttt{UNIQUE, NOT NULL}
-    \subitem \ttt{customer\_id} référence \ttt{customer.customer\_id} \ttt{NOT NULL}
-    \subitem \ttt{receptionist\_id} référence \ttt{receptionist.receptionist\_id} \ttt{NOT NULL}
+    \subitem \ttt{customer\_id} référence \ttt{customer.customer\_id} 
+    \subitem \ttt{receptionist\_id} référence \ttt{receptionist.receptionist\_id} 
 
     \item \ttt{technician\_reparation (\ul{technician\_id}, \ul{reparation\_id}, {time\_worked})}
     \subitem \ttt{technician\_id} référence \ttt{technician.technician\_id} 
@@ -88,8 +88,8 @@
     \subitem \ttt{reparation\_id} référence \ttt{reparation.reparation\_id} \ttt{NOT NULL}
 
     \item \ttt{object (\ul{object\_id}, customer\_id, name, fault\_desc, location, remark, serial\_no, brand, category)}
-    \subitem \ttt{name}, \ttt{fault\_desc}, \ttt{location}, \ttt{brand}, \ttt{category} \ttt{NOT NULL}
-    \subitem \ttt{customer\_id} référence \ttt{customer.id} \ttt{NOT NULL}
+    \subitem \ttt{name}, \ttt{fault\_desc}, \ttt{location}, \ttt{category} \ttt{NOT NULL}
+    \subitem \ttt{customer\_id} référence \ttt{customer.id}
     \subitem \ttt{category} référence \ttt{category.name} \ttt{NOT NULL}
     \subitem \ttt{brand} référence \ttt{brand.name}
 
