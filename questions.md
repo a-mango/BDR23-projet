@@ -82,13 +82,13 @@ Ordre:
 
 ## Triggers
 
-- Sur changement de ReparationState ou QuoteState, mise à jour de `date_modified`
-- Sur insertion de Sale, vérifier que QUOTE_STATE est DECLINED
-- Sur update de Location en FOR_SALE ou SOLD, vérifier que QUOTE est DECLINED
-- Sur update de ReparationState en ONGOING ou DONE, vérifier que QuoteState est ACCEPTED
-- Sur création de Reparation, vérifier que Client.tosAccepted est TRUE
-- Sur insertion d'une réparation, mettre QuoteState, ReparationState en WAITING et Location en IN_STOCK
-- Sur update de QuoteState en accepted, ReparationState devient ONGOING
+- Sur changement de la table reparation, mise à jour de `date_modified` ok
+- Sur insertion de Sale, vérifier que QUOTE_STATE est DECLINED ok
+- Sur update de Location en FOR_SALE ou SOLD, vérifier que QUOTE est DECLINED ok
+- Sur update de ReparationState en ONGOING ou DONE, vérifier que QuoteState est ACCEPTED ok
+- Sur création de Reparation, vérifier que Client.tosAccepted est TRUE ok
+- Sur insertion d'une réparation, mettre QuoteState waiting, ReparationState en WAITING et Location en IN_STOCK
+- Sur update de QuoteState en accepted, ReparationState devient ONGOING ok
 
 ## Vues
 
