@@ -75,6 +75,7 @@ Modif script
 # Phase 4
 
 Ordre:
+
 1. Triggers
 2. Remplir base de données
 3. Requêtes
@@ -90,8 +91,6 @@ Ordre:
 - Sur update de QuoteState en accepted, ReparationState devient ONGOING
 
 ## Vues
-
-
 
 ## Requêtes (ou fonctions)
 
@@ -150,10 +149,10 @@ En plus des actions entreprenables par les réceptionnistes et techniciens, un m
 - table receptionist_language: language (name) -> ON UPDATE CASCADE ON DELETE RESTRICT
 - table technician_specialization: spec_name ON UPDATE CASCADE ON DELETE RESTRICT
 - table object:
-      brand ON UPDATE CASCADE ON DELETE SET NULL
-      category ON UPDATE CASCADE ON DELETE RESTRICT
+  brand ON UPDATE CASCADE ON DELETE SET NULL
+  category ON UPDATE CASCADE ON DELETE RESTRICT
 - table specialization_reparation
-      spec_name ON UPDATE CASCADE ON DELETE RESTRICT
+  spec_name ON UPDATE CASCADE ON DELETE RESTRICT
 - tous les ids: ON UPDATE RESTRICT ON DELETE SET NULL
 
 - modification du schéma pour rendre les FK nullable
