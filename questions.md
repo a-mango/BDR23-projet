@@ -142,15 +142,16 @@ En plus des actions entreprenables par les réceptionnistes et techniciens, un m
 
 ## Traiter ON UPDATE / ON DELETE
 
-- tous les ids: ON UPDATE RESTRICT ON DELETE RESTRICT
-  exception: table reparation où receptionist_id -> ON UPDATE CASCADE ON DELETE RESTRICT
 - table receptionist_language: language (name) -> ON UPDATE CASCADE ON DELETE RESTRICT
 - table technician_specialization: spec_name ON UPDATE CASCADE ON DELETE RESTRICT
 - table object:
-  brand ON UPDATE CASCADE ON DELETE SET NULL
-  category ON UPDATE CASCADE ON DELETE RESTRICT
+      brand ON UPDATE CASCADE ON DELETE SET NULL
+      category ON UPDATE CASCADE ON DELETE RESTRICT
 - table specialization_reparation
-  spec_name ON UPDATE CASCADE ON DELETE RESTRICT
+      spec_name ON UPDATE CASCADE ON DELETE RESTRICT
+- tous les ids: ON UPDATE RESTRICT ON DELETE SET NULL
+
+- modification du schéma pour rendre les FK nullable
 
 ## Vérifier NOW() et CURRENT_TIMESTAMP()
 
@@ -162,6 +163,7 @@ En plus des actions entreprenables par les réceptionnistes et techniciens, un m
 - Pour tous les champs de temps/date -> TIMESTAMP WITH TIME ZONE pour standardiser.
 - Corrigé commentaires dans .sql
 - brand -> nullable
+- toutes les FK -> nullable
 - Ajout time_worked dans technician_reparation pour répresenter la quantité de minutes qu'un technician a passé sur une réparation.
 
 A faire: ajouter time_worked dans uml
