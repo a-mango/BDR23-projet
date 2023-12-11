@@ -72,19 +72,26 @@ Modif script
 - ajouter références à brand et category dans object
 - ajoute primary key dans sale
 
-# Séance pour organisation la phase 4 (07.12.2023) (Rendu 13.12.2023 à 23:59)
+# Phase 4
 
 Ordre:
-Triggers
-Remplir base de données
-Requêtes
+1. Triggers
+2. Remplir base de données
+3. Requêtes
 
-## TODO
+## Triggers
 
-- Changer certains not null pour être capable de faire des updates/delete
-- Rajouter timeWorked dans technician_reparation
+- Sur changement de ReparationState ou QuoteState, mise à jour de `date_modified`
+- Sur insertion de Sale, vérifier que QUOTE_STATE est DECLINED
+- Sur update de Location en FOR_SALE ou SOLD, vérifier que QUOTE est DECLINED
+- Sur update de ReparationState en ONGOING ou DONE, vérifier que QuoteState est ACCEPTED
+- Sur création de Reparation, vérifier que Client.tosAccepted est TRUE
+- Sur insertion d'une réparation, mettre QuoteState, ReparationState en WAITING et Location en IN_STOCK
+- Sur update de QuoteState en accepted, ReparationState devient ONGOING
 
 ## Vues
+
+
 
 ## Requêtes (ou fonctions)
 
@@ -109,9 +116,9 @@ Requêtes
 
 En plus des actions entreprenables par les réceptionnistes et techniciens, un manager doit pouvoir entreprendre les actions suivantes (reprendre les requêtes ci-dessus).
 
-— Créer, modifier et supprimer des collaborateurs
-— Assigner un ou des rôles à des collaborateurs
-— Créer, modifier et supprimer des réparation, clients, ventes (<= toute autre action manipulant les données de l’application)
+- Créer, modifier et supprimer des collaborateurs
+- Assigner un ou des rôles à des collaborateurs
+- Créer, modifier et supprimer des réparation, clients, ventes (<= toute autre action manipulant les données de l’application)
 
 ### Statistiques
 
@@ -136,11 +143,9 @@ En plus des actions entreprenables par les réceptionnistes et techniciens, un m
 - Nombre de SMS reçus par jour
 - Nombre de SMS répondus par jour
 
-## Triggers
+## Corrections phase 3
 
-# Corrections phase 3
-
-## Traiter ON UPDATE / ON DELETE
+### Traiter ON UPDATE / ON DELETE
 
 - table receptionist_language: language (name) -> ON UPDATE CASCADE ON DELETE RESTRICT
 - table technician_specialization: spec_name ON UPDATE CASCADE ON DELETE RESTRICT
@@ -153,12 +158,12 @@ En plus des actions entreprenables par les réceptionnistes et techniciens, un m
 
 - modification du schéma pour rendre les FK nullable
 
-## Vérifier NOW() et CURRENT_TIMESTAMP()
+### Vérifier NOW() et CURRENT_TIMESTAMP()
 
 - Current_timestamp() est implémenté avec NOW() mais on peut lui passer la précision voulue en paramètre.
   J'ai utilisé NOW() pour nous simplifier la vie.
 
-## Autres
+### Autres
 
 - Pour tous les champs de temps/date -> TIMESTAMP WITH TIME ZONE pour standardiser.
 - Corrigé commentaires dans .sql
