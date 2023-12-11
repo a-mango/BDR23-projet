@@ -75,7 +75,6 @@ Modif script
 # Séance pour organisation la phase 4 (07.12.2023) (Rendu 13.12.2023 à 23:59)
 
 Ordre:
-Update/cascades
 Triggers
 Remplir base de données
 Requêtes
@@ -138,3 +137,31 @@ En plus des actions entreprenables par les réceptionnistes et techniciens, un m
 - Nombre de SMS répondus par jour
 
 ## Triggers
+
+# Corrections phase 3
+
+## Traiter ON UPDATE / ON DELETE
+
+- tous les ids: ON UPDATE RESTRICT ON DELETE RESTRICT
+  exception: table reparation où receptionist_id -> ON UPDATE CASCADE ON DELETE RESTRICT
+- table receptionist_language: language (name) -> ON UPDATE CASCADE ON DELETE RESTRICT
+- table technician_specialization: spec_name ON UPDATE CASCADE ON DELETE RESTRICT
+- table object:
+  brand ON UPDATE CASCADE ON DELETE SET NULL
+  category ON UPDATE CASCADE ON DELETE RESTRICT
+- table specialization_reparation
+  spec_name ON UPDATE CASCADE ON DELETE RESTRICT
+
+## Vérifier NOW() et CURRENT_TIMESTAMP()
+
+- Current_timestamp() est implémenté avec NOW() mais on peut lui passer la précision voulue en paramètre.
+  J'ai utilisé NOW() pour nous simplifier la vie.
+
+## Autres
+
+- Pour tous les champs de temps/date -> TIMESTAMP WITH TIME ZONE pour standardiser.
+- Corrigé commentaires dans .sql
+- brand -> nullable
+- Ajout time_worked dans technician_reparation pour répresenter la quantité de minutes qu'un technician a passé sur une réparation.
+
+A faire: ajouter time_worked dans uml

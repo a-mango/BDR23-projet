@@ -28,7 +28,7 @@ CREATE TABLE person
 --
 CREATE TABLE customer
 (
-    customer_id  INT PRIMARY KEY REFERENCES person (person_id),
+    customer_id  INT PRIMARY KEY REFERENCES person (person_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
     tos_accepted BOOLEAN NOT NULL,
     private_note TEXT
 );
@@ -38,7 +38,7 @@ CREATE TABLE customer
 --
 CREATE TABLE collaborator
 (
-    collaborator_id INT PRIMARY KEY REFERENCES person (person_id),
+    collaborator_id INT PRIMARY KEY REFERENCES person (person_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
     email           VARCHAR(128) NOT NULL UNIQUE CHECK (email ~ '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
 );
 
@@ -47,7 +47,7 @@ CREATE TABLE collaborator
 --
 CREATE TABLE manager
 (
-    manager_id INT PRIMARY KEY REFERENCES collaborator (collaborator_id)
+    manager_id INT PRIMARY KEY REFERENCES collaborator (collaborator_id) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 --
@@ -55,7 +55,7 @@ CREATE TABLE manager
 --
 CREATE TABLE technician
 (
-    technician_id INT PRIMARY KEY REFERENCES collaborator (collaborator_id)
+    technician_id INT PRIMARY KEY REFERENCES collaborator (collaborator_id) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 --
@@ -63,7 +63,7 @@ CREATE TABLE technician
 --
 CREATE TABLE receptionist
 (
-    receptionist_id INT PRIMARY KEY REFERENCES collaborator (collaborator_id)
+    receptionist_id INT PRIMARY KEY REFERENCES collaborator (collaborator_id) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 --
@@ -79,8 +79,8 @@ CREATE TABLE language
 --
 CREATE TABLE receptionist_language
 (
-    receptionist_id INT REFERENCES receptionist (receptionist_id),
-    language        VARCHAR(32) REFERENCES language (name),
+    receptionist_id INT REFERENCES receptionist (receptionist_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+    language        VARCHAR(32) REFERENCES language (name) ON UPDATE CASCADE ON DELETE RESTRICT,
     PRIMARY KEY (receptionist_id, language)
 );
 
@@ -97,13 +97,13 @@ CREATE TABLE specialization
 --
 CREATE TABLE technician_specialization
 (
-    technician_id INT REFERENCES technician (technician_id),
-    spec_name     VARCHAR(64) REFERENCES specialization (name),
+    technician_id INT REFERENCES technician (technician_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+    spec_name     VARCHAR(64) REFERENCES specialization (name) ON UPDATE CASCADE ON DELETE RESTRICT,
     PRIMARY KEY (technician_id, spec_name)
 );
 
 --
--- Table `object`
+-- Table `brand`
 --
 CREATE TABLE brand
 (
@@ -119,19 +119,19 @@ CREATE TABLE category
 );
 
 --
--- Table `brand`
+-- Table `object`
 --
 CREATE TABLE object
 (
     object_id   SERIAL PRIMARY KEY,
-    customer_id INT          NOT NULL REFERENCES customer (customer_id),
+    customer_id INT          NOT NULL REFERENCES customer (customer_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
     name        VARCHAR(128) NOT NULL,
     fault_desc  TEXT         NOT NULL,
     location    location     NOT NULL,
     remark      TEXT,
     serial_no   VARCHAR(128),
-    brand       VARCHAR(128) NOT NULL REFERENCES brand (name),
-    category    VARCHAR(128) NOT NULL REFERENCES category (name)
+    brand       VARCHAR(128) REFERENCES brand (name) ON UPDATE CASCADE ON DELETE SET NULL,
+    category    VARCHAR(128) NOT NULL REFERENCES category (name) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 --
@@ -139,11 +139,11 @@ CREATE TABLE object
 --
 CREATE TABLE sale
 (
-    object_id    INT REFERENCES object (object_id),
+    object_id    INT REFERENCES object (object_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
     id_sale      VARCHAR(128)   NOT NULL,
     price        NUMERIC(10, 2) NOT NULL,
     date_created TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    date_sold    TIMESTAMP,
+    date_sold    TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY (object_id, id_sale)
 );
 
@@ -153,16 +153,16 @@ CREATE TABLE sale
 CREATE TABLE reparation
 (
     reparation_id      SERIAL PRIMARY KEY,
-    object_id          INT UNIQUE REFERENCES object (object_id),
-    customer_id        INT              NOT NULL REFERENCES customer (customer_id),
-    receptionist_id    INT              NOT NULL REFERENCES receptionist (receptionist_id),
-    date_created       TIMESTAMP        NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    date_modified      TIMESTAMP        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    object_id          INT UNIQUE REFERENCES object (object_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+    customer_id        INT                      NOT NULL REFERENCES customer (customer_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+    receptionist_id    INT                      NOT NULL REFERENCES receptionist (receptionist_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    date_created       TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    date_modified      TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     quote              NUMERIC(10, 2),
-    description        TEXT             NOT NULL,
-    estimated_duration INTERVAL         NOT NULL,
-    reparation_state   reparation_state NOT NULL,
-    quote_state        quote_state      NOT NULL
+    description        TEXT                     NOT NULL,
+    estimated_duration INTERVAL                 NOT NULL,
+    reparation_state   reparation_state         NOT NULL,
+    quote_state        quote_state              NOT NULL
 );
 
 --
@@ -170,8 +170,9 @@ CREATE TABLE reparation
 --
 CREATE TABLE technician_reparation
 (
-    technician_id INT REFERENCES technician (technician_id),
-    reparation_id INT REFERENCES reparation (reparation_id),
+    technician_id INT REFERENCES technician (technician_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+    reparation_id INT REFERENCES reparation (reparation_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+    time_worked   INT,
     PRIMARY KEY (technician_id, reparation_id)
 );
 
@@ -180,8 +181,8 @@ CREATE TABLE technician_reparation
 --
 CREATE TABLE specialization_reparation
 (
-    spec_name     VARCHAR(64) REFERENCES specialization (name),
-    reparation_id INT REFERENCES reparation (reparation_id),
+    spec_name     VARCHAR(64) REFERENCES specialization (name) ON UPDATE CASCADE ON DELETE RESTRICT,
+    reparation_id INT REFERENCES reparation (reparation_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
     PRIMARY KEY (spec_name, reparation_id)
 );
 
@@ -191,7 +192,7 @@ CREATE TABLE specialization_reparation
 CREATE TABLE sms
 (
     sms_id           SERIAL PRIMARY KEY,
-    reparation_id    INT              NOT NULL REFERENCES reparation (reparation_id),
+    reparation_id    INT              NOT NULL REFERENCES reparation (reparation_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
     date_created     TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     message          TEXT             NOT NULL,
     sender           VARCHAR(128)     NOT NULL CHECK (sender ~ '^(?:\+[1-9]\d{0,3}|\d{1,4})(?:[ -]?\d{1,14})*$'),
