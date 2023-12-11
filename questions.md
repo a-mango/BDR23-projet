@@ -171,3 +171,5 @@ En plus des actions entreprenables par les réceptionnistes et techniciens, un m
 - Ajout time_worked dans technician_reparation pour répresenter la quantité de minutes qu'un technician a passé sur une réparation.
 
 A faire: ajouter time_worked dans uml
+
+__idee__ : vérifier que manager ID != 1 lors de la suppression pour ne pas se lockout ?

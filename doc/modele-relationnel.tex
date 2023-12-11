@@ -114,7 +114,8 @@
 
 \begin{itemize}
     \item Modification des clés étrangères pour qu'elles soient \ttt{nullable}.
-    \item Modification des clés étrangères pour qu'elles soient \ttt{ON UPDATE RESTRICT ON DELETE SET NULL}.
+    \item Modification des clés étrangères des tables héraitant de \ttt{Person} pour qu'elles soient \ttt{ON UPDATE CASCADE ON DELETE CASCADE}.
+    \item Modification des clés étrangères des tables croisées pour qu'elles soient \ttt{ON UPDATE RESTRICT ON DELETE SET NULL}.
     \item Modification de la clé étrangère \ttt{object.id} pour qu'elle soit \ttt{ON DELETE CASCADE}.
     \item Modification de la clé étrangère \ttt{sale.object\_id} pour qu'elle soit \ttt{ON DELETE CASCADE}.
     \item Modification de la clé étrangère \ttt{receptionist\_language.language\_id} pour qu'elle soit \ttt{ON UPDATE CASCADE ON DELETE RESTRICT}.
