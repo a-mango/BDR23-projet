@@ -28,8 +28,8 @@ CREATE TABLE person
 --
 CREATE TABLE customer
 (
-    customer_id  INT PRIMARY KEY REFERENCES person (person_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
-    tos_accepted BOOLEAN NOT NULL,
+    customer_id  INT PRIMARY KEY REFERENCES person (person_id) ON UPDATE CASCADE ON DELETE SET NULL,
+    tos_accepted BOOLEAN         NOT NULL,
     private_note TEXT
 );
 
@@ -38,8 +38,8 @@ CREATE TABLE customer
 --
 CREATE TABLE collaborator
 (
-    collaborator_id INT PRIMARY KEY REFERENCES person (person_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
-    email           VARCHAR(128) NOT NULL UNIQUE CHECK (email ~ '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
+    collaborator_id INT PRIMARY KEY REFERENCES person (person_id) ON UPDATE CASCADE ON DELETE SET NULL,
+    email           VARCHAR(128)    NOT NULL UNIQUE CHECK (email ~ '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
 );
 
 --
@@ -47,7 +47,7 @@ CREATE TABLE collaborator
 --
 CREATE TABLE manager
 (
-    manager_id INT PRIMARY KEY REFERENCES collaborator (collaborator_id) ON UPDATE RESTRICT ON DELETE RESTRICT
+    manager_id INT PRIMARY KEY REFERENCES collaborator (collaborator_id) ON UPDATE CASCADE ON DELETE SET NULL
 );
 
 --
@@ -55,7 +55,7 @@ CREATE TABLE manager
 --
 CREATE TABLE technician
 (
-    technician_id INT PRIMARY KEY REFERENCES collaborator (collaborator_id) ON UPDATE RESTRICT ON DELETE RESTRICT
+    technician_id INT PRIMARY KEY REFERENCES collaborator (collaborator_id) ON UPDATE CASCADE ON DELETE SET NULL
 );
 
 --
@@ -63,7 +63,7 @@ CREATE TABLE technician
 --
 CREATE TABLE receptionist
 (
-    receptionist_id INT PRIMARY KEY REFERENCES collaborator (collaborator_id) ON UPDATE RESTRICT ON DELETE RESTRICT
+    receptionist_id INT PRIMARY KEY REFERENCES collaborator (collaborator_id) ON UPDATE CASCADE ON DELETE SET NULL
 );
 
 --
@@ -79,7 +79,7 @@ CREATE TABLE language
 --
 CREATE TABLE receptionist_language
 (
-    receptionist_id INT REFERENCES receptionist (receptionist_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+    receptionist_id INT REFERENCES receptionist (receptionist_id) ON UPDATE CASCADE ON DELETE SET NULL,
     language        VARCHAR(32) REFERENCES language (name) ON UPDATE CASCADE ON DELETE RESTRICT,
     PRIMARY KEY (receptionist_id, language)
 );
@@ -97,7 +97,7 @@ CREATE TABLE specialization
 --
 CREATE TABLE technician_specialization
 (
-    technician_id INT REFERENCES technician (technician_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+    technician_id INT REFERENCES technician (technician_id) ON UPDATE CASCADE ON DELETE SET NULL,
     spec_name     VARCHAR(64) REFERENCES specialization (name) ON UPDATE CASCADE ON DELETE RESTRICT,
     PRIMARY KEY (technician_id, spec_name)
 );
@@ -124,7 +124,7 @@ CREATE TABLE category
 CREATE TABLE object
 (
     object_id   SERIAL PRIMARY KEY,
-    customer_id INT          NOT NULL REFERENCES customer (customer_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+    customer_id INT          REFERENCES customer (customer_id) ON UPDATE CASCADE ON DELETE SET NULL,
     name        VARCHAR(128) NOT NULL,
     fault_desc  TEXT         NOT NULL,
     location    location     NOT NULL,
@@ -139,7 +139,7 @@ CREATE TABLE object
 --
 CREATE TABLE sale
 (
-    object_id    INT REFERENCES object (object_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+    object_id    INT            REFERENCES object (object_id) ON UPDATE CASCADE ON DELETE CASCADE,
     id_sale      VARCHAR(128)   NOT NULL,
     price        NUMERIC(10, 2) NOT NULL,
     date_created TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
@@ -153,9 +153,9 @@ CREATE TABLE sale
 CREATE TABLE reparation
 (
     reparation_id      SERIAL PRIMARY KEY,
-    object_id          INT UNIQUE REFERENCES object (object_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
-    customer_id        INT                      NOT NULL REFERENCES customer (customer_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
-    receptionist_id    INT                      NOT NULL REFERENCES receptionist (receptionist_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    object_id          INT UNIQUE               REFERENCES object (object_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    customer_id        INT                      NOT NULL REFERENCES customer (customer_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    receptionist_id    INT                      REFERENCES receptionist (receptionist_id) ON UPDATE CASCADE ON DELETE SET NULL,
     date_created       TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     date_modified      TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     quote              NUMERIC(10, 2),
@@ -170,8 +170,8 @@ CREATE TABLE reparation
 --
 CREATE TABLE technician_reparation
 (
-    technician_id INT REFERENCES technician (technician_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
-    reparation_id INT REFERENCES reparation (reparation_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+    technician_id INT REFERENCES technician (technician_id) ON UPDATE CASCADE ON DELETE SET NULL,
+    reparation_id INT REFERENCES reparation (reparation_id) ON UPDATE CASCADE ON DELETE SET NULL,
     time_worked   INT,
     PRIMARY KEY (technician_id, reparation_id)
 );
@@ -182,7 +182,7 @@ CREATE TABLE technician_reparation
 CREATE TABLE specialization_reparation
 (
     spec_name     VARCHAR(64) REFERENCES specialization (name) ON UPDATE CASCADE ON DELETE RESTRICT,
-    reparation_id INT REFERENCES reparation (reparation_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+    reparation_id INT REFERENCES reparation (reparation_id) ON UPDATE CASCADE ON DELETE SET NULL,
     PRIMARY KEY (spec_name, reparation_id)
 );
 
@@ -192,7 +192,7 @@ CREATE TABLE specialization_reparation
 CREATE TABLE sms
 (
     sms_id           SERIAL PRIMARY KEY,
-    reparation_id    INT              NOT NULL REFERENCES reparation (reparation_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+    reparation_id    INT              NOT NULL REFERENCES reparation (reparation_id) ON UPDATE CASCADE ON DELETE CASCADE,
     date_created     TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     message          TEXT             NOT NULL,
     sender           VARCHAR(128)     NOT NULL CHECK (sender ~ '^(?:\+[1-9]\d{0,3}|\d{1,4})(?:[ -]?\d{1,14})*$'),
