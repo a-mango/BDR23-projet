@@ -112,18 +112,6 @@
 
 \subsection*{Révision du 11.12.2023}
 
-% - table receptionist_language: language (name) -> ON UPDATE CASCADE ON DELETE RESTRICT
-% - table technician_specialization: spec_name ON UPDATE CASCADE ON DELETE RESTRICT
-% - table object:
-%       brand ON UPDATE CASCADE ON DELETE SET NULL
-%       category ON UPDATE CASCADE ON DELETE RESTRICT
-% - table specialization_reparation
-%       spec_name ON UPDATE CASCADE ON DELETE RESTRICT
-% - tous les ids: ON UPDATE RESTRICT ON DELETE SET NULL
-% - sale: ON DELETE CASCADE
-
-% - modification du schéma pour rendre les FK nullable
-
 \begin{itemize}
     \item Modification des clés étrangères pour qu'elles soient \ttt{nullable}.
     \item Modification des clés étrangères pour qu'elles soient \ttt{ON UPDATE RESTRICT ON DELETE SET NULL}.
@@ -134,14 +122,12 @@
     \item Modification de la clé étrangère \ttt{object.brand} pour qu'elle soit \ttt{ON UPDATE CASCADE ON DELETE SET NULL}.
     \item Modification de la clé étrangère \ttt{object.category} pour qu'elle soit \ttt{ON UPDATE CASCADE ON DELETE RESTRICT}.
     \item Modification de la clé étrangère \ttt{specialization\_reparation.spec\_id} pour qu'elle soit \ttt{ON UPDATE CASCADE ON DELETE RESTRICT}.
-\end{itemize}
-
-\begin{itemize}
     \item Modification des timestamps en type \ttt{TIMESTAMP WITH TIME ZONE} avec valeur par défaut \ttt{NOW()}.
     \item Correction des commentaires dans le fichier \ttt{projet-schemas.sql}.
     \item Modification de \ttt{object.brand} en attribut \ttt{nullable}.
     \item La plupart des clés étrangères sont maintenant \ttt{nullable}.
     \item Le champ manquant \ttt{time\_worked} a été ajouté à la table \ttt{technician\_reparation}.
+    \item Le champ \ttt{id\_sale} de la table \ttt{sale} a été modifié en le type \ttt{SERIAL}.
 \end{itemize}
 
 \end{document}

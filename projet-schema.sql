@@ -140,7 +140,7 @@ CREATE TABLE object
 CREATE TABLE sale
 (
     object_id    INT            REFERENCES object (object_id) ON UPDATE CASCADE ON DELETE CASCADE,
-    id_sale      VARCHAR(128)   NOT NULL,
+    id_sale      SERIAL         NOT NULL,
     price        NUMERIC(10, 2) NOT NULL,
     date_created TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     date_sold    TIMESTAMP WITH TIME ZONE,
