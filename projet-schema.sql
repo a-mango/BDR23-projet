@@ -172,7 +172,7 @@ CREATE TABLE technician_reparation
 (
     technician_id INT REFERENCES technician (technician_id) ON UPDATE CASCADE ON DELETE SET NULL,
     reparation_id INT REFERENCES reparation (reparation_id) ON UPDATE CASCADE ON DELETE SET NULL,
-    time_worked   INT,
+    time_worked   INTERVAL,
     PRIMARY KEY (technician_id, reparation_id)
 );
 
