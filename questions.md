@@ -92,7 +92,7 @@ Ordre:
 
 ## Vues
 
-- Une vue works_on qui permet d’afficher pour chaque technicien le nom, l'id de la réparation (seulement celles ongoing), et le nombre d’heures travaillées
+- Une vue works_on qui permet d’afficher pour chaque technicien l'id de la réparation (seulement celles ongoing), et le nombre d’heures travaillées
 - Une vue avec le nombre de collaborateurs par role (manager, technicien, réceptionniste)
 - Une vue avec les SMS concernant une réparation, triés en mettant le plus récent en haut
 - Une vue avec les informations auxquelles le manager peut avoir accès
