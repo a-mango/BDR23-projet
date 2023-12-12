@@ -246,17 +246,6 @@ SELECT language, COUNT(*) AS nb_recept_per_lang
 FROM receptionist_language
 GROUP BY language;
 
--- Total number of collaborators per role
--- Vue
-SELECT COUNT(*) AS nb_managers
-FROM manager;
-
-SELECT COUNT(*) AS nb_technicians
-FROM technician;
-
-SELECT COUNT(*) AS nb_receptionists
-FROM receptionist;
-
 -- Total number of received SMS per day
 SELECT date_trunc('day', date_created) AS date, COUNT(*) AS nb_rec_sms_per_day
 FROM sms
