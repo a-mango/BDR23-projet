@@ -756,7 +756,7 @@ VALUES (1, 'The repair cost for your laptop is CHF 80.00.', '+1234567890', '7509
        (12, 'The repair cost for your wrench is CHF 40.00.', '+1234567890', '7427338531', 'processed'),
        (12, 'Your quote for the wrench repair has been accepted.', '7427338531', '+1234567890', 'processed'),
        (13, 'The repair cost for your leather jacket is CHF 80.00.', '+1234567890', '2656777071', 'processed'),
-       (13, 'OK', '2656777071', '++1234567890', 'processed'),
+       (13, 'OK', '2656777071', '+1234567890', 'processed'),
        (14, 'The repair cost for your running shoes is CHF 50.00.', '+1234567890', '2252330197', 'processed'),
        (14, 'I accept', '2252330197', '+1234567890', 'processed'),
        (15, 'The repair cost for your car is CHF 90.00.', '+1234567890', '7272619255', 'processed'),
