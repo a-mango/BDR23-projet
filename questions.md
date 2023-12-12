@@ -92,6 +92,12 @@ Ordre:
 
 ## Vues
 
+- Une vue works_on qui permet d’afficher pour chaque technicien le nom, l'id de la réparation et le nombre d’heures travaillées
+- Une vue avec le nombre de collaborateurs par role (manager, technicien, réceptionniste)
+- Une vue avec les informations auxquelles le manager peut avoir accès
+- Une vue avec les informations auxquelles le technicien peut avoir accès
+- Une vue avec les informations auxquelles le réceptionnsite peut avoir accès
+
 ## Requêtes (ou fonctions)
 
 - Consulter toutes les réparations
@@ -138,7 +144,6 @@ En plus des actions entreprenables par les réceptionnistes et techniciens, un m
 - Nombre de réparations par mois
 - Nombre de réparations crées par réceptionniste
 - Nombre de collaborateur qui parlent une certaine langue
-- Nombre d'employés par sous-classes
 - Nombre de SMS reçus par jour
 - Nombre de SMS répondus par jour
 
