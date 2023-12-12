@@ -17,10 +17,10 @@ FROM reparation r
 WHERE tr.technician_id = :technician_id;
 
 -- Modify ReparationState
--- Constraint: :new_state must be a value from reparation_state enumeration
 UPDATE reparation
-SET reparation_state = :new_state
-WHERE reparation_id = :reparation_id;
+SET reparation_state = :reparation_state
+WHERE reparation_id = :reparation_id
+  AND :reparation_state IN ('waiting', 'ongoing', 'done', 'abandoned');;
 
 -- Modify reparation description
 UPDATE reparation
@@ -32,8 +32,6 @@ UPDATE technician_reparation
 SET time_worked = time_worked + :new_time
 WHERE technician_id = :technician_id
   AND reparation_id = : reparation_id;
-
-
 --
 -- Receptionist
 --
@@ -43,38 +41,21 @@ SELECT *
 FROM customer;
 
 -- Modify client
--- TODO
-/*
-BEGIN
-DECLARE
-        customer_id INT := :customer_id
-        new_name VARCHAR(128) := :new_name
-        new_phone VARCHAR(11) := :new_phone
-        new_text TEXT := :new_text
-        new_status BOOLEAN := :new_status
-        new_note TEXT := :new_note;
-
-UPDATE person
-SET person_id = :customer_id, name = :new_name, phone_no = :new_phone, comment = :new_text
-WHERE person_id = :customer_id;
-
 UPDATE customer
-SET tos_accepted = :new_status, private_note = :new_note
-WHERE customer_id = :customer_id;
-
-COMMIT;
-END;
-*/
+SET tos_accepted = :new_status,
+    private_note = :new_note
+WHERE customer_id = :customer_id
+  AND :new_time IN (TRUE, FALSE);
 
 -- Create customer
-WITH customer AS (
+WITH new_customer AS (
     INSERT INTO person (name, phone_no, comment)
         VALUES (:text, :phone, :text)
         RETURNING person_id)
 
 INSERT
 INTO customer(customer_id, tos_accepted, private_note)
-VALUES ((SELECT person_id FROM customer), true, :text)
+VALUES ((SELECT person_id FROM new_customer), TRUE, :text)
 RETURNING *;
 
 -- Consult reparation
@@ -98,13 +79,22 @@ VALUES ((SELECT object_id FROM new_object),
 RETURNING *;
 
 -- Modify reparation
--- TODO
+UPDATE reparation
+SET date_modified      = NOW(),
+    quote              = :quote,
+    description        = :description,
+    estimated_duration = :estimated_duration,
+    reparation_state   = :reparation_state,
+    quote_state        = :quote_state
+WHERE reparation_id = :reparation_id
+  AND :reparation_state IN ('waiting', 'ongoing', 'done', 'abandoned')
+  AND :quote_state IN ('accepted', 'declined', 'waiting');
 
 -- Modify quoteState status
--- Constraint: :new_quote_status must be a value from quote_status enumeration
 UPDATE reparation
 SET quote_state = :new_quote_status
-WHERE reparation_id = :reparation_id;
+WHERE reparation_id = :reparation_id
+  AND :quote_state IN ('accepted', 'declined', 'waiting');
 
 -- Consult a sale
 SELECT *
@@ -117,7 +107,10 @@ VALUES (:object_id, :id_sale, :price, NOW(), NULL)
 RETURNING *;
 
 -- Modify a sale
--- TODO
+UPDATE sale
+SET price     = :price,
+    date_sold = :date_sold
+WHERE sale.id_sale = :id_sale;
 
 -- Send SMS
 INSERT INTO sms(sms_id, reparation_id, date_created, message, sender, receiver, processing_state)
@@ -126,7 +119,9 @@ RETURNING *;
 
 -- Modify SMS processing state
 UPDATE sms
-SET processing_state = :new_processing_state;
+SET processing_state = :new_processing_state
+WHERE sms_id = :sms_id
+  AND :new_processing_state IN ('received', 'read', 'processed');
 
 -- Consult SMS
 SELECT *
@@ -150,12 +145,6 @@ VALUES ((SELECT person_id FROM new_person),
         :email);
 
 -- Modify collaborator
-UPDATE person
-SET name     = :name,
-    phone_no = :phone_no,
-    comment  = :comment
-WHERE person_id = :collaborator_id;
-
 UPDATE collaborator
 SET email = :email
 WHERE collaborator_id = :collaborator_id;
@@ -180,7 +169,7 @@ DELETE
 FROM customer
 WHERE customer_id = :customer_id;
 
--- Delete sales
+-- Delete sale
 DELETE
 FROM sale
 WHERE object_id = :sale_object_id;
@@ -190,12 +179,12 @@ WHERE object_id = :sale_object_id;
 --
 
 -- Total number of on going reparations
-SELECT COUNT(*)
+SELECT COUNT(*) AS nb_ongoing_rep
 FROM reparation
 WHERE reparation_state = 'ongoing'::reparation_state;
 
 -- Total number of on going repairs per category
-SELECT o.category, COUNT(*)
+SELECT o.category, COUNT(*) nb_ongoing_rep_per_cat
 FROM reparation r
          INNER JOIN object o
                     ON r.object_id = o.object_id
@@ -203,12 +192,12 @@ WHERE r.reparation_state = 'ongoing'::reparation_state
 GROUP BY o.category;
 
 -- Total number of repairs
-SELECT COUNT(*)
+SELECT COUNT(*) AS nb_done_rep
 FROM reparation
 WHERE reparation_state = 'done'::reparation_state;
 
 -- Total number of repairs per category
-SELECT o.category, COUNT(*)
+SELECT o.category, COUNT(*) AS nb_done_rep_per_cat
 FROM reparation r
          INNER JOIN object o
                     ON r.object_id = o.object_id
@@ -216,22 +205,22 @@ WHERE reparation_state = 'done'::reparation_state
 GROUP BY o.category;
 
 -- Total number of for sale objects
-SELECT COUNT(*)
+SELECT COUNT(*) AS nb_forsale_obj
 FROM object
 WHERE location = 'for_sale'::location;
 
 -- Total number of sold objects
-SELECT COUNT(*)
+SELECT COUNT(*) AS nb_sold_obj
 FROM object
 WHERE location = 'sold'::location;
 
 -- Total number of objets per category
-SELECT category, COUNT(*)
+SELECT category, COUNT(*) AS nb_obj_per_cat
 FROM object
 GROUP BY category;
 
--- Total number of objets per category
-SELECT brand, COUNT(*)
+-- Total number of objets per brand
+SELECT brand, COUNT(*) AS nb_obj_per_brand
 FROM object
 GROUP BY brand;
 
@@ -243,23 +232,39 @@ FROM technician_reparation tr
 GROUP BY sr.spec_name;
 
 -- Total number of repairs per month
--- TODO
+SELECT date_trunc('month', date_created) AS date, COUNT(*) AS nb_rep_per_month
+FROM reparation
+GROUP BY date;
 
 -- Total number of repairs created per receptionist
-SELECT receptionist_id, COUNT(*)
+SELECT receptionist_id, COUNT(*) AS nb_rep_per_recept
 FROM reparation
 GROUP BY receptionist_id;
 
 -- Total number of receptionist per language
-SELECT language, COUNT(*)
+SELECT language, COUNT(*) AS nb_recept_per_lang
 FROM receptionist_language
 GROUP BY language;
 
 -- Total number of collaborators per role
--- TODO vue?
+-- Vue
+SELECT COUNT(*) AS nb_managers
+FROM manager;
+
+SELECT COUNT(*) AS nb_technicians
+FROM technician;
+
+SELECT COUNT(*) AS nb_receptionists
+FROM receptionist;
 
 -- Total number of received SMS per day
+SELECT date_trunc('day', date_created) AS date, COUNT(*) AS nb_rec_sms_per_day
+FROM sms
+WHERE processing_state = 'read'::processing_state
+GROUP BY date;
 
 -- Total number of sent SMS per day
-
-
+SELECT date_trunc('day', date_created) AS date, COUNT(*) AS nb_sent_sms_per_day
+FROM sms
+WHERE processing_state = 'sent'::processing_state
+GROUP BY date;
