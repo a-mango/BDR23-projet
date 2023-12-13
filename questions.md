@@ -185,3 +185,42 @@ En plus des actions entreprenables par les réceptionnistes et techniciens, un m
 - ajouter time_worked dans uml
 - vérifier cardinalités dans schéma conceptuel après modification du schéma sql (car on a enlevé des NOT NULL etc)
 - **idee** : vérifier que manager ID != 1 lors de la suppression pour ne pas se lockout ?
+- enlever le trigger qui met des valeurs par défaut à réparation et mettre des DEFAULT dans la création de la table plutôt
+- chercher les triggers manquants pour checker la consistence du chgt d'état des enum
+
+## Graphes des états des enums
+
+### Location (in Object)
+
+```mermaid
+  graph TD;
+      in_stock-->for_sale;
+      in_stock-->returned;
+      for_sale-->sold;
+```
+
+### ProcessingState (in SMS)
+
+```mermaid
+  graph TD;
+      received-->read;
+      read-->processed;
+```
+
+### ReparationState (in Reparation)
+
+```mermaid
+  graph TD;
+      waiting-->ongoing;
+      waiting-->abandoned;
+      ongoing-->done;
+      ongoing-->abandoned;
+```
+
+### QuoteState (in Reparation)
+
+```mermaid
+  graph TD;
+      waiting-->delcined;
+      waiting-->accepted;
+```
