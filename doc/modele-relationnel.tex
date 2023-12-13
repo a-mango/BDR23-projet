@@ -114,19 +114,18 @@
 
 \begin{itemize}
     \item Modification des clés étrangères pour qu'elles soient \ttt{nullable}.
-    \item Modification des clés étrangères des tables héraitant de \ttt{Person} pour qu'elles soient \ttt{ON UPDATE CASCADE ON DELETE CASCADE}.
-    \item Modification des clés étrangères des tables croisées pour qu'elles soient \ttt{ON UPDATE RESTRICT ON DELETE SET NULL}.
+    \item Modification des clés étrangères des tables héritant de \ttt{Person} pour qu'elles soient \ttt{ON UPDATE CASCADE ON DELETE CASCADE}.
+    \item Modification des clés étrangères des tables croisées pour qu'elles soient \ttt{ON UPDATE RESTRICT ON DELETE CASCADE}.
     \item Modification de la clé étrangère \ttt{object.id} pour qu'elle soit \ttt{ON DELETE CASCADE}.
     \item Modification de la clé étrangère \ttt{sale.object\_id} pour qu'elle soit \ttt{ON DELETE CASCADE}.
     \item Modification de la clé étrangère \ttt{receptionist\_language.language\_id} pour qu'elle soit \ttt{ON UPDATE CASCADE ON DELETE RESTRICT}.
     \item Modification de la clé étrangère \ttt{technician\_specialization.spec\_id} pour qu'elle soit \ttt{ON UPDATE CASCADE ON DELETE RESTRICT}.  
     \item Modification de la clé étrangère \ttt{object.brand} pour qu'elle soit \ttt{ON UPDATE CASCADE ON DELETE SET NULL}.
     \item Modification de la clé étrangère \ttt{object.category} pour qu'elle soit \ttt{ON UPDATE CASCADE ON DELETE RESTRICT}.
-    \item Modification de la clé étrangère \ttt{specialization\_reparation.spec\_id} pour qu'elle soit \ttt{ON UPDATE CASCADE ON DELETE RESTRICT}.
+    \item Modification de la clé étrangère \ttt{specialization\_reparation.spec\_name} pour qu'elle soit \ttt{ON UPDATE CASCADE ON DELETE RESTRICT}.
     \item Modification des timestamps en type \ttt{TIMESTAMP WITH TIME ZONE} avec valeur par défaut \ttt{NOW()}.
     \item Correction des commentaires dans le fichier \ttt{projet-schemas.sql}.
     \item Modification de \ttt{object.brand} en attribut \ttt{nullable}.
-    \item La plupart des clés étrangères sont maintenant \ttt{nullable}.
     \item Le champ manquant \ttt{time\_worked} a été ajouté à la table \ttt{technician\_reparation}.
     \item Le champ \ttt{id\_sale} de la table \ttt{sale} a été modifié en le type \ttt{SERIAL}.
 \end{itemize}
