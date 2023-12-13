@@ -65,7 +65,6 @@ SELECT 'Receptionist' AS role,
 FROM receptionist;
 
 -- Manager view (plutot collaborator info)
-git 
 CREATE OR REPLACE VIEW collab_role_id_view AS
 SELECT 'Manager'  AS role,
        manager_id AS id
