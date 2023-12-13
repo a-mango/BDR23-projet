@@ -1,4 +1,6 @@
-# Points to check together
+# Phases 1 & 2
+
+## Points to check together
 
 - Est-ce que'on devrait avoir une seule enum pour les états de réparation? La même pour Reparation et Object et mettre des CI.
   #V: oui. (Et le laisser en tant qu'attribut seulement dans Reparation?)
@@ -48,7 +50,9 @@ Général : - client, receptionist, manager, technician peuvent tous hériter de
 - Il faut penser à changer le cahier des charges en fonction de nos petits changements.
 - Il faut mettre au propre l'UML
 
-# Conceptualisation relationnelle
+# Phase 3
+
+## Conceptualisation relationnelle
 
 - Beaucoup de renommage d'attributs dans réparation.
   E: oui c'est vrai c'est parce que la classe est un peu liée à tout et au milieu :/ mais je vois pas trop comment faire autrement?
@@ -65,12 +69,40 @@ Général : - client, receptionist, manager, technician peuvent tous hériter de
 - Modifier clé de `Person` en un `id`
 - Renommer `SMS.timestamp` en `date_created`
 
-Modif script
+## Modif script
 
 - changer "language" en "name"
 - ajout comment dans person
 - ajouter références à brand et category dans object
 - ajoute primary key dans sale
+
+## Corrections phase 3
+
+### Traiter ON UPDATE / ON DELETE
+
+- table receptionist_language: language (name) -> ON UPDATE CASCADE ON DELETE RESTRICT
+- table technician_specialization: spec_name ON UPDATE CASCADE ON DELETE RESTRICT
+- table object:
+  brand ON UPDATE CASCADE ON DELETE SET NULL
+  category ON UPDATE CASCADE ON DELETE RESTRICT
+- table specialization_reparation
+  spec_name ON UPDATE CASCADE ON DELETE RESTRICT
+- tous les ids: ON UPDATE RESTRICT ON DELETE SET NULL
+
+- modification du schéma pour rendre les FK nullable
+
+### Vérifier NOW() et CURRENT_TIMESTAMP()
+
+- Current_timestamp() est implémenté avec NOW() mais on peut lui passer la précision voulue en paramètre.
+  J'ai utilisé NOW() pour nous simplifier la vie.
+
+### Autres
+
+- Pour tous les champs de temps/date -> TIMESTAMP WITH TIME ZONE pour standardiser.
+- Corrigé commentaires dans .sql
+- brand -> nullable
+- toutes les FK -> nullable
+- Ajout time_worked dans technician_reparation pour répresenter la quantité de minutes qu'un technician a passé sur une réparation.
 
 # Phase 4
 
@@ -148,34 +180,8 @@ En plus des actions entreprenables par les réceptionnistes et techniciens, un m
 - Nombre de SMS reçus par jour
 - Nombre de SMS répondus par jour
 
-## Corrections phase 3
+## TODO
 
-### Traiter ON UPDATE / ON DELETE
-
-- table receptionist_language: language (name) -> ON UPDATE CASCADE ON DELETE RESTRICT
-- table technician_specialization: spec_name ON UPDATE CASCADE ON DELETE RESTRICT
-- table object:
-  brand ON UPDATE CASCADE ON DELETE SET NULL
-  category ON UPDATE CASCADE ON DELETE RESTRICT
-- table specialization_reparation
-  spec_name ON UPDATE CASCADE ON DELETE RESTRICT
-- tous les ids: ON UPDATE RESTRICT ON DELETE SET NULL
-
-- modification du schéma pour rendre les FK nullable
-
-### Vérifier NOW() et CURRENT_TIMESTAMP()
-
-- Current_timestamp() est implémenté avec NOW() mais on peut lui passer la précision voulue en paramètre.
-  J'ai utilisé NOW() pour nous simplifier la vie.
-
-### Autres
-
-- Pour tous les champs de temps/date -> TIMESTAMP WITH TIME ZONE pour standardiser.
-- Corrigé commentaires dans .sql
-- brand -> nullable
-- toutes les FK -> nullable
-- Ajout time_worked dans technician_reparation pour répresenter la quantité de minutes qu'un technician a passé sur une réparation.
-
-A faire: ajouter time_worked dans uml
-
-__idee__ : vérifier que manager ID != 1 lors de la suppression pour ne pas se lockout ?
+- ajouter time_worked dans uml
+- vérifier cardinalités dans schéma conceptuel après modification du schéma sql (car on a enlevé des NOT NULL etc)
+- **idee** : vérifier que manager ID != 1 lors de la suppression pour ne pas se lockout ?
