@@ -186,7 +186,8 @@ En plus des actions entreprenables par les réceptionnistes et techniciens, un m
 - vérifier cardinalités dans schéma conceptuel après modification du schéma sql (car on a enlevé des NOT NULL etc)
 - **idee** : vérifier que manager ID != 1 lors de la suppression pour ne pas se lockout ?
 - enlever le trigger qui met des valeurs par défaut à réparation et mettre des DEFAULT dans la création de la table plutôt
-- chercher les triggers manquants pour checker la consistence du chgt d'état des enum
+- chercher les triggers manquants pour checker la consistence du chgt d'état des enum, est-ce qu'il faut check pour le premier? Le mettre par défaut?
+est-ce qu'on peut revenir à l'état initial? en l'état actuel, on ne peut pas update l'état avec  la même valeur que celle qu'il a déjà, ok?
 
 ## Graphes des états des enums
 
