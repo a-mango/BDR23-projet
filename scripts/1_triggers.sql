@@ -3,7 +3,6 @@
 --
 
 -- When reparation table is updated, reparation.date_modified is updated
--- works as expected
 
 -- Function to update the date to current date
 CREATE OR REPLACE FUNCTION date_updated()
@@ -23,7 +22,6 @@ CREATE OR REPLACE TRIGGER on_reparation_update_update_date
 EXECUTE FUNCTION date_updated();
 
 -- When there is an insertion on sale table, check that reparation.quote_state is 'declined'
--- works as expected
 
 CREATE OR REPLACE FUNCTION quote_state_is_declined()
     RETURNS TRIGGER AS
@@ -49,7 +47,6 @@ CREATE OR REPLACE TRIGGER verify_quote_state_is_declined_for_reparation
 EXECUTE FUNCTION quote_state_is_declined();
 
 -- When object.location is updated into 'for_sale' or 'sold',  check that quote_state is 'declined'
--- works as expected
 
 CREATE OR REPLACE FUNCTION quote_state_is_declined_for_object()
     RETURNS TRIGGER AS
@@ -75,7 +72,6 @@ CREATE OR REPLACE TRIGGER verify_quote_state_is_declined_for_object
 EXECUTE FUNCTION quote_state_is_declined_for_object();
 
 -- When reparation.reparation_state is updated into 'ongoing' or 'done', check that quote_state is 'accepted'
---work as expected
 
 CREATE OR REPLACE FUNCTION quote_state_is_accepted()
     RETURNS TRIGGER AS
@@ -97,7 +93,6 @@ CREATE OR REPLACE TRIGGER verify_quote_state_is_accepted
 EXECUTE FUNCTION quote_state_is_accepted();
 
 -- When there is an insertion on reparation table, check that customer.tos_accepted is 'accepted'
--- works as expected
 
 CREATE OR REPLACE FUNCTION tos_accepted()
     RETURNS TRIGGER AS
@@ -120,8 +115,8 @@ CREATE OR REPLACE TRIGGER verify_tos_accepted
     ON reparation
     FOR EACH ROW
 EXECUTE FUNCTION tos_accepted();
+
 -- When reparation.quote_state is updated to 'accepted', reparation.reparation_state becomes 'ongoing'
--- works as expected
 
 CREATE OR REPLACE FUNCTION reservation_state_ongoing()
     RETURNS TRIGGER AS
