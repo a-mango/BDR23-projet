@@ -26,8 +26,7 @@ RETURNING *;
 
 -- Modify reparation description
 UPDATE reparation
-SET description   = :description,
-    date_modified = NOW()
+SET description   = :description  // enlever now on update
 WHERE reparation_id = :reparation_id
 RETURNING *;
 
