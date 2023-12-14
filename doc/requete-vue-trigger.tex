@@ -1,0 +1,134 @@
+\documentclass{article}
+
+% \usepackage[latin1]{inputenc}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{pdflscape}
+\usepackage[a4paper, margin=2.2cm, footskip=12.3pt]{geometry}
+
+\setcounter{secnumdepth}{0}
+
+\newcommand{\header} {
+    \setlength{\headheight}{30pt}\pagestyle{fancy}
+    \fancyhead[L]{\includegraphics[height=20pt]{../assets/logo}}\fancyhead[C]{}
+    \fancyhead[R]{Vitória Cosmo, Aubry Mangold, Eva Ray\\\today}\fancyfoot[C]{}
+    \fancyfoot[R]{Page \thepage~sur \pageref{LastPage}}\renewcommand{\footrulewidth}{0.3pt}
+}
+
+\newcommand{\ul}{\underline}
+\newcommand{\ttt}{\texttt}
+
+\title{Gestion d'un service de réparation d'objets\\[1ex]Requêtes, vues, triggers et données}
+\author{Vitória Cosmo, Aubry Mangold, Eva Ray}
+\date{14 décembre 2023}
+
+\begin{document}
+    \header
+
+
+    \maketitle
+
+
+    \section{Requêtes}
+
+    Les requêtes suivantes ont été créées afin de manipuler la base de données :
+    \begin{itemize}
+        \item Consulter les réparations pour un technicien donné.
+        \item Modifier l'état d'une réparation.
+        \item Modifier la description d'une réparation.
+        \item Ajouter un temps de travail à une réparation.
+        \item Consulter les données d'un client.
+        \item Modifier les données d'un client.
+        \item Consulter les données d'une réparation.
+        \item Créer une réparation.
+        \item Modifier les données d'une réparation.
+        \item Modifier l'état du devis d'une réparation.
+        \item Consulter les données d'une vente.
+        \item Créer une vente.
+        \item Modifier les données d'une vente.
+        \item Envoyer un SMS.
+        \item Modifier l'état d'un SMS.
+        \item Consulter un SMS.
+        \item Consulter les données d'un échange SMS lié à une réparation donnée dans l'ordre antéchronologique.
+        \item Modifier les données d'un collaborateur.
+        \item Effacer une personne.
+        \item Effacer une vente.
+    \end{itemize}
+
+    Les requêtes suivantes ont été réalisées à de fins statistiques :
+    \begin{itemize}
+        \item Obtenir la quantité d'employés par rôle.
+        \item Obtenir la quantité de réparations en cours.
+        \item Obtenir la quantité de réparations par catégorie.
+        \item Obtenir la quantité de réparations terminées.
+        \item Obtenir la quantité de réparations terminées par catégorie.
+        \item Obtenir la quantité d'objets en vente.
+        \item Obtenir la quantité d'objets vendus.
+        \item Obtenir la quantité d'objets traités par catégorie.
+        \item Obtenir la quantité d'objets traités par marque.
+        \item Obtenir la quantité d'heures travaillées par spécialisation.
+        \item Obtenir la quantité de réparations traitées par mois.
+        \item Obtenir la quantité de réparations créées par réceptionniste.
+        \item Obtenir la quantité de réceptionnistes par langue.
+        \item Obtenir la quantité de SMS reçus par jour.
+        \item Obtenir la quantité de SMS envoyés par jour.
+    \end{itemize}
+
+    \section{Vues}
+
+    Les vues suivantes ont été créées :
+    \begin{itemize}
+        \item \ttt{collab\_role\_id\_view} : affiche les id des collaborateurs et leur rôle.
+        \item \ttt{works\_on} : liste les réparations en cours et le temps travaillé pour un technicien donné.
+        \item \ttt{technician\_view} : affiches les informations des réparations auquel un technicien est lié.
+        \item \ttt{collab\_info} : affiche les infos d'un collaborateur.
+        \item \ttt{receptionist\_view} : affiche les infos d'un réceptionniste.
+        \item \ttt{customer\_info\_view} : affiche les infos d'un client.
+    \end{itemize}
+
+
+    \section{Triggers}
+
+    Les triggers suivants ont été créés :
+    \begin{itemize}
+        \item \ttt{on\_reparation\_update\_update\_date} : met à jour le champ \ttt{date\_modified} à la date actuelle lors d'une mise à jour d'une réparation.
+        \item \ttt{verify\_quote\_state\_is\_declined\_for\_reparation} : vérifie que le champ \ttt{quote\_state} est bien à \ttt{declined} lors d'une insertion dans la table \ttt{sale}.
+        \item \ttt{verify\_quote\_state\_is\_declined\_for\_object} : vérifie que le champ \ttt{quote\_state} est bien à \ttt{declined} lorsque le champ \ttt{location} est mis à jour en \ttt{for\_sale} ou \ttt{sold}.
+        \item \ttt{verify\_quote\_state\_is\_accepted} : vérifie que le champ \ttt{quote\_state} est bien à \ttt{accepted} lorsque le champ \ttt{reparation\_state} de réparation est mis à jour en \ttt{ongoing} ou \ttt{done}.
+        \item \ttt{verify\_tos\_accepted} : vérifie que les \ttt{tos} sont bien acceptés lors de la création d'une réparation.
+        \item \ttt{set\_reservation\_state\_ongoing} : met à jour le champ \ttt{reparation\_state} en \ttt{ongoing} lorsque le champ \ttt{quote\_state} de la réparation est mis à jour en \ttt{accepted}.
+        \item \ttt{verify\_processing\_state\_consistency} : vérifie la consistance des états de l'énumération \ttt{processing\_state} lorsque le champ est mis à jour.
+        \item \ttt{verify\_location\_consistency} : vérifie la consistance des états de l'énumération \ttt{consistency} lorsque le champ est mis à jour.
+        \item \ttt{verify\_reparation\_state\_consistency} : vérifie la consistance des états de l'énumération \ttt{reparation\_state} lorsque le champ est mis à jour.
+        \item \ttt{verify\_quote\_state\_consistency} : vérifie la consistance des états de l'énumération \ttt{quote\_state} lorsque le champ est mis à jour.
+        \item
+    \end{itemize}
+
+
+    \section{Procédures}
+
+    Les procédures suivantes ont été créées :
+    \begin{itemize}
+        \item \ttt{InsertCustomer} : insère un client dans la base de données.
+        \item \ttt{InsertCollaborator} : insère un collaborateur dans la base de données.
+        \item \ttt{InsertManager} : insère un manager dans la base de données.
+        \item \ttt{InsertReceptionist} : insère un réceptionniste dans la base de données.
+        \item \ttt{InsertTechnician} : insère un technicien dans la base de données.
+    \end{itemize}
+
+
+    \section{Données}
+
+    Des données ont été insérées dans toutes les tables de la base de données. Les points suivants sont relevants :
+    \begin{itemize}
+        \item 50 clients, 3 managers,15 techniciens et 3 réceptionnistes sont insérés.
+        \item 50 réparations et objets ont été insérées. Chaque réparation est liée à un client différent. Les différents états des énumérations \ttt{quote\_state}, \ttt{reparation\_state} et \ttt{location} sont utilisés.
+        \item 100 SMS ont été insérés. Chaque réparation est liée à un couple de SMS. Les SMS sont tous dans l'état \ttt{processed}.
+        \item 6 ventes ont été insérées. Certaines des ventes sont terminées.
+        \item Les spécialités, catégories, marques, languages et autres tables sont remplis.
+    \end{itemize}
+
+\end{document}
