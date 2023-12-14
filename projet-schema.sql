@@ -143,7 +143,7 @@ CREATE TABLE sale
     id_sale      SERIAL         NOT NULL,
     price        NUMERIC(10, 2) NOT NULL,
     date_created TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    date_sold    TIMESTAMP WITH TIME ZONE,
+    date_sold    TIMESTAMP WITH TIME ZONE DEFAULT NULL,
     PRIMARY KEY (object_id, id_sale)
 );
 
