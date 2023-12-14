@@ -16,7 +16,7 @@ END;
 $$
     LANGUAGE plpgsql;
 
-CREATE OR REPLACE TRIGGER before_reparation_state_insert
+CREATE OR REPLACE TRIGGER on_reparation_update_update_date
     BEFORE UPDATE
     ON reparation
     FOR EACH ROW
@@ -42,7 +42,7 @@ BEGIN
 END
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE TRIGGER verify_quote_state_is_declined
+CREATE OR REPLACE TRIGGER verify_quote_state_is_declined_for_reparation
     BEFORE INSERT
     ON sale
     FOR EACH ROW
@@ -96,7 +96,7 @@ CREATE OR REPLACE TRIGGER verify_quote_state_is_accepted
     FOR EACH ROW
 EXECUTE FUNCTION quote_state_is_accepted();
 
--- When there is an insertion on reparation table, check that customer.tos_accepted
+-- When there is an insertion on reparation table, check that customer.tos_accepted is 'accepted'
 -- works as expected
 
 CREATE OR REPLACE FUNCTION tos_accepted()
@@ -120,7 +120,7 @@ CREATE OR REPLACE TRIGGER verify_tos_accepted
     ON reparation
     FOR EACH ROW
 EXECUTE FUNCTION tos_accepted();
--- When reparation.quote_state is updated to 'accepted', reparation.reparation becomes 'ongoing'
+-- When reparation.quote_state is updated to 'accepted', reparation.reparation_state becomes 'ongoing'
 -- works as expected
 
 CREATE OR REPLACE FUNCTION reservation_state_ongoing()
@@ -203,7 +203,7 @@ BEGIN
 END
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE TRIGGER reparation_state_verify_location_consistency
+CREATE OR REPLACE TRIGGER verify_reparation_state_consistency
     BEFORE UPDATE OF reparation_state
     ON reparation
     FOR EACH ROW
