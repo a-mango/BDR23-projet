@@ -38,7 +38,7 @@ FROM reparation r
                     ON tr.technician_id = t.technician_id
          INNER JOIN object o
                     ON o.object_id = r.object_id
-WHERE t.technician_id = 1;
+WHERE t.technician_id = :technician_id;
 
 -- Views with the information that a manager can access
 
@@ -80,5 +80,4 @@ FROM reparation r
 CREATE OR REPLACE VIEW customer_info_view AS
 SELECT p.name, p.phone_no, p.comment, c.private_note
 FROM person p
-INNER JOIN customer c ON person_id = customer_id
-WHERE customer_id = :customer_id;
+INNER JOIN customer c ON person_id = customer_id;
