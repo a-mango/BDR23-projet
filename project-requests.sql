@@ -40,27 +40,16 @@ RETURNING *;
 -- Receptionist
 --
 
--- Consult client
+-- Consult customer
 SELECT *
 FROM customer;
 
--- Modify client
+-- Modify customer
 UPDATE customer
 SET tos_accepted = :tos_accepted,
     private_note = :private_note
 WHERE customer_id = :customer_id
   AND :tos_accepted IN (TRUE, FALSE)
-RETURNING *;
-
--- Create customer
-WITH new_customer AS (
-    INSERT INTO person (name, phone_no, comment)
-        VALUES (:name, :phone_no, :comment)
-        RETURNING person_id)
-
-INSERT
-INTO customer(customer_id, tos_accepted, private_note)
-VALUES ((SELECT person_id FROM new_customer), TRUE, :private_note)
 RETURNING *;
 
 -- Consult reparation
@@ -137,73 +126,18 @@ SELECT *
 FROM sms
 WHERE sms_id = :sms_id;
 
+-- Consult SMS linked to a reparation from newest to oldest
+
+SELECT date_created, message, sender, receiver, processing_state
+FROM sms
+WHERE reparation_id = :reparation_id
+ORDER BY date_created DESC;
+
 --
 -- Manager
 --
 
 -- All requests above and:
-
--- Create collaborator
-WITH new_person AS (
-    INSERT INTO person (name, phone_no, comment)
-        VALUES (:name, :phone_no, :comment)
-        RETURNING person_id)
-INSERT
-INTO collaborator(collaborator_id, email)
-VALUES ((SELECT person_id FROM new_person),
-        :email)
-RETURNING *;
-
--- Create manager
-WITH new_person AS (
-    INSERT INTO person (name, phone_no, comment)
-        VALUES (:name, :phone_no, :comment)
-        RETURNING person_id),
-
-     new_collaborator AS (
-         INSERT INTO collaborator (collaborator_id, email)
-             VALUES ((SELECT person_id FROM new_person),
-                     :email))
-INSERT
-INTO manager(manager_id)
-VALUES ((SELECT person_id FROM new_person))
-RETURNING *;
-
--- Create technician
-WITH new_person AS (
-    INSERT INTO person (name, phone_no, comment)
-        VALUES (:name, :phone_no, :comment)
-        RETURNING person_id),
-
-     new_collaborator AS (
-         INSERT INTO collaborator (collaborator_id, email)
-             VALUES ((SELECT person_id FROM new_person),
-                     :email)),
-     new_technician AS (
-         INSERT INTO technician (technician_id)
-             VALUES ((SELECT person_id FROM new_person)))
-INSERT
-INTO technician_specialization(technician_id, spec_name)
-VALUES ((SELECT person_id FROM new_person), :spec_name)
-RETURNING *;
-
--- Create receptionist
-WITH new_person AS (
-    INSERT INTO person (name, phone_no, comment)
-        VALUES (:name, :phone_no, :comment)
-        RETURNING person_id),
-
-     new_collaborator AS (
-         INSERT INTO collaborator (collaborator_id, email)
-             VALUES ((SELECT person_id FROM new_person),
-                     :email)),
-     new_receptionist AS (
-         INSERT INTO receptionist (receptionist_id)
-             VALUES ((SELECT person_id FROM new_person)))
-INSERT
-INTO receptionist_language(receptionist_id, language)
-VALUES ((SELECT person_id FROM new_person), :language)
-RETURNING *;
 
 -- Modify collaborator
 UPDATE collaborator
@@ -227,6 +161,20 @@ WHERE object_id = :object_id;
 --
 -- Statistics requests
 --
+
+-- Nb of employees per role
+
+SELECT 'Manager' AS role,
+       COUNT(*)  AS nb_employees
+FROM manager
+UNION ALL
+SELECT 'Technician' AS role,
+       COUNT(*)     AS nb_employees
+FROM technician
+UNION ALL
+SELECT 'Receptionist' AS role,
+       COUNT(*)       AS nb_employees
+FROM receptionist;
 
 -- Total number of on going reparations
 SELECT COUNT(*) AS nb_ongoing_rep
