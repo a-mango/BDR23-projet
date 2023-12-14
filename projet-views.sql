@@ -12,17 +12,8 @@ FROM reparation r
                     ON r.reparation_id = tr.reparation_id
          INNER JOIN technician t
                     ON tr.technician_id = t.technician_id
-WHERE t.technician_id = 1
-  AND r.reparation_state = 'ongoing';
-
--- View to show the SMS linked to a reparation from newest to oldest
-
-CREATE OR REPLACE VIEW sms_exchange
-AS
-SELECT date_created, message, sender, receiver, processing_state
-FROM sms
-WHERE reparation_id = 1
-ORDER BY date_created DESC;
+WHERE t.technician_id = :technician_id
+  AND r.reparation_state = 'ongoing'::reparation_state;
 
 -- View with the information that a technician can access
 
@@ -49,22 +40,8 @@ FROM reparation r
                     ON o.object_id = r.object_id
 WHERE t.technician_id = 1;
 
--- Nb of employees per role view
+-- Views with the information that a manager can access
 
-CREATE OR REPLACE VIEW nb_employees_per_role AS
-SELECT 'Manager' AS role,
-       COUNT(*)  AS nb_employees
-FROM manager
-UNION ALL
-SELECT 'Technician' AS role,
-       COUNT(*)     AS nb_employees
-FROM technician
-UNION ALL
-SELECT 'Receptionist' AS role,
-       COUNT(*)       AS nb_employees
-FROM receptionist;
-
--- Manager view (plutot collaborator info)
 CREATE OR REPLACE VIEW collab_role_id_view AS
 SELECT 'Manager'  AS role,
        manager_id AS id
@@ -78,13 +55,13 @@ SELECT 'Receptionist'  AS role,
        receptionist_id AS id
 FROM receptionist;
 
-CREATE OR REPLACE VIEW collab_info AS
+CREATE OR REPLACE VIEW collab_info_view AS
 SELECT v.role, v.id, p.name, p.phone_no, c.email
 FROM collab_role_id_view v
          INNER JOIN person p ON v.id = p.person_id
          INNER JOIN collaborator c ON p.person_id = c.collaborator_id;
 
--- Receptionist view
+-- View with the information that a receptionist can access
 
 CREATE OR REPLACE VIEW receptionist_view AS
 SELECT r.customer_id,
@@ -97,3 +74,11 @@ SELECT r.customer_id,
        o.location
 FROM reparation r
          INNER JOIN object o ON r.object_id = o.object_id;
+
+-- View with customer information
+
+CREATE OR REPLACE VIEW customer_info_view AS
+SELECT p.name, p.phone_no, p.comment, c.private_note
+FROM person p
+INNER JOIN customer c ON person_id = customer_id
+WHERE customer_id = :customer_id;
