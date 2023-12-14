@@ -18,15 +18,14 @@ WHERE tr.technician_id = :reparation_id;
 
 -- Modify ReparationState
 UPDATE reparation
-SET reparation_state = :reparation_state,
-    date_modified    = NOW()
+SET reparation_state = :reparation_state
 WHERE reparation_id = :reparation_id
   AND :reparation_state IN ('waiting', 'ongoing', 'done', 'abandoned')
 RETURNING *;
 
 -- Modify reparation description
 UPDATE reparation
-SET description   = :description  // enlever now on update
+SET description = :description
 WHERE reparation_id = :reparation_id
 RETURNING *;
 
@@ -72,23 +71,22 @@ WHERE reparation_id = :reparation_id;
 -- Create reparation
 WITH new_object AS (
     INSERT INTO object (customer_id, name, fault_desc, location, remark, serial_no, brand, category)
-        VALUES (:customer_id, :name, :fault_desc, 'in_stock'::location, :remark, :serial_no, :brand,
+        VALUES (:customer_id, :name, :fault_desc, :location, :remark, :serial_no, :brand,
                 :category)
         RETURNING object_id)
 
 INSERT
-INTO reparation(object_id, customer_id, receptionist_id, date_created, date_modified, quote, description,
+INTO reparation(object_id, customer_id, receptionist_id, quote, description,
                 estimated_duration, reparation_state, quote_state)
 VALUES ((SELECT object_id FROM new_object),
-        :customer_id, :receptionist_id, NOW(), NOW(), :quote, :description, :estimated_duration,
-        'waiting'::reparation_state,
-        'waiting'::quote_state)
+        :customer_id, :receptionist_id, :quote, :description, :estimated_duration,
+        :reparation_state,
+        :quote_state)
 RETURNING *;
 
 -- Modify reparation
 UPDATE reparation
-SET date_modified      = NOW(),
-    quote              = :quote,
+SET quote              = :quote,
     description        = :description,
     estimated_duration = :estimated_duration,
     reparation_state   = :reparation_state,
@@ -100,8 +98,7 @@ RETURNING *;
 
 -- Modify quoteState status
 UPDATE reparation
-SET quote_state   = :quote_state,
-    date_modified = NOW()
+SET quote_state = :quote_state
 WHERE reparation_id = :reparation_id
   AND :quote_state IN ('accepted', 'declined', 'waiting')
 RETURNING *;
@@ -109,11 +106,11 @@ RETURNING *;
 -- Consult a sale
 SELECT *
 FROM sale
-WHERE id_sale = :sale_id;
+WHERE id_sale = :id_sale;
 
 -- Create a sale
-INSERT INTO sale(object_id, price, date_created, date_sold)
-VALUES (:object_id, :price, NOW(), NULL)
+INSERT INTO sale(object_id, price)
+VALUES (:object_id, :price)
 RETURNING *;
 
 -- Modify a sale
@@ -124,8 +121,8 @@ WHERE sale.id_sale = :id_sale
 RETURNING *;
 
 -- Collaborator send SMS
-INSERT INTO sms(reparation_id, date_created, message, sender, receiver, processing_state)
-VALUES (:reparation_id, NOW(), :message, :sender, :receiver, 'processed'::processing_state)
+INSERT INTO sms(reparation_id, message, sender, receiver)
+VALUES (:reparation_id, :message, :sender, :receiver)
 RETURNING *;
 
 -- Modify SMS processing state
@@ -217,7 +214,7 @@ RETURNING *;
 SELECT *
 FROM collaborator;
 
--- Delete perosn
+-- Delete person
 DELETE
 FROM person
 WHERE person_id = :person_id;
@@ -225,7 +222,7 @@ WHERE person_id = :person_id;
 -- Delete sale
 DELETE
 FROM sale
-WHERE object_id = :sale_object_id;
+WHERE object_id = :object_id;
 
 --
 -- Statistics requests
