@@ -402,18 +402,6 @@ VALUES (1, 'Laptop', 'Not powering on', 'in_stock', 'Needs urgent repair', 'SN12
 --
 -- Sale insertion
 --
-INSERT INTO sale (object_id, price, date_sold)
-VALUES (10, 50.00, NULL),
-       (30, 120.00, NULL),
-       (32, 25.00, DATE '2023-6-30'),
-       (34, 30.00, DATE '2023-10-11'),
-       (38, 200.00, NULL),
-       (42, 20.00, DATE '2023-01-01');
-
---
--- Reparation insertion
---
--- Reparation entries for Power Tool category
 INSERT INTO reparation (object_id, customer_id, receptionist_id, quote, description, estimated_duration,
                         reparation_state, quote_state, date_created, date_modified)
 VALUES (1, 1, 69, 80.00, 'Needs urgent repair', '2 hours', 'ongoing', 'accepted', '2022-01-01 00:08:00', '2022-01-02 21:08:00'),
@@ -466,6 +454,18 @@ VALUES (1, 1, 69, 80.00, 'Needs urgent repair', '2 hours', 'ongoing', 'accepted'
        (48, 10, 70, 40.00, 'Jaw misalignment', '2 hours', 'ongoing', 'accepted', '2022-04-24 09:08:00', '2022-04-27 16:08:00'),
        (49, 13, 70, 80.00, 'Torn stitching', '5 hours', 'ongoing', 'accepted', '2022-04-25 16:08:00', '2022-04-28 17:08:00'),
        (50, 14, 69, 50.00, 'Zipper snagging', '3 hours', 'ongoing', 'accepted', '2022-04-26 01:08:00', '2022-04-29 21:08:00');
+
+--
+-- Reparation insertion
+--
+-- Reparation entries for Power Tool category
+INSERT INTO sale (object_id, price, date_sold)
+VALUES (10, 50.00, NULL),
+       (30, 120.00, NULL),
+       (32, 25.00, DATE '2023-6-30'),
+       (34, 30.00, DATE '2023-10-11'),
+       (38, 200.00, NULL),
+       (42, 20.00, DATE '2023-01-01');
 
 --
 -- Technician_reparation insertion
