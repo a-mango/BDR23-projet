@@ -29,7 +29,7 @@ CREATE TABLE person
 CREATE TABLE customer
 (
     customer_id  INT PRIMARY KEY REFERENCES person (person_id) ON UPDATE CASCADE ON DELETE CASCADE,
-    tos_accepted BOOLEAN NOT NULL,
+    tos_accepted BOOLEAN NOT NULL DEFAULT FALSE,
     private_note TEXT
 );
 
@@ -127,7 +127,7 @@ CREATE TABLE object
     customer_id INT          REFERENCES customer (customer_id) ON UPDATE CASCADE ON DELETE SET NULL,
     name        VARCHAR(128) NOT NULL,
     fault_desc  TEXT         NOT NULL,
-    location    location     NOT NULL,
+    location    location     NOT NULL DEFAULT 'in_stock'::location,
     remark      TEXT,
     serial_no   VARCHAR(128),
     brand       VARCHAR(128) REFERENCES brand (name) ON UPDATE CASCADE ON DELETE SET NULL,
@@ -161,8 +161,8 @@ CREATE TABLE reparation
     quote              NUMERIC(10, 2),
     description        TEXT                     NOT NULL,
     estimated_duration INTERVAL                 NOT NULL,
-    reparation_state   reparation_state         NOT NULL,
-    quote_state        quote_state              NOT NULL
+    reparation_state   reparation_state         NOT NULL DEFAULT 'waiting'::reparation_state,
+    quote_state        quote_state              NOT NULL DEFAULT 'waiting'::quote_state
 );
 
 --
@@ -197,5 +197,5 @@ CREATE TABLE sms
     message          TEXT             NOT NULL,
     sender           VARCHAR(128)     NOT NULL CHECK (sender ~ '^(?:\+[1-9]\d{0,3}|\d{1,4})(?:[ -]?\d{1,14})*$'),
     receiver         VARCHAR(128)     NOT NULL CHECK (receiver ~ '^(?:\+[1-9]\d{0,3}|\d{1,4})(?:[ -]?\d{1,14})*$'),
-    processing_state processing_state NOT NULL
+    processing_state processing_state NOT NULL DEFAULT 'received'::processing_state
 );
