@@ -190,12 +190,12 @@ WHERE r.reparation_state = 'ongoing'::reparation_state
 GROUP BY o.category
 ORDER BY nb_ongoing_rep_per_cat DESC;
 
--- Total number of repairs
+-- Total number of finished repairs
 SELECT COUNT(*) AS nb_done_rep
 FROM reparation
 WHERE reparation_state = 'done'::reparation_state;
 
--- Total number of repairs per category
+-- Total number of finished repairs per category
 SELECT o.category, COUNT(*) AS nb_done_rep_per_cat
 FROM reparation r
          INNER JOIN object o
