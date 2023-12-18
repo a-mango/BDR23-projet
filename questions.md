@@ -182,12 +182,36 @@ En plus des actions entreprenables par les réceptionnistes et techniciens, un m
 
 ## TODO
 
+### A corriger
+
 - ajouter time_worked dans uml
 - vérifier cardinalités dans schéma conceptuel après modification du schéma sql (car on a enlevé des NOT NULL etc)
 - **idee** : vérifier que manager ID != 1 lors de la suppression pour ne pas se lockout ?
 - enlever le trigger qui met des valeurs par défaut à réparation et mettre des DEFAULT dans la création de la table plutôt
 - chercher les triggers manquants pour checker la consistence du chgt d'état des enum, est-ce qu'il faut check pour le premier? Le mettre par défaut?
-est-ce qu'on peut revenir à l'état initial? en l'état actuel, on ne peut pas update l'état avec  la même valeur que celle qu'il a déjà, ok?
+  est-ce qu'on peut revenir à l'état initial? en l'état actuel, on ne peut pas update l'état avec la même valeur que celle qu'il a déjà, ok?
+
+- dans procedure d'insertion, si categorie n'exsite pas, il faut la créer
+- requete/s pour effectuer un changement de rôle
+- ajouter une procédure pour insérer une réparation
+- ajouter vérification de numero à requetes 'nb of sms received per day'
+
+### Feedback phase 4: à corriger
+
+- Créer de relations "precède" pour spécifier les états des enums.
+- Ajouter schéma états/relations dans document
+- Insérer dans la vue avec le trigger avec INSTEAD OF
+- Tech view (ou tout ce qui est personnalisable) est une requetes.
+
+# Phase 5
+
+Docker db
+docker file nginx
+Serveur Java
+avec routes
+App web (page web statique avec script js)
+
+htmx (bouton lié à une query)
 
 ## Graphes des états des enums
 
