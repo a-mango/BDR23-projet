@@ -18,8 +18,6 @@ WHERE tr.technician_id = :reparation_id;
 
 
 -- Consult the id of the ongoing reparations and the time worked for a given technician
-CREATE OR REPLACE VIEW works_on
-AS
 SELECT r.reparation_id, time_worked
 FROM reparation r
          INNER JOIN technician_reparation tr
@@ -30,8 +28,6 @@ WHERE t.technician_id = :technician_id
   AND r.reparation_state = 'ongoing'::reparation_state;
 
 -- Consult reparation and object information for a given technician
-CREATE OR REPLACE VIEW technician_view
-AS
 SELECT r.reparation_id,
        r.date_created,
        r.description,
