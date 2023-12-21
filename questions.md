@@ -200,8 +200,13 @@ En plus des actions entreprenables par les réceptionnistes et techniciens, un m
 
 - Créer de relations "precède" pour spécifier les états des enums.
 - Ajouter schéma états/relations dans document
-- Insérer dans la vue avec le trigger avec INSTEAD OF
+- Lorsqu'on essaie d'insérer dans les views de chaque sous-classes (chez nous mtn role_info_view), il faut appeler le trigger
+  trigger: instead of insert on \_\_view, on appelle la fonction (similaire aux procédure d'Aubry)
+  Créer view
+  Trigger
+  Fonction trigger = procedure insert
 - Tech view (ou tout ce qui est personnalisable) est une requetes.
+- jooq permet d'analyser la db pour generer les classes
 
 # Phase 5
 
@@ -212,6 +217,9 @@ avec routes
 App web (page web statique avec script js)
 
 htmx (bouton lié à une query)
+
+api json
+frontend react
 
 ## Graphes des états des enums
 

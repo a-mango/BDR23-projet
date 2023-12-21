@@ -16,6 +16,40 @@ FROM reparation r
          INNER JOIN technician_reparation tr ON r.reparation_id = tr.reparation_id
 WHERE tr.technician_id = :reparation_id;
 
+
+-- Consult the id of the ongoing reparations and the time worked for a given technician
+SELECT r.reparation_id, time_worked
+FROM reparation r
+         INNER JOIN technician_reparation tr
+                    ON r.reparation_id = tr.reparation_id
+         INNER JOIN technician t
+                    ON tr.technician_id = t.technician_id
+WHERE t.technician_id = :technician_id
+  AND r.reparation_state = 'ongoing'::reparation_state;
+
+-- Consult reparation and object information for a given technician
+SELECT r.reparation_id,
+       r.date_created,
+       r.description,
+       r.estimated_duration,
+       r.reparation_state,
+       o.name,
+       o.fault_desc,
+       o.location,
+       o.remark,
+       o.serial_no,
+       o.brand,
+       o.category
+FROM reparation r
+         INNER JOIN technician_reparation tr
+                    ON r.reparation_id = tr.reparation_id
+         INNER JOIN technician t
+                    ON tr.technician_id = t.technician_id
+         INNER JOIN object o
+                    ON o.object_id = r.object_id
+WHERE t.technician_id = :technician_id;
+
+
 -- Modify ReparationState
 UPDATE reparation
 SET reparation_state = :reparation_state
@@ -163,7 +197,6 @@ WHERE object_id = :object_id;
 --
 
 -- Nb of employees per role
-
 SELECT 'Manager' AS role,
        COUNT(*)  AS nb_employees
 FROM manager
