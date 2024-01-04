@@ -44,6 +44,7 @@ public class PostgresConnection {
     static {
         try {
             connection = DriverManager.getConnection(url, username, password);
+            connection.setSchema("projet");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
