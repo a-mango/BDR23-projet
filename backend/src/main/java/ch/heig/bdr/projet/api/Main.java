@@ -8,7 +8,8 @@ import static io.javalin.apibuilder.ApiBuilder.*;
  * Main class for the Javalin server.
  *
  * @author Aubry Mangold <aubry.mangold@heig-vd.ch>
- * @author Hugo Germano <hugo.germano@heig-vd.ch>
+ * @author Eva Ray <eva.ray@heig-vd.ch>
+ * @author Vitòria Cosmo De Oliviera <maria.cosmodeoliveira@heig-vd.ch>
  */
 public class Main {
     /**
@@ -17,8 +18,8 @@ public class Main {
      * @param args Command line arguments, not used.
      */
     public static void main(String[] args) {
-        final ReparationService blogService = new ReparationService();
-        final PersonService commentService = new PersonService();
+        final ReparationService reparationService = new ReparationService();
+        final PersonService personService = new PersonService();
 
         // Create the Javalin app
         Javalin app = Javalin.create(config -> config.plugins.enableDevLogging()).start(7000);
@@ -26,7 +27,7 @@ public class Main {
         // Enable CORS for all requests
         app.before(ctx -> {
             ctx.header("Access-Control-Allow-Origin", "*");
-            ctx.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+            ctx.header("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
         });
 
         // Register 404
@@ -37,8 +38,8 @@ public class Main {
 
         // Register routes
         app.routes(() -> {
-            crud("api/blogs/{id}", new ReparationController(blogService));
-            crud("api/comments/{id}", new PersonController(commentService));
+            crud("api/reparation/{id}", new ReparationController(reparationService));
+            crud("api/person/{id}", new PersonController(personService));
         });
     }
 }
