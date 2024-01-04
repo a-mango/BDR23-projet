@@ -2,13 +2,11 @@ version: '3.8'
 
 name: bdr-projet
 
-networks:
-  bdr-net:
-    driver: bridge
-
 services:
   postgresql:
-    image: 'bitnami/postgresql:16'
+    build:
+      context: ./database
+      dockerfile: Dockerfile
     container_name: bdr-projet-postgresql
     environment:
       - POSTGRESQL_USERNAME=bdr
@@ -16,14 +14,20 @@ services:
       - POSTGRESQL_DATABASE=bdr
       - POSTGRESQL_POSTGRES_PASSWORD=root
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
       - .:/data:ro
-    networks:
-      - bdr-net
 
   web:
-    image: web-image # name of the images
-    build: ./frontend # indicate the folder where the Dockerfile is
+    build: ./frontend
     ports:
-      - "8080:80" # the port to expose
+      - "8080:80"
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "7000:7000"
+    depends_on:
+      - postgresql
