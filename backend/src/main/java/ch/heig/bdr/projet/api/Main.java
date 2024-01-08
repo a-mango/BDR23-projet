@@ -36,6 +36,9 @@ public class Main {
             ctx.contentType("text/plain");
         });
 
+        // Exception handling
+        app.exception(Exception.class, (e, ctx) -> ctx.status(500).result("Internal server error"));
+
         // Register routes
         app.routes(() -> {
             crud("api/reparation/{id}", new ReparationController(reparationService));
