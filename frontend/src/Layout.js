@@ -3,11 +3,11 @@ import Navigation from './Navigation';
 
 const Layout = ({children}) => {
     return (
-        <div className="flex flex-col min-h-screen">
-            <header className="w-full mx-auto">
-                <Navigation/>
-            </header>
-            <div className="container mx-auto flex-grow">
+        <div className="flex flex-col min-h-screen justify-between">
+            <div>
+                <header className="w-full mx-auto">
+                    <Navigation/>
+                </header>
                 <main>
                     {children}
                 </main>
