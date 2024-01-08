@@ -21,12 +21,12 @@ public class PostgresConnection {
     /**
      * The url to connect to the database.
      */
-    private static final String url = "jdbc:postgresql://postgres:5432/bdr";
+    private static final String url = "jdbc:postgresql://postgresql:5432/bdr";
 
     /**
      * The username to connect to the database.
      */
-    private static final String username = "root";
+    private static final String username = "bdr";
 
     /**
      * The password to connect to the database.
