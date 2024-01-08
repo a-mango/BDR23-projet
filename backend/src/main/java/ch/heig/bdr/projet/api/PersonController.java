@@ -2,11 +2,9 @@ package ch.heig.bdr.projet.api;
 
 import io.javalin.apibuilder.CrudHandler;
 import io.javalin.http.Context;
-import org.bson.Document;
 import org.jetbrains.annotations.NotNull;
 
-import java.sql.SQLException;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Person controller.
@@ -33,6 +31,9 @@ public class PersonController implements CrudHandler {
 
     @Override
     public void create(@NotNull Context ctx) {
+        Person person = ctx.bodyAsClass(Person.class);
+        personService.createPerson(person);
+        ctx.status(201);
     }
 
     @Override
@@ -46,13 +47,24 @@ public class PersonController implements CrudHandler {
 
     @Override
     public void getAll(@NotNull Context ctx) {
+
+        ArrayList<Person> persons = personService.getPersons();
+        if (persons == null)
+            throw new NullPointerException();
+
+        ctx.json(persons);
     }
 
     @Override
     public void update(@NotNull Context ctx, @NotNull String id) {
+        Person updatedPerson = ctx.bodyAsClass(Person.class);
+        personService.updatePerson(id, updatedPerson);
+        ctx.status(200);
     }
 
     @Override
     public void delete(@NotNull Context ctx, @NotNull String id) {
+        personService.deletePerson(id);
+        ctx.status(204);
     }
 }

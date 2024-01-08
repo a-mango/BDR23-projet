@@ -11,10 +11,10 @@ import java.util.ArrayList;
  */
 public class Person {
 
-    private int id;
-    private String phoneNumber;
-    private String name;
-    private String comment;
+    int id;
+    String phoneNumber;
+    String name;
+    String comment;
 
     /**
      * Person constructor.
