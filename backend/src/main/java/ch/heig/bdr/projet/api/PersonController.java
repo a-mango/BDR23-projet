@@ -5,6 +5,7 @@ import io.javalin.http.Context;
 import org.bson.Document;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -36,6 +37,11 @@ public class PersonController implements CrudHandler {
 
     @Override
     public void getOne(@NotNull Context ctx, @NotNull String id) {
+        Person p = personService.getPersonById(id);
+        if (p == null)
+            throw new NullPointerException();
+
+        ctx.json(p);
     }
 
     @Override
