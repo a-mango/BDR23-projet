@@ -19,9 +19,11 @@ services:
       - .:/data:ro
 
   web:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
-      - "8080:80"
+      - "80:80"
 
   api:
     build:

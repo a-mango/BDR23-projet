@@ -1,5 +1,9 @@
 package ch.heig.bdr.projet.api;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 /**
  * Person CRUD service.
  *
@@ -8,11 +12,21 @@ package ch.heig.bdr.projet.api;
  * @author Vitòria Cosmo De Oliviera <maria.cosmodeoliveira@heig-vd.ch>
  */
 public class PersonService {
+    Connection conn;
+
     /**
      * Constructor.
      */
     public PersonService() {
+        conn = PostgresConnection.getInstance().getConnection();
     }
 
-    // TODO Implement createPerson, getPersonById, getPersons, updatePerson, deletePerson here
+    Person getPersonById(String id) throws Exception {
+        Statement statement = conn.createStatement();
+        String query = "SELECT * FROM person";
+        ResultSet rs = statement.executeQuery(query);
+    }
+
+    // TODO Implement createPerson, getPersonById, getPersons, updatePerson,
+    // deletePerson here
 }
