@@ -58,6 +58,8 @@ public class PersonController implements CrudHandler {
     @Override
     public void update(@NotNull Context ctx, @NotNull String id) {
         Person updatedPerson = ctx.bodyAsClass(Person.class);
+        if (updatedPerson == null)
+            throw new NullPointerException();
         personService.updatePerson(id, updatedPerson);
         ctx.status(200);
     }

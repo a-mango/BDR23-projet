@@ -9,6 +9,7 @@ services:
       dockerfile: Dockerfile
     container_name: bdr-projet-postgresql
     environment:
+      - POSTGRESQL_HOST=postgresql
       - POSTGRESQL_USERNAME=bdr
       - POSTGRESQL_PASSWORD=bdr
       - POSTGRESQL_DATABASE=bdr

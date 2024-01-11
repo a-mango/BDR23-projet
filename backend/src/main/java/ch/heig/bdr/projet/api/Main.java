@@ -43,7 +43,6 @@ public class Main {
         app.routes(() -> {
             crud("api/reparation/{id}", new ReparationController(reparationService));
             crud("api/person/{id}", new PersonController(personService));
-            crud("api/person/", new PersonController(personService));
         });
     }
 }

@@ -21,17 +21,17 @@ public class PostgresConnection {
     /**
      * The url to connect to the database.
      */
-    private static final String url = "jdbc:postgresql://postgresql:5432/bdr";
+    private static final String url = "jdbc:postgresql://" + System.getenv("POSTGRESQL_HOST") + ":5432/bdr";
 
     /**
      * The username to connect to the database.
      */
-    private static final String username = "bdr";
+    private static final String username = System.getenv("POSTGRESQL_USERNAME");
 
     /**
      * The password to connect to the database.
      */
-    private static final String password = "bdr";
+    private static final String password = System.getenv("POSTGRESQL_USERNAME");
 
     /**
      * The instance of the PostgresConnection.

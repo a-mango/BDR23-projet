@@ -1,0 +1,22 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
+    <envs>
+      <env name="POSTGRESQL_DATABASE" value="bdr" />
+      <env name="POSTGRESQL_HOST" value="localhost" />
+      <env name="POSTGRESQL_PASSWORD" value="bdr" />
+      <env name="POSTGRESQL_POSTGRES_PASSWORD" value="root" />
+      <env name="POSTGRESQL_USERNAME" value="bdr" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="ch.heig.bdr.projet.api.Main" />
+    <module name="bdrapi" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="ch.heig.bdr.projet.api.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
