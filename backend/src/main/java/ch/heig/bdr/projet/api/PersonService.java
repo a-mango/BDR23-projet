@@ -26,9 +26,9 @@ public class PersonService {
     Person getPersonById(String id){
         try {
             Statement statement = conn.createStatement();
-            String query = "SELECT * FROM person WHERE person.id = " + id;
+            String query = "SELECT * FROM person WHERE person_id = " + id;
             ResultSet rs = statement.executeQuery(query);
-            return new Person(rs.getInt("id"), rs.getString("phoneNumber"), rs.getString("name"), rs.getString("comment"));
+            return new Person(rs.getInt("person_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"));
 
         } catch (SQLException e){
             System.out.println(e.getMessage());
@@ -40,10 +40,12 @@ public class PersonService {
         try {
             Statement statement = conn.createStatement();
             String query = "SELECT * FROM person";
+            // System.out.println("query: " + query);
             ResultSet rs = statement.executeQuery(query);
             ArrayList<Person> persons = new ArrayList<>();
             while (rs.next()) {
-                persons.add(new Person(rs.getInt("id"), rs.getString("phoneNumber"), rs.getString("name"), rs.getString("comment")));
+                //System.out.println("inside while");
+                persons.add(new Person(rs.getInt("person_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment")));
             }
             return persons;
 
@@ -56,7 +58,7 @@ public class PersonService {
     void updatePerson(String id, Person updatedPerson){
         try {
             Statement statement = conn.createStatement();
-            String query = "UPDATE person SET phoneNumber = '" + updatedPerson.phoneNumber + "', name = '" + updatedPerson.name + "', comment = '" + updatedPerson.comment + "' WHERE id = " + id;
+            String query = "UPDATE person SET phone_no = '" + updatedPerson.phoneNumber + "', name = '" + updatedPerson.name + "', comment = '" + updatedPerson.comment + "' WHERE person_id = " + id;
             statement.executeQuery(query);
 
         } catch (SQLException e){
@@ -67,7 +69,7 @@ public class PersonService {
     void deletePerson(String id){
         try {
             Statement statement = conn.createStatement();
-            String query = "DELETE FROM person WHERE id = " + id;
+            String query = "DELETE FROM person WHERE person_id = " + id;
             statement.executeQuery(query);
 
         } catch (SQLException e){
@@ -78,7 +80,7 @@ public class PersonService {
     void createPerson(Person person){
         try {
             Statement statement = conn.createStatement();
-            String query = "INSERT INTO person (phoneNumber, name, comment) VALUES ('" + person.phoneNumber + "', '" + person.name + "', '" + person.comment + "')";
+            String query = "INSERT INTO person (phone_no, name, comment) VALUES ('" + person.phoneNumber + "', '" + person.name + "', '" + person.comment + "')";
             statement.executeQuery(query);
 
         } catch (SQLException e){
