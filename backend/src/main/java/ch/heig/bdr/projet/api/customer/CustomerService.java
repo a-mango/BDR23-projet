@@ -1,7 +1,6 @@
 package ch.heig.bdr.projet.api.customer;
 
 import ch.heig.bdr.projet.api.PostgresConnection;
-import ch.heig.bdr.projet.api.customer.Customer;
 import ch.heig.bdr.projet.api.person.Person;
 
 import java.sql.Connection;
@@ -65,7 +64,7 @@ public class CustomerService {
         }
     }
 
-    void updatecCustomer(String id, Customer updatedCustomer){
+    void updateCustomer(String id, Customer updatedCustomer){
         try {
             Statement statement = conn.createStatement();
             String query = "UPDATE Customer SET phone_no = '" + updatedCustomer.phone_number + "', name = '" + updatedCustomer.name + "', comment = '" + updatedCustomer.comment + "', tos_accepted = '" + updatedCustomer.tosAccepted + "', private_note = '" + updatedCustomer.privateNote + "' WHERE customer_id = '" + id + "'  AND '" + updatedCustomer.tosAccepted + " 'IN (TRUE, FALSE)";
