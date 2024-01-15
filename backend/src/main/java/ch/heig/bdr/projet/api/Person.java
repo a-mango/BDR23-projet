@@ -1,7 +1,5 @@
 package ch.heig.bdr.projet.api;
 
-import java.util.ArrayList;
-
 /**
  * Class representing a person.
  *
@@ -10,11 +8,11 @@ import java.util.ArrayList;
  * @author Vitòria Cosmo De Oliviera <maria.cosmodeoliveira@heig-vd.ch>
  */
 public class Person {
-
-    int id;
-    String phoneNumber;
-    String name;
-    String comment;
+    public int person_id;
+    public String phone_number;
+    public String name;
+    public String comment;
+    public Person() {}
 
     /**
      * Person constructor.
@@ -25,8 +23,8 @@ public class Person {
      * @param comment Comments about the person.
      */
     public Person(int id, String phoneNumber, String name, String comment) {
-        this.id = id;
-        this.phoneNumber = phoneNumber;
+        this.person_id = id;
+        this.phone_number = phoneNumber;
         this.name = name;
         this.comment = comment;
     }

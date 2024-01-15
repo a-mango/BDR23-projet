@@ -8,14 +8,19 @@ package ch.heig.bdr.projet.api;
  * @author Vitòria Cosmo De Oliviera <maria.cosmodeoliveira@heig-vd.ch>
  */
 public class Specialization {
-    private String name;
+    public String name;
+
+    /**
+     * Specialization default constructor.
+     */
+    public Specialization() {}
 
     /**
      * Specialization constructor.
      *
      * @param name The specialization name.
      */
-    Specialization(String name){
+    public Specialization(String name){
         this.name = name;
     }
 }

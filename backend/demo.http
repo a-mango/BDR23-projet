@@ -1,0 +1,10 @@
+GET localhost:7000/api/person/1
+
+### POST request
+POST localhost:7000/api/person
+Content-Type: application/json
+
+{
+    "id": 999,
+    "value": "content"
+}

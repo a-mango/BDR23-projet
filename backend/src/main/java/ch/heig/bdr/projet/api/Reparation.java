@@ -13,20 +13,25 @@ import java.util.Date;
  */
 public class Reparation {
 
-    private int id;
-    private Date dateCreated;
-    private Date dateModified;
-    private int quote;
-    private String repairDescription;
-    private Time estimatedDuration;
-    private ArrayList<Sms> sms = new ArrayList<>();
-    private ReparationState reparationState;
-    private QuoteState quoteState;
-    private ArrayList<Specialization> specializations = new ArrayList<>();
-    private ArrayList<Technician> technicians = new ArrayList<>();
-    private Receptionist receptionist;
-    private Customer customer;
-    private Object object;
+    public int id;
+    public Date dateCreated;
+    public Date dateModified;
+    public int quote;
+    public String repairDescription;
+    public Time estimatedDuration;
+    public ArrayList<Sms> sms = new ArrayList<>();
+    public ReparationState reparationState;
+    public QuoteState quoteState;
+    public ArrayList<Specialization> specializations = new ArrayList<>();
+    public ArrayList<Technician> technicians = new ArrayList<>();
+    public Receptionist receptionist;
+    public Customer customer;
+    public Object object;
+
+    /**
+     * Reparation default constructor.
+     */
+    public Reparation() {}
 
     /**
      * Reparation constructor.

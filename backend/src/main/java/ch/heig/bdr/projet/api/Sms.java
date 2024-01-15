@@ -10,12 +10,18 @@ import java.util.Date;
  * @author Vitòria Cosmo De Oliviera <maria.cosmodeoliveira@heig-vd.ch>
  */
 public class Sms {
-    private int id;
-    private Date dateCreated;
-    private String message;
-    private String sender;
-    private String receiver;
-    private ProcessingState processingState;
+
+    public int id;
+    public Date dateCreated;
+    public String message;
+    public String sender;
+    public String receiver;
+    public ProcessingState processingState;
+
+    /**
+     * Sms default constructor.
+     */
+    public Sms() {}
 
     /**
      * Sms constructor.

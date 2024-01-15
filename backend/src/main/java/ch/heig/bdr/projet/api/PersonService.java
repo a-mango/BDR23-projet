@@ -28,8 +28,11 @@ public class PersonService {
             Statement statement = conn.createStatement();
             String query = "SELECT * FROM person WHERE person_id = " + id;
             ResultSet rs = statement.executeQuery(query);
-            return new Person(rs.getInt("person_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"));
-
+            if (rs.next()) {
+                return new Person(rs.getInt("person_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"));
+            } else {
+                return null;
+            }
         } catch (SQLException e){
             System.out.println(e.getMessage());
             return null;
@@ -58,9 +61,8 @@ public class PersonService {
     void updatePerson(String id, Person updatedPerson){
         try {
             Statement statement = conn.createStatement();
-            String query = "UPDATE person SET phone_no = '" + updatedPerson.phoneNumber + "', name = '" + updatedPerson.name + "', comment = '" + updatedPerson.comment + "' WHERE person_id = " + id;
+            String query = "UPDATE person SET phone_no = '" + updatedPerson.phone_number + "', name = '" + updatedPerson.name + "', comment = '" + updatedPerson.comment + "' WHERE person_id = " + id;
             statement.executeQuery(query);
-
         } catch (SQLException e){
             System.out.println(e.getMessage());
         }
@@ -80,7 +82,7 @@ public class PersonService {
     void createPerson(Person person){
         try {
             Statement statement = conn.createStatement();
-            String query = "INSERT INTO person (phone_no, name, comment) VALUES ('" + person.phoneNumber + "', '" + person.name + "', '" + person.comment + "')";
+            String query = "INSERT INTO person (phone_no, name, comment) VALUES ('" + person.phone_number + "', '" + person.name + "', '" + person.comment + "')";
             statement.executeQuery(query);
 
         } catch (SQLException e){

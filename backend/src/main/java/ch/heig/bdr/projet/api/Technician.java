@@ -11,8 +11,15 @@ import java.util.ArrayList;
  */
 public class Technician extends Collaborator {
 
-    private ArrayList<Specialization> specializations = new ArrayList<>();
-    private ArrayList<Reparation> reparations = new ArrayList<>();
+    public ArrayList<Specialization> specializations = new ArrayList<>();
+    public ArrayList<Reparation> reparations = new ArrayList<>();
+
+    /**
+     * Technician default constructor
+     */
+    public Technician() {
+        super();
+    }
 
     /**
      * Technician constructor
