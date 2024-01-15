@@ -20,7 +20,7 @@ public class Language {
      *
      * @param name
      */
-    publicLanguage(String name){
+    public Language(String name){
         this.name = name;
     }
 }
