@@ -1,4 +1,6 @@
-package ch.heig.bdr.projet.api;
+package ch.heig.bdr.projet.api.collaborator;
+
+import ch.heig.bdr.projet.api.Person;
 
 import ch.heig.bdr.projet.api.person.Person;
 

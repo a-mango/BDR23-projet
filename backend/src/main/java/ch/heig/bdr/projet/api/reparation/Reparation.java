@@ -9,6 +9,8 @@ import ch.heig.bdr.projet.api.sms.Sms;
 import ch.heig.bdr.projet.api.specialization.Specialization;
 import ch.heig.bdr.projet.api.technician.Technician;
 
+import ch.heig.bdr.projet.api.customer.Customer;
+
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;

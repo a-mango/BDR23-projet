@@ -1,6 +1,6 @@
-package ch.heig.bdr.projet.api;
+package ch.heig.bdr.projet.api.manager;
 
-import java.util.ArrayList;
+import ch.heig.bdr.projet.api.collaborator.Collaborator;
 
 /**
  * Class representing a Manager.

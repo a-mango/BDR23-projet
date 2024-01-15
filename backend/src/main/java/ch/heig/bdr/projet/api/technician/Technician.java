@@ -4,6 +4,8 @@ import ch.heig.bdr.projet.api.Collaborator;
 import ch.heig.bdr.projet.api.reparation.Reparation;
 import ch.heig.bdr.projet.api.specialization.Specialization;
 
+import ch.heig.bdr.projet.api.collaborator.Collaborator;
+
 import java.util.ArrayList;
 
 /**

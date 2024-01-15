@@ -3,6 +3,9 @@ package ch.heig.bdr.projet.api.receptionist;
 import ch.heig.bdr.projet.api.Collaborator;
 import ch.heig.bdr.projet.api.Language;
 
+import ch.heig.bdr.projet.api.collaborator.Collaborator;
+import ch.heig.bdr.projet.api.language.Language;
+
 import java.util.ArrayList;
 
 /**
