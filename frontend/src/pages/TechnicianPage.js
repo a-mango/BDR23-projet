@@ -1,5 +1,5 @@
 import React from 'react';
-import SubNavigation from "./SubNavigation";
+import SubNavigation from "../SubNavigation";
 
 const items = [
     {text: 'Repairs', link: '/repairs'},

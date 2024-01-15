@@ -1,10 +1,10 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import Layout from './Layout';
-import HomePage from './HomePage';
-import ReceptionistPage from "./ReceptionistPage";
-import ManagerPage from "./ManagerPage";
-import TechnicianPage from "./TechnicianPage";
+import Layout from './components/Layout';
+import HomePage from './pages/HomePage';
+import ReceptionistPage from "./pages/ReceptionistPage";
+import ManagerPage from "./pages/ManagerPage";
+import TechnicianPage from "./pages/TechnicianPage";
 
 function App() {
     return (
