@@ -1,9 +1,12 @@
 package ch.heig.bdr.projet.api;
 
+import ch.heig.bdr.projet.api.customer.CustomerService;
 import ch.heig.bdr.projet.api.person.PersonController;
 import ch.heig.bdr.projet.api.person.PersonService;
 import ch.heig.bdr.projet.api.reparation.ReparationController;
 import ch.heig.bdr.projet.api.reparation.ReparationService;
+import ch.heig.bdr.projet.api.sms.SmsController;
+import ch.heig.bdr.projet.api.sms.SmsService;
 import io.javalin.Javalin;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
@@ -24,6 +27,8 @@ public class Main {
     public static void main(String[] args) {
         final ReparationService reparationService = new ReparationService();
         final PersonService personService = new PersonService();
+        final SmsService smsService = new SmsService();
+        final CustomerService customerService = new CustomerService();
 
         // Create the Javalin app
         Javalin app = Javalin.create(config -> config.plugins.enableDevLogging()).start(7000);
@@ -47,6 +52,8 @@ public class Main {
         app.routes(() -> {
             crud("api/reparation/{id}", new ReparationController(reparationService));
             crud("api/person/{id}", new PersonController(personService));
+            crud("api/sms/{id}", new SmsController(smsService));
+            crud("api/customer/{id}", new CustomerService(customerService));
         });
     }
 }
