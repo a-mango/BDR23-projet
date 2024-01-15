@@ -12,6 +12,13 @@ import java.util.ArrayList;
 public class Manager extends Collaborator {
 
     /**
+    * Manager default constructor.
+    */
+    public Manager(){
+        super();
+    }
+
+    /**
      * Manager constructor.
      *
      * @param id          The Manager's id.

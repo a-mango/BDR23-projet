@@ -8,14 +8,19 @@ package ch.heig.bdr.projet.api;
  * @author Vitòria Cosmo De Oliviera <maria.cosmodeoliveira@heig-vd.ch>
  */
 public class Language {
-    private String name;
+    public String name;
+
+    /**
+     * Language default constructor.
+     */
+    public Language(){}
 
     /**
      * Language constructor.
      *
      * @param name
      */
-    Language(String name){
+    publicLanguage(String name){
         this.name = name;
     }
 }

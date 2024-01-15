@@ -11,8 +11,14 @@ import java.util.ArrayList;
  */
 public class Collaborator extends Person{
 
-    private String email;
+    public String email;
 
+    /**
+     * Collaborator default constructor.
+     */
+    public Collaborator(){
+        super();
+    }
 
     /**
      * Collaborator constructor.

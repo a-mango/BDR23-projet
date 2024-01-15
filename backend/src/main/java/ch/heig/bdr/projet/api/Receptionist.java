@@ -11,7 +11,14 @@ import java.util.ArrayList;
  */
 public class Receptionist extends Collaborator{
 
-    private ArrayList<Language> languages = new ArrayList<>();
+    public ArrayList<Language> languages = new ArrayList<>();
+
+    /**
+     * Collaborator constructor.
+     */
+    public Receptionist(){
+        super();
+    }
 
     /**
      * Collaborator constructor.

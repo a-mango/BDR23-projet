@@ -8,7 +8,12 @@ package ch.heig.bdr.projet.api;
  * @author Vitòria Cosmo De Oliviera <maria.cosmodeoliveira@heig-vd.ch>
  */
 public class Category {
-    private String name;
+    public String name;
+
+    /**
+    * Category default constructor.
+    */
+    public Category(){}
 
     /**
      * Category constructor.

@@ -10,15 +10,20 @@ import java.util.Date;
  */
 public class Object {
 
-    private int id;
-    private String name;
-    private String faultDescription;
-    private String remark;
-    private int serialNo;
-    private Location location;
-    private Brand brand;
-    private Category category;
-    private Customer customer;
+    public int id;
+    public String name;
+    public String faultDescription;
+    public String remark;
+    public int serialNo;
+    public Location location;
+    public Brand brand;
+    public Category category;
+    public Customer customer;
+
+    /**
+     * Object default constructor.
+     */
+    public Object(){}
 
     /**
      * Object constructor.

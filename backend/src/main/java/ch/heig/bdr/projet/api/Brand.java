@@ -8,8 +8,12 @@ package ch.heig.bdr.projet.api;
  * @author Vitòria Cosmo De Oliviera <maria.cosmodeoliveira@heig-vd.ch>
  */
 public class Brand{
-    private String name;
+    public String name;
 
+    /**
+    * Brand default constructor.
+    */
+    public Brand(){}
     /**
      * Brand constructor.
      *
@@ -18,5 +22,4 @@ public class Brand{
     public Brand(String name){
         this.name = name;
     }
-
 }

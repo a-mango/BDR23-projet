@@ -10,8 +10,15 @@ import java.util.ArrayList;
  * @author Vitòria Cosmo De Oliviera <maria.cosmodeoliveira@heig-vd.ch>
  */
 public class Customer extends Person {
-    private String privateNote;
-    private boolean tosAccepted;
+    public String privateNote;
+    public boolean tosAccepted;
+
+    /**
+     * Customer default constructor.
+     */
+    public Customer(){
+        super();
+    }
 
     /**
      * Customer constructor.
@@ -23,7 +30,7 @@ public class Customer extends Person {
      * @param privateNote   A private note about the customer.
      * @param tosAccepted   Terms of service acceptance status.
      */
-    Customer(int id, String phoneNumber, String name, String comment, String privateNote, boolean tosAccepted){
+    public Customer(int id, String phoneNumber, String name, String comment, String privateNote, boolean tosAccepted){
         super(id, phoneNumber, name, comment);
         this.privateNote = privateNote;
         this.tosAccepted = tosAccepted;
