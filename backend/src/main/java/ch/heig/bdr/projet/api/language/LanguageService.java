@@ -8,5 +8,7 @@ package ch.heig.bdr.projet.api.language;
  * @author Vitòria Cosmo De Oliviera <maria.cosmodeoliveira@heig-vd.ch>
  */
 public class LanguageService {
+
+    // only get all
 }
 

@@ -9,5 +9,7 @@ package ch.heig.bdr.projet.api;
  */
 public enum ProcessingState {
 
-    RECEIVED, READ, PROCESSED;
+    RECEIVED,
+    READ,
+    PROCESSED;
 }

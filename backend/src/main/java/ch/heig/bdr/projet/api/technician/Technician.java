@@ -1,6 +1,5 @@
 package ch.heig.bdr.projet.api.technician;
 
-import ch.heig.bdr.projet.api.Collaborator;
 import ch.heig.bdr.projet.api.reparation.Reparation;
 import ch.heig.bdr.projet.api.specialization.Specialization;
 

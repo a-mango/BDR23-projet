@@ -1,6 +1,5 @@
 package ch.heig.bdr.projet.api.reparation;
 
-import ch.heig.bdr.projet.api.Customer;
 import ch.heig.bdr.projet.api.object.Object;
 import ch.heig.bdr.projet.api.QuoteState;
 import ch.heig.bdr.projet.api.receptionist.Receptionist;

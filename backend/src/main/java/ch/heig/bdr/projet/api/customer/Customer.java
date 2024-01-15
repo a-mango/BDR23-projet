@@ -1,7 +1,4 @@
 package ch.heig.bdr.projet.api.customer;
-
-import ch.heig.bdr.projet.api.Person;
-
 import ch.heig.bdr.projet.api.person.Person;
 
 /**

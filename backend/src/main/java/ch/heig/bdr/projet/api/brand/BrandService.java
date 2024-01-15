@@ -8,5 +8,7 @@ package ch.heig.bdr.projet.api.brand;
  * @author Vitòria Cosmo De Oliviera <maria.cosmodeoliveira@heig-vd.ch>
  */
 public class BrandService {
+
+    // only get all
 }
 
