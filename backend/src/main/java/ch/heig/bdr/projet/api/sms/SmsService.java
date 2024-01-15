@@ -1,6 +1,7 @@
 package ch.heig.bdr.projet.api.sms;
 
 import ch.heig.bdr.projet.api.PostgresConnection;
+import ch.heig.bdr.projet.api.ProcessingState;
 import ch.heig.bdr.projet.api.person.Person;
 
 import java.sql.Connection;
@@ -14,7 +15,7 @@ public class SmsService {
     Connection connection;
 
     public SmsService() {
-        this.connection = PostgresConnection.getInstance().getConnection();
+        connection = PostgresConnection.getInstance().getConnection();
     }
 
     Sms getSmsById(String id) {
@@ -23,8 +24,7 @@ public class SmsService {
             String query = "SELECT * FROM sms WHERE sms_id = " + id;
             ResultSet rs = statement.executeQuery(query);
             if (rs.next()) {
-                return null;
-                //return new Sms(rs.getInt("sms_id"), rs.getDate("date_created"), rs.getString("message"), rs.getString("sender"), rs.getString("receiver"), getEnum("processing_state"));
+                return new Sms(rs.getInt("sms_id"), rs.getDate("date_created"), rs.getString("message"), rs.getString("sender"), rs.getString("receiver"), (ProcessingState) rs.getObject("processing_state"));
             } else {
                 return null;
             }

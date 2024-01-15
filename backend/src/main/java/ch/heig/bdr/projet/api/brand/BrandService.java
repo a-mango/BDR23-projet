@@ -10,5 +10,6 @@ package ch.heig.bdr.projet.api.brand;
 public class BrandService {
 
     // only get all
+    // ne doit donc pas implémenter CrudHandler
 }
 
