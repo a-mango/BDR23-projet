@@ -1,5 +1,9 @@
 package ch.heig.bdr.projet.api;
 
+import ch.heig.bdr.projet.api.person.PersonController;
+import ch.heig.bdr.projet.api.person.PersonService;
+import ch.heig.bdr.projet.api.reparation.ReparationController;
+import ch.heig.bdr.projet.api.reparation.ReparationService;
 import io.javalin.Javalin;
 
 import static io.javalin.apibuilder.ApiBuilder.*;

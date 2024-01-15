@@ -1,6 +1,6 @@
 package ch.heig.bdr.projet.api;
 
-import java.util.ArrayList;
+import ch.heig.bdr.projet.api.person.Person;
 
 /**
  * Collaborator model.
@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author Eva Ray <eva.ray@heig-vd.ch>
  * @author Vitòria Cosmo De Oliviera <maria.cosmodeoliveira@heig-vd.ch>
  */
-public class Collaborator extends Person{
+public class Collaborator extends Person {
 
     public String email;
 

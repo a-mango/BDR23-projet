@@ -1,4 +1,4 @@
-package ch.heig.bdr.projet.api;
+package ch.heig.bdr.projet.api.reparation;
 
 /**
  * Reparation service.

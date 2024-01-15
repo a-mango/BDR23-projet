@@ -1,4 +1,6 @@
-package ch.heig.bdr.projet.api;
+package ch.heig.bdr.projet.api.person;
+
+import ch.heig.bdr.projet.api.PostgresConnection;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

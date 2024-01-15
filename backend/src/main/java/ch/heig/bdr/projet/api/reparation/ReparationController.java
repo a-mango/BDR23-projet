@@ -1,12 +1,8 @@
-package ch.heig.bdr.projet.api;
+package ch.heig.bdr.projet.api.reparation;
 
 import io.javalin.apibuilder.CrudHandler;
 import io.javalin.http.Context;
-import org.bson.Document;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Reparation controller class.

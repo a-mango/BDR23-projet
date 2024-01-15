@@ -1,4 +1,6 @@
-package ch.heig.bdr.projet.api;
+package ch.heig.bdr.projet.api.sms;
+
+import ch.heig.bdr.projet.api.ProcessingState;
 
 import java.util.Date;
 

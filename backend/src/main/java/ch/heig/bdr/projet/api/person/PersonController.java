@@ -1,4 +1,4 @@
-package ch.heig.bdr.projet.api;
+package ch.heig.bdr.projet.api.person;
 
 import io.javalin.apibuilder.CrudHandler;
 import io.javalin.http.Context;

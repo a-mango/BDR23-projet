@@ -1,6 +1,6 @@
 package ch.heig.bdr.projet.api;
 
-import java.util.ArrayList;
+import ch.heig.bdr.projet.api.person.Person;
 
 /**
  * Customer model.

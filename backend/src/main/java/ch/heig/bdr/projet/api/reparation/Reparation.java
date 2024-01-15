@@ -1,4 +1,13 @@
-package ch.heig.bdr.projet.api;
+package ch.heig.bdr.projet.api.reparation;
+
+import ch.heig.bdr.projet.api.Customer;
+import ch.heig.bdr.projet.api.object.Object;
+import ch.heig.bdr.projet.api.QuoteState;
+import ch.heig.bdr.projet.api.receptionist.Receptionist;
+import ch.heig.bdr.projet.api.ReparationState;
+import ch.heig.bdr.projet.api.sms.Sms;
+import ch.heig.bdr.projet.api.specialization.Specialization;
+import ch.heig.bdr.projet.api.technician.Technician;
 
 import java.sql.Time;
 import java.util.ArrayList;
