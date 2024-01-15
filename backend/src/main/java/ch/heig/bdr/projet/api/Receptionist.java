@@ -1,5 +1,8 @@
 package ch.heig.bdr.projet.api;
 
+import ch.heig.bdr.projet.api.collaborator.Collaborator;
+import ch.heig.bdr.projet.api.language.Language;
+
 import java.util.ArrayList;
 
 /**
@@ -9,7 +12,7 @@ import java.util.ArrayList;
  * @author Eva Ray <eva.ray@heig-vd.ch>
  * @author Vitòria Cosmo De Oliviera <maria.cosmodeoliveira@heig-vd.ch>
  */
-public class Receptionist extends Collaborator{
+public class Receptionist extends Collaborator {
 
     public ArrayList<Language> languages = new ArrayList<>();
 

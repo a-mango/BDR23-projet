@@ -1,26 +1,25 @@
-package ch.heig.bdr.projet.api;
+package ch.heig.bdr.projet.api.brand;
 
 /**
- * Class representing a Language.
+ * Class representing a Brand.
  *
  * @author Aubry Mangold <aubry.mangold@heig-vd.ch>
  * @author Eva Ray <eva.ray@heig-vd.ch>
  * @author Vitòria Cosmo De Oliviera <maria.cosmodeoliveira@heig-vd.ch>
  */
-public class Language {
+public class Brand{
     public String name;
 
     /**
-     * Language default constructor.
-     */
-    public Language(){}
-
+    * Brand default constructor.
+    */
+    public Brand(){}
     /**
-     * Language constructor.
+     * Brand constructor.
      *
-     * @param name
+     * @param name The brand's name.
      */
-    public Language(String name){
+    public Brand(String name){
         this.name = name;
     }
 }

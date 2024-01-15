@@ -1,5 +1,7 @@
 package ch.heig.bdr.projet.api;
 
+import ch.heig.bdr.projet.api.customer.Customer;
+
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;

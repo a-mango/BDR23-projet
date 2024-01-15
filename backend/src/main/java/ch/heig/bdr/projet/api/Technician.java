@@ -1,5 +1,7 @@
 package ch.heig.bdr.projet.api;
 
+import ch.heig.bdr.projet.api.collaborator.Collaborator;
+
 import java.util.ArrayList;
 
 /**

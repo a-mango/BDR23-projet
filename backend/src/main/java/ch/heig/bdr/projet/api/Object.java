@@ -1,4 +1,8 @@
 package ch.heig.bdr.projet.api;
+import ch.heig.bdr.projet.api.brand.Brand;
+import ch.heig.bdr.projet.api.category.Category;
+import ch.heig.bdr.projet.api.customer.Customer;
+
 import java.util.Date;
 
 /**
