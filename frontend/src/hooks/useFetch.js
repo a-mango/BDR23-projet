@@ -1,105 +1,60 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import axios from 'axios';
-import {BASE_URL} from '../config';
 
-const useFetch = (endpoint) => {
-    const [data, setData] = useState(null);
+const useFetch = (resource) => {
+    const [data, setData] = useState([]);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${BASE_URL}/${endpoint}`);
-                setData(response.data);
-            } catch (error) {
-                setError(error);
-            }
-        };
+    const fetch = useCallback(async () => {
+        try {
+            const response = await axios.get(`/api/${resource}`);
+            setData(response.data);
+        } catch (error) {
+            setError(error.message);
+        }
+    }, [resource]);
 
-        fetchData();
-    }, [endpoint]);
+    const fetchSingle = useCallback(async (id) => {
+        try {
+            const response = await axios.get(`/api/${resource}/${id}`);
+            return response.data;
+        } catch (error) {
+            setError(error.message);
+        }
+    }, [resource]);
 
-    return {data, error};
-};
+    const create = useCallback(async (newItem) => {
+        try {
+            const response = await axios.post(`/api/${resource}`, newItem);
+            setData(prevData => [...prevData, response.data]);
+        } catch (error) {
+            setError(error.message);
+        }
+    }, [resource]);
 
-const useFetchSingle = (endpoint, id) => {
-    const [data, setData] = useState(null);
-    const [error, setError] = useState(null);
+    const update = useCallback(async (id, updatedItem) => {
+        try {
+            const response = await axios.put(`/api/${resource}/${id}`, updatedItem);
+            setData(prevData => prevData.map(item => item.id === id ? response.data : item));
+        } catch (error) {
+            setError(error.message);
+        }
+    }, [resource]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${BASE_URL}/${endpoint}/${id}`);
-                setData(response.data);
-            } catch (error) {
-                setError(error);
-            }
-        };
-
-        fetchData();
-    }, [endpoint, id]);
-
-    return {data, error};
-};
-
-const useCreate = (endpoint, data) => {
-    const [response, setResponse] = useState(null);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const postData = async () => {
-            try {
-                const res = await axios.post(`${BASE_URL}/${endpoint}`, data);
-                setResponse(res.data);
-            } catch (error) {
-                setError(error);
-            }
-        };
-
-        postData();
-    }, [endpoint, data]);
-
-    return {response, error};
-};
-
-const useUpdate = (endpoint, data) => {
-    const [response, setResponse] = useState(null);
-    const [error, setError] = useState(null);
+    const remove = useCallback(async (id) => {
+        try {
+            await axios.delete(`/api/${resource}/${id}`);
+            setData(prevData => prevData.filter(item => item.id !== id));
+        } catch (error) {
+            setError(error.message);
+        }
+    }, [resource]);
 
     useEffect(() => {
-        const updateData = async () => {
-            try {
-                const res = await axios.put(`${BASE_URL}/${endpoint}`, data);
-                setResponse(res.data);
-            } catch (error) {
-                setError(error);
-            }
-        };
+        fetch();
+    }, [fetch]);
 
-        updateData();
-    }, [endpoint, data]);
-
-    return {response, error};
+    return {data, fetch, fetchSingle, create, update, remove, error};
 };
 
-const useDelete = (endpoint) => {
-    const [response, setResponse] = useState(null);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const deleteData = async () => {
-            try {
-                const res = await axios.delete(`${BASE_URL}/${endpoint}`);
-                setResponse(res.data);
-            } catch (error) {
-                setError(error);
-            }
-        };
-
-        deleteData();
-    }, [endpoint]);
-
-    return {response, error};
-};
-
-export {useFetch, useFetchSingle, useCreate, useUpdate, useDelete};
+export default useFetch;
