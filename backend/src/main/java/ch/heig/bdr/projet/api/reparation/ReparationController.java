@@ -22,8 +22,8 @@ public class ReparationController implements CrudHandler {
      *
      * @param reparationService The reparation service to use.
      */
-    public ReparationController(ReparationService reparationService) {
-        this.reparationService = reparationService;
+    public ReparationController() {
+        this.reparationService = new ReparationService();
     }
 
     @Override

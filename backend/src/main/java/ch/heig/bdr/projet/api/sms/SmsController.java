@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class SmsController implements CrudHandler {
-
     private final SmsService smsService;
 
     /**
@@ -17,8 +16,8 @@ public class SmsController implements CrudHandler {
      *
      * @param smsService The person service to use.
      */
-    public SmsController(SmsService smsService) {
-        this.smsService = smsService;
+    public SmsController() {
+        this.smsService = new SmsService();
     }
 
     @Override

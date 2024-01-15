@@ -21,11 +21,9 @@ public class PersonController implements CrudHandler {
 
     /**
      * Constructor.
-     *
-     * @param personService The person service to use.
      */
-    public PersonController(PersonService personService) {
-        this.personService = personService;
+    public PersonController() {
+        this.personService = new PersonService();
     }
 
 

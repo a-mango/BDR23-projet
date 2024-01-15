@@ -19,8 +19,8 @@ public class CustomerController implements CrudHandler {
 
     CustomerService customerService;
 
-    public CustomerController(CustomerService personService) {
-        this.customerService = personService;
+    public CustomerController() {
+        this.customerService = new CustomerService();
     }
     @Override
     public void create(@NotNull Context ctx) {
@@ -58,7 +58,7 @@ public class CustomerController implements CrudHandler {
         Customer updatedCustomer = ctx.bodyAsClass(Customer.class);
         if (updatedCustomer == null)
             throw new NullPointerException();
-        updatedCustomer.updateCustomer(id, updatedCustomer);
+        customerService.updateCustomer(id, updatedCustomer);
         ctx.status(200);
     }
 }

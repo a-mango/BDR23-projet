@@ -1,5 +1,6 @@
 package ch.heig.bdr.projet.api;
 
+import ch.heig.bdr.projet.api.customer.CustomerController;
 import ch.heig.bdr.projet.api.customer.CustomerService;
 import ch.heig.bdr.projet.api.person.PersonController;
 import ch.heig.bdr.projet.api.person.PersonService;
@@ -50,10 +51,10 @@ public class Main {
 
         // Register routes
         app.routes(() -> {
-            crud("api/reparation/{id}", new ReparationController(reparationService));
-            crud("api/person/{id}", new PersonController(personService));
-            crud("api/sms/{id}", new SmsController(smsService));
-            crud("api/customer/{id}", new CustomerService(customerService));
+            crud("api/reparation/{id}", new ReparationController());
+            crud("api/person/{id}", new PersonController());
+            crud("api/sms/{id}", new SmsController());
+            crud("api/customer/{id}", new CustomerController());
         });
     }
 }
