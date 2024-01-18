@@ -11,7 +11,7 @@ const SubNavigation = ({ items, setSubPage }) => {
                             href={item.link}
                             onClick={(e) => {
                                 e.preventDefault();
-                                setSubPage(item.text.toLowerCase());
+                                setSubPage(item.link);
                             }}
                         >
                             {item.text}

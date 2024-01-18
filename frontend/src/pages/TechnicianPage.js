@@ -3,7 +3,7 @@ import SubNavigation from "../SubNavigation";
 
 const items = [
     {text: 'Repairs', link: '/repairs'},
-    {text: 'Inventory', link: '/inventory'},
+    {text: 'Repair Form', link: '/repair'},
 ];
 
 const TechnicianPage = () => {

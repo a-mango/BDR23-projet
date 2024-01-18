@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import useCollaborators from '../hooks/useCollaborators';
+import useData from '../hooks/useData';
 import Page from "../components/Page";
 
 const CollaboratorsPage = () => {
-    const {data, fetch, fetchSingle, create, update, remove, error} = useData();
+    const {data, fetch, fetchSingle, create, update, remove, error} = useData("collaborator");
 
     const [isLoading, setIsLoading] = useState(true);
 

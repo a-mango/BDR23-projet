@@ -2,7 +2,10 @@ import React, {useState} from 'react';
 import SubNavigation from "../SubNavigation";
 import CollaboratorsPage from "./CollaboratorsPage";
 
-const items = [{text: 'Collaborators', link: '/collaborators'},];
+const items = [
+    {text: 'Collaborators', link: 'collaborators'},
+    {text: 'Collaborator Form', link: 'collaborator'},
+];
 
 const ManagerPage = () => {
     const [subPage, setSubPage] = useState('');
