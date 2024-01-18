@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import SubNavigation from "../SubNavigation";
-import CollaboratorsSubPage from "./CollaboratorsSubPage";
-import CustomersSubPage from "./CustomersSubPage";
+import CustomersPage from "./CustomersPage";
 
 const items = [
     {text: 'Repairs', link: '/repairs'},
@@ -16,7 +15,7 @@ const ReceptionistPage = () => {
         switch (subPage) {
             case 'customers':
             default:
-                return <CustomersSubPage/>;
+                return <CustomersPage/>;
         }
     }
 

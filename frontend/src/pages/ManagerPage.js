@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import SubNavigation from "../SubNavigation";
-import CollaboratorsSubPage from "./CollaboratorsSubPage";
+import CollaboratorsPage from "./CollaboratorsPage";
 
 const items = [{text: 'Collaborators', link: '/collaborators'},];
 
@@ -11,7 +11,7 @@ const ManagerPage = () => {
         switch (subPage) {
             case 'collaborators':
             default:
-                return <CollaboratorsSubPage/>;
+                return <CollaboratorsPage/>;
         }
     }
 
