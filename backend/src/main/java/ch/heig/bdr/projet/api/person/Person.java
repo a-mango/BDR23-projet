@@ -8,8 +8,8 @@ package ch.heig.bdr.projet.api.person;
  * @author Vitòria Cosmo De Oliviera <maria.cosmodeoliveira@heig-vd.ch>
  */
 public class Person {
-    public int person_id;
-    public String phone_number;
+    public int personId;
+    public String phoneNumber;
     public String name;
     public String comment;
     public Person() {}
@@ -23,8 +23,8 @@ public class Person {
      * @param comment Comments about the person.
      */
     public Person(int id, String phoneNumber, String name, String comment) {
-        this.person_id = id;
-        this.phone_number = phoneNumber;
+        this.personId = id;
+        this.phoneNumber = phoneNumber;
         this.name = name;
         this.comment = comment;
     }

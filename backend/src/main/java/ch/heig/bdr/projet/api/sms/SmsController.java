@@ -13,8 +13,6 @@ public class SmsController implements CrudHandler {
 
     /**
      * Constructor.
-     *
-     * @param smsService The person service to use.
      */
     public SmsController() {
         this.smsService = new SmsService();
@@ -29,11 +27,8 @@ public class SmsController implements CrudHandler {
 
     @Override
     public void delete(@NotNull Context ctx, @NotNull String id) {
-        Sms sms = smsService.getSmsById(id);
-        if (sms == null)
-            throw new NullPointerException();
-
-        ctx.json(sms);
+        smsService.deleteSms(id);
+        ctx.status(204);
     }
 
     @Override
