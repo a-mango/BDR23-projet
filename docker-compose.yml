@@ -30,6 +30,12 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    environment:
+      - POSTGRESQL_HOST=postgresql
+      - POSTGRESQL_USERNAME=bdr
+      - POSTGRESQL_PASSWORD=bdr
+      - POSTGRESQL_DATABASE=bdr
+      - POSTGRESQL_POSTGRES_PASSWORD=root
     ports:
       - "7000:7000"
     depends_on:
