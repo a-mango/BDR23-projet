@@ -47,8 +47,7 @@ public class CustomerService {
     ArrayList<Customer> getCustomers(){
         try {
             Statement statement = conn.createStatement();
-            String query = "SELECT * FROM Customer_info_view";
-            // System.out.println("query: " + query);
+            String query = "SELECT * FROM customer_info_view";
             ResultSet rs = statement.executeQuery(query);
             ArrayList<Customer> Customers = new ArrayList<>();
             while (rs.next()) {
