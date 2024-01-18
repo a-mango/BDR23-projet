@@ -26,3 +26,5 @@ tex-build
 
 out
 .env
+
+.idea
