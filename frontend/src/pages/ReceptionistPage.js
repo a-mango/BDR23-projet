@@ -1,23 +1,23 @@
-import React, {useState} from 'react';
-import SubNavigation from "../SubNavigation";
+import React from 'react';
 import CustomersPage from "./CustomersPage";
 import CustomerPage from "./CustomerPage";
 import RepairPage from "./RepairPage";
 import RepairsPage from "./RepairsPage";
+import SubPage from "../components/SubPage";
 
-const items = [
-    {text: 'Repairs', link: 'repairs'},
-    {text: 'Customers', link: 'customers'},
-    {text: 'Customer Form', link: 'customer'},
-    {text: 'Repair Form', link: 'repair'},
-];
 
-const ReceptionistPage = () => {
-    const [subPage, setSubPage] = useState('');
+class ReceptionistPage extends SubPage {
+    items() {
+        return [
+            {text: 'Repairs', link: 'repairs'},
+            {text: 'Customers', link: 'customers'},
+            {text: 'Customer Form', link: 'customer'},
+            {text: 'Repair Form', link: 'repair'},
+        ];
+    }
 
-    const renderSubPage = () => {
-        console.log("Rendering " + subPage);
-        switch (subPage) {
+    renderSubPage() {
+        switch (this.state.subPage) {
             case 'customer':
                 return <CustomerPage/>;
             case 'customers':
@@ -25,18 +25,11 @@ const ReceptionistPage = () => {
             case 'repairs':
                 return <RepairsPage/>;
             case 'repair':
-                return <RepairPage />;
+                return <RepairPage/>;
             default:
                 return null;
         }
     }
-
-    return (
-        <>
-            <SubNavigation items={items} setSubPage={setSubPage}/>
-            {renderSubPage()}
-        </>
-    );
 }
 
 export default ReceptionistPage;

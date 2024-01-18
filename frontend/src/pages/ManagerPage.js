@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import SubNavigation from "../SubNavigation";
+import SubNavigation from "../components/SubNavigation";
 import CollaboratorsPage from "./CollaboratorsPage";
 
 const items = [

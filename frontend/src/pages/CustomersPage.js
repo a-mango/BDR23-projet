@@ -18,8 +18,7 @@ const CustomersPage = () => {
     }
 
     return (
-        <Page>
-            <h2>Customers</h2>
+        <Page title={'Customers'}>
             {error && <div>Error: {error}</div>}
             {data && data.length > 0 ? (<Table data={data}/>) : (<p>No customers found.</p>)}
         </Page>
