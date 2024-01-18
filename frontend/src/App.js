@@ -5,8 +5,6 @@ import HomePage from './pages/HomePage';
 import ReceptionistPage from "./pages/ReceptionistPage";
 import ManagerPage from "./pages/ManagerPage";
 import TechnicianPage from "./pages/TechnicianPage";
-import CustomerPage from "./pages/CustomerPage";
-import RepairPage from "./pages/RepairPage";
 
 function App() {
     return (
