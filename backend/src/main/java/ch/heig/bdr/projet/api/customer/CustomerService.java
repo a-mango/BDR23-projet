@@ -30,10 +30,10 @@ public class CustomerService {
     Customer getCustomerById(String id){
         try {
             Statement statement = conn.createStatement();
-            String query = "SELECT * FROM Customer_info_view WHERE Customer_id = " + id;
+            String query = "SELECT * FROM customer_info_view WHERE customer_id = " + id;
             ResultSet rs = statement.executeQuery(query);
             if (rs.next()) {
-                Person p = new Person(rs.getInt("Customer_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"));
+                Person p = new Person(rs.getInt("customer_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"));
                 return new Customer(p.person_id, p.phone_number, p.name, p.comment, rs.getString("private_note"), rs.getBoolean("tos_accepted"));
             } else {
                 return null;
@@ -47,13 +47,12 @@ public class CustomerService {
     ArrayList<Customer> getCustomers(){
         try {
             Statement statement = conn.createStatement();
-            String query = "SELECT * FROM Customer_info_view";
-            // System.out.println("query: " + query);
+            String query = "SELECT * FROM customer_info_view";
             ResultSet rs = statement.executeQuery(query);
             ArrayList<Customer> Customers = new ArrayList<>();
             while (rs.next()) {
                 //System.out.println("inside while");
-                Person p = new Person(rs.getInt("Customer_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"));
+                Person p = new Person(rs.getInt("customer_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"));
                 Customers.add(new Customer(p.person_id, p.phone_number, p.name, p.comment, rs.getString("private_note"), rs.getBoolean("tos_accepted")));
             }
             return Customers;
@@ -67,7 +66,7 @@ public class CustomerService {
     void updateCustomer(String id, Customer updatedCustomer){
         try {
             Statement statement = conn.createStatement();
-            String query = "UPDATE Customer SET phone_no = '" + updatedCustomer.phone_number + "', name = '" + updatedCustomer.name + "', comment = '" + updatedCustomer.comment + "', tos_accepted = '" + updatedCustomer.tosAccepted + "', private_note = '" + updatedCustomer.privateNote + "' WHERE customer_id = '" + id + "'  AND '" + updatedCustomer.tosAccepted + " 'IN (TRUE, FALSE)";
+            String query = "UPDATE customer SET phone_no = '" + updatedCustomer.phone_number + "', name = '" + updatedCustomer.name + "', comment = '" + updatedCustomer.comment + "', tos_accepted = '" + updatedCustomer.tosAccepted + "', private_note = '" + updatedCustomer.privateNote + "' WHERE customer_id = '" + id + "'  AND '" + updatedCustomer.tosAccepted + " 'IN (TRUE, FALSE)";
             statement.executeQuery(query);
         } catch (SQLException e){
             System.out.println(e.getMessage());
