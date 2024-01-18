@@ -14,6 +14,7 @@ import java.util.Date;
 public class Sms {
 
     public int id;
+    public int reparationId;
     public Date dateCreated;
     public String message;
     public String sender;
@@ -34,8 +35,9 @@ public class Sms {
      * @param receiver          The phone number of the sms receiver.
      * @param processingState   The sms processing status.
      */
-    Sms(int id, Date dateCreated, String message, String sender, String receiver, ProcessingState processingState){
+    Sms(int id, int reparationId, Date dateCreated, String message, String sender, String receiver, ProcessingState processingState){
         this.id = id;
+        this.reparationId = reparationId;
         this.dateCreated = dateCreated;
         this.message = message;
         this.sender = sender;
