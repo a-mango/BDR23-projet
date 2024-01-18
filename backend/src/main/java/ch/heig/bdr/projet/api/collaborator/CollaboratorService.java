@@ -34,7 +34,7 @@ public class CollaboratorService {
             ResultSet rs = statement.executeQuery(query);
             if (rs.next()) {
                 Person p = new Person(rs.getInt("collaborator_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"));
-                return new Collaborator(p.person_id, p.phone_number, p.name, p.comment, rs.getString("email"));
+                return new Collaborator(p.personId, p.phoneNumber, p.name, p.comment, rs.getString("email"));
             } else {
                 return null;
             }
@@ -53,7 +53,7 @@ public class CollaboratorService {
             while (rs.next()) {
                 //System.out.println("inside while");
                 Person p = new Person(rs.getInt("collaborator_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"));
-                Collaborators.add(new Collaborator(p.person_id, p.phone_number, p.name, p.comment, rs.getString("email")));
+                Collaborators.add(new Collaborator(p.personId, p.phoneNumber, p.name, p.comment, rs.getString("email")));
             }
             return Collaborators;
 
@@ -66,7 +66,7 @@ public class CollaboratorService {
     void updateCollaborator(String id, Collaborator updatedCollaborator){
         try {
             Statement statement = conn.createStatement();
-            String query = "UPDATE collaborator SET phone_no = '" + updatedCollaborator.phone_number + "', name = '" + updatedCollaborator.name + "', comment = '" + updatedCollaborator.comment + "', email = '" + updatedCollaborator.email + "' WHERE customer_id = " + id;
+            String query = "UPDATE collaborator SET phone_no = '" + updatedCollaborator.phoneNumber + "', name = '" + updatedCollaborator.name + "', comment = '" + updatedCollaborator.comment + "', email = '" + updatedCollaborator.email + "' WHERE customer_id = " + id;
             statement.executeQuery(query);
         } catch (SQLException e){
             System.out.println(e.getMessage());
@@ -87,7 +87,7 @@ public class CollaboratorService {
     void createCollaborator(Collaborator collaborator){
         try {
             Statement statement = conn.createStatement();
-            String query = "INSERT INTO person (phone_no, name, comment) VALUES ('" + collaborator.phone_number + "', '" + collaborator.name + "', '" + collaborator.comment + "'); INSERT INTO Customer (phone_no, name, comment) VALUES ('" + collaborator.phone_number + "', '" + collaborator.name + "', '" + collaborator.comment + "')";
+            String query = "INSERT INTO person (phone_no, name, comment) VALUES ('" + collaborator.phoneNumber + "', '" + collaborator.name + "', '" + collaborator.comment + "'); INSERT INTO Customer (phone_no, name, comment) VALUES ('" + collaborator.phoneNumber + "', '" + collaborator.name + "', '" + collaborator.comment + "')";
             statement.executeQuery(query);
 
         } catch (SQLException e){
