@@ -41,11 +41,12 @@ public class Main {
         final CustomerService customerService = new CustomerService();
 
         // Create the Javalin app
-        Javalin app = Javalin.create(config -> config.plugins.enableDevLogging()).start(7000);
+        Javalin app = Javalin.create(config -> {
+            config.enableCorsForAllOrigins();
+            config.plugins.enableDevLogging();
+        }).start(7000);
 
-        // Enable CORS for all requests
         app.before(ctx -> {
-            ctx.header("Access-Control-Allow-Origin", "*");
             ctx.header("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
         });
 
