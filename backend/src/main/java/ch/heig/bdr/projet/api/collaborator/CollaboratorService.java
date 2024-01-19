@@ -1,13 +1,11 @@
 package ch.heig.bdr.projet.api.collaborator;
 
 import ch.heig.bdr.projet.api.PostgresConnection;
+import ch.heig.bdr.projet.api.Utils;
 import ch.heig.bdr.projet.api.customer.Customer;
 import ch.heig.bdr.projet.api.person.Person;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 /**
@@ -28,71 +26,82 @@ public class CollaboratorService {
     }
 
     Collaborator getCollaboratorById(String id){
-        try {
-            Statement statement = conn.createStatement();
-            String query = "SELECT * FROM collab_info_view WHERE collaborator_id = " + id;
-            ResultSet rs = statement.executeQuery(query);
-            if (rs.next()) {
-                Person p = new Person(rs.getInt("collaborator_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"));
-                return new Collaborator(p.personId, p.phoneNumber, p.name, p.comment, rs.getString("email"));
-            } else {
-                return null;
+        String query = "SELECT * FROM collab_info_view WHERE collaborator_id = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(query)){
+            pstmt.setString(1, id);
+            try(ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return newCollaboratorFromResultSet(rs);
+                } else {
+                    return null;
+                }
             }
         } catch (SQLException e){
-            System.out.println(e.getMessage());
+            Utils.logError(e);
             return null;
         }
     }
 
-    ArrayList<Collaborator> getCollaborator(){
-        try {
-            Statement statement = conn.createStatement();
-            String query = "SELECT * FROM collab_info_view";
-            ResultSet rs = statement.executeQuery(query);
-            ArrayList<Collaborator> Collaborators = new ArrayList<>();
-            while (rs.next()) {
-                //System.out.println("inside while");
-                Person p = new Person(rs.getInt("collaborator_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"));
-                Collaborators.add(new Collaborator(p.personId, p.phoneNumber, p.name, p.comment, rs.getString("email")));
+    ArrayList<Collaborator> getCollaborators(){
+        String query = "SELECT * FROM collab_info_view";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)){
+            try(ResultSet rs = pstmt.executeQuery()) {
+                ArrayList<Collaborator> collaborators = new ArrayList<>();
+                while (rs.next()) {
+                    collaborators.add(newCollaboratorFromResultSet(rs));
+                }
+                return collaborators;
             }
-            return Collaborators;
-
         } catch (SQLException e){
-            System.out.println(e.getMessage());
+            Utils.logError(e);
             return null;
         }
     }
 
     void updateCollaborator(String id, Collaborator updatedCollaborator){
-        try {
-            Statement statement = conn.createStatement();
-            String query = "UPDATE collaborator SET phone_no = '" + updatedCollaborator.phoneNumber + "', name = '" + updatedCollaborator.name + "', comment = '" + updatedCollaborator.comment + "', email = '" + updatedCollaborator.email + "' WHERE customer_id = " + id;
-            statement.executeQuery(query);
+        String query = "UPDATE collaborator SET phone_no = ?, name = ?, comment = ?, email = ? WHERE customer_id =?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)){
+            pstmt.setString(1, updatedCollaborator.phoneNumber);
+            pstmt.setString(2, updatedCollaborator.name);
+            pstmt.setString(3, updatedCollaborator.comment);
+            pstmt.setString(4, updatedCollaborator.email);
+            pstmt.setString(5, id);
+
+            pstmt.executeUpdate(query);
         } catch (SQLException e){
-            System.out.println(e.getMessage());
+            Utils.logError(e);
         }
     }
 
     void deleteCollaborator(String id){
-        try {
-            Statement statement = conn.createStatement();
-            String query = "DELETE FROM collaborator WHERE collaborator_id = " + id + "; DELETE FROM person WHERE person_id = " + id;
-            statement.executeQuery(query);
-
+        String query = "DELETE FROM person WHERE person_id =?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)){
+            pstmt.setString(1, id);
+            pstmt.executeUpdate(query);
         } catch (SQLException e){
-            System.out.println(e.getMessage());
+            Utils.logError(e);
         }
     }
 
     void createCollaborator(Collaborator collaborator){
-        try {
-            Statement statement = conn.createStatement();
-            String query = "INSERT INTO person (phone_no, name, comment) VALUES ('" + collaborator.phoneNumber + "', '" + collaborator.name + "', '" + collaborator.comment + "'); INSERT INTO Customer (phone_no, name, comment) VALUES ('" + collaborator.phoneNumber + "', '" + collaborator.name + "', '" + collaborator.comment + "')";
-            statement.executeQuery(query);
+        String query = "CALL projet.InsertCollaborator(?, ?, ?, ?)";
 
+        try (PreparedStatement pstmt = conn.prepareStatement(query)){
+            pstmt.setString(1, collaborator.name);
+            pstmt.setString(2, collaborator.phoneNumber);
+            pstmt.setString(3, collaborator.comment);
+            pstmt.setString(4, collaborator.email);
+
+            pstmt.executeUpdate(query);
         } catch (SQLException e){
-            System.out.println(e.getMessage());
+            Utils.logError(e);
         }
     }
-}
 
+    protected Collaborator newCollaboratorFromResultSet(ResultSet rs) throws SQLException {
+        Person p = new Person(rs.getInt("customer_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"));
+
+        return new Collaborator(p.personId, p.phoneNumber, p.name, p.comment, rs.getString("email"));
+    }
+}
