@@ -42,11 +42,11 @@ public class Main {
 
         // Create the Javalin app
         Javalin app = Javalin.create(config -> {
-            config.enableCorsForAllOrigins();
             config.plugins.enableDevLogging();
         }).start(7000);
 
         app.before(ctx -> {
+            ctx.header("Access-Control-Allow-Origin", "*");
             ctx.header("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
         });
 
