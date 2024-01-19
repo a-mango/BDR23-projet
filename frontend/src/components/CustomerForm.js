@@ -1,25 +1,38 @@
 import { useForm } from 'react-hook-form';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import useData from '../hooks/useData';
+import { useEffect, useState } from 'react';
 
-const CustomerForm = () => {
+const CustomerForm = ({ selectedCustomer }) => {
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
+        setValue,
     } = useForm();
 
     const { create } = useData('customer');
 
+    useEffect(() => {
+        if (selectedCustomer) {
+            setValue('name', selectedCustomer.name);
+            setValue('phoneNumber', selectedCustomer.phoneNumber);
+            setValue('tosAccepted', selectedCustomer.tosAccepted);
+            setValue('comment', selectedCustomer.comment);
+            setValue('privateNote', selectedCustomer.privateNote);
+        }
+    }, [selectedCustomer, setValue]);
+
     const onSubmit = (data) => {
         data.phoneNumber = data.phoneNumber.replace(/\s/g, '');
-        console.log("Create customer", data);
+        console.log('Create customer', data);
         create(data);
     };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
+            {selectedCustomer && selectedCustomer.personId && <h2>Details for customer #{selectedCustomer.personId}</h2>}
             <div>
                 <div>
                     <label>Name</label>
