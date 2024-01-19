@@ -1,5 +1,9 @@
 package ch.heig.bdr.projet.api.brand;
 
+import java.util.ArrayList;
+import io.javalin.http.Context;
+import org.jetbrains.annotations.NotNull;
+
 /**
  * BrandController class
  *
@@ -8,5 +12,21 @@ package ch.heig.bdr.projet.api.brand;
  * @author Vitòria Cosmo De Oliviera <maria.cosmodeoliveira@heig-vd.ch>
  */
 public class BrandController {
+
+    private final BrandService brandService;
+
+    /**
+     * Default constructor.
+     */
+    public BrandController() {
+        this.brandService = new BrandService();
+    }
+
+    public void getAll(@NotNull Context ctx){
+        ArrayList<Brand> brands = brandService.getBrands();
+        if (brands == null)
+            throw new NullPointerException();
+        ctx.json(brands);
+    }
 }
 
