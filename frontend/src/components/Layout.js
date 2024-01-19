@@ -1,5 +1,6 @@
 import React from 'react';
 import Navigation from './Navigation';
+import Footer from "./Footer";
 
 const Layout = ({children}) => {
     return (
@@ -8,9 +9,7 @@ const Layout = ({children}) => {
                 <Navigation/>
                 {children}
             </div>
-            <footer className="w-full bg-gray-200 flex items-center justify-center">
-                <p>(c) 2024</p>
-            </footer>
+            <Footer />
         </div>
     );
 };
