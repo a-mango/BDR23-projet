@@ -12,7 +12,7 @@ const CustomerForm = ({ selectedCustomer }) => {
         setValue,
     } = useForm();
 
-    const { create } = useData('customer');
+    const { create, update } = useData('customer');
 
     useEffect(() => {
         if (selectedCustomer) {
@@ -26,13 +26,19 @@ const CustomerForm = ({ selectedCustomer }) => {
 
     const onSubmit = (data) => {
         data.phoneNumber = data.phoneNumber.replace(/\s/g, '');
-        console.log('Create customer', data);
-        create(data);
+        if (selectedCustomer && selectedCustomer.personId) {
+            console.log('Patching customer', data);
+            update(selectedCustomer.personId, data);
+        } else {
+            console.log('Posting customer', data);
+            create(data);
+        }
     };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            {selectedCustomer && selectedCustomer.personId && <h2>Details for customer #{selectedCustomer.personId}</h2>}
+            {selectedCustomer && selectedCustomer.personId &&
+                <h2>Details for customer #{selectedCustomer.personId}</h2>}
             <div>
                 <div>
                     <label>Name</label>

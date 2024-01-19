@@ -1,7 +1,6 @@
-import {useCallback, useEffect, useState} from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
-import {BASE_URL} from "../config";
-
+import { BASE_URL } from '../config';
 
 const useData = (resource) => {
     axios.defaults.baseURL = BASE_URL;
@@ -11,7 +10,7 @@ const useData = (resource) => {
     const [data, setData] = useState([]);
     const [error, setError] = useState(null);
 
-    const fetch = useCallback(async () => {
+    const getAll = useCallback(async () => {
         try {
             const response = await axios.get(`/${resource}`);
             setData(response.data);
@@ -20,7 +19,7 @@ const useData = (resource) => {
         }
     }, [resource]);
 
-    const fetchSingle = useCallback(async (id) => {
+    const get = useCallback(async (id) => {
         try {
             const response = await axios.get(`/${resource}/${id}`);
             return response.data;
@@ -40,7 +39,7 @@ const useData = (resource) => {
 
     const update = useCallback(async (id, updatedItem) => {
         try {
-            const response = await axios.put(`/${resource}/${id}`, updatedItem);
+            const response = await axios.patch(`/${resource}/${id}`, updatedItem);
             setData(prevData => prevData.map(item => item.id === id ? response.data : item));
         } catch (error) {
             setError(error.message);
@@ -56,7 +55,7 @@ const useData = (resource) => {
         }
     }, [resource]);
 
-    return {data, fetch, fetchSingle, create, update, remove, error};
+    return { data, fetch: getAll, fetchSingle: get, create, update, remove, error };
 };
 
 export default useData;

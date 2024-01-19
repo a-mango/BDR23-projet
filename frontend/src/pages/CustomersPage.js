@@ -5,7 +5,7 @@ import useData from "../hooks/useData";
 import CustomerForm from '../components/CustomerForm';
 
 const CustomersPage = () => {
-    const {data, fetch, fetchSingle, create, update, remove, error} = useData("customer");
+    const {data: customers, fetch, fetchSingle, create, update, remove, error} = useData("customer");
     const [selectedCustomer, setSelectedCustomer] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -15,7 +15,6 @@ const CustomersPage = () => {
     }, [fetch]);
 
     const handleRowClick = (customer) => {
-        console.log('Customer selected', customer);
         setSelectedCustomer(customer);
     };
 
@@ -27,7 +26,7 @@ const CustomersPage = () => {
         <Page title={'Customers'}>
             {selectedCustomer && <CustomerForm selectedCustomer={selectedCustomer} />}
             {error && <div>Error: {error}</div>}
-            {data && data.length > 0 ? (<Table data={data} onRowClick={handleRowClick}/>) : (<p>No customers found.</p>)}
+            {customers && customers.length > 0 ? (<Table data={customers} onRowClick={handleRowClick}/>) : (<p>No customers found.</p>)}
         </Page>
     );
 };

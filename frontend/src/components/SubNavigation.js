@@ -9,10 +9,10 @@ const SubNavigation = ({ items, setSubPage }) => {
                         <a
                             className="text-white hover:underline"
                             href={item.link}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                setSubPage(item.link);
-                            }}
+                            // onClick={(e) => {
+                            //     e.preventDefault();
+                            //     setSubPage?.(item.link);
+                            // }}
                         >
                             {item.text}
                         </a>

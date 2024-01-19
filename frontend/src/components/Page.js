@@ -1,11 +1,14 @@
 import React from 'react';
 
-const Page = ({title, children}) => {
+const Page = ({ title, subNav, children }) => {
     return (
-        <main className="w-10/12 mx-auto py-4">
-            <h1>{title}</h1>
-            {children}
-        </main>
+        <>
+            {subNav && subNav}
+            <main className="w-10/12 mx-auto py-4">
+                <h1>{title}</h1>
+                {children}
+            </main>
+        </>
     );
 };
 
