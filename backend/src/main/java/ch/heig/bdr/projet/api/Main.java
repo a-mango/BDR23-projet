@@ -7,6 +7,7 @@ import ch.heig.bdr.projet.api.customer.CustomerService;
 import ch.heig.bdr.projet.api.language.LanguageController;
 import ch.heig.bdr.projet.api.person.PersonController;
 import ch.heig.bdr.projet.api.person.PersonService;
+import ch.heig.bdr.projet.api.receptionist.ReceptionistController;
 import ch.heig.bdr.projet.api.reparation.ReparationController;
 import ch.heig.bdr.projet.api.reparation.ReparationService;
 import ch.heig.bdr.projet.api.sms.SmsController;
@@ -59,6 +60,7 @@ public class Main {
             crud("api/person/{id}", new PersonController());
             crud("api/sms/{id}", new SmsController());
             crud("api/customer/{id}", new CustomerController());
+            crud("api/receptionist/{id}", new ReceptionistController());
             get("api/reparation/{repairId}/sms", new SmsController()::getAllByRepairId);
             get("api/language", new LanguageController()::getAll);
             get("api/brand", new BrandController()::getAll);
