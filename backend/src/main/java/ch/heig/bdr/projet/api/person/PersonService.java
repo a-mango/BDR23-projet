@@ -25,7 +25,7 @@ public class PersonService {
     Person getPersonById(String id){
         String query = "SELECT * FROM person WHERE person_id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, id);
+            pstmt.setInt(1, Integer.parseInt(id));
             try(ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     return new Person(rs.getInt("person_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"));
@@ -55,12 +55,12 @@ public class PersonService {
     }
 
     void updatePerson(String id, Person updatedPerson){
-        String query = "UPDATE person SET phone_no =?, name =? , comment =? WHERE person_id =?";
+        String query = "UPDATE person SET name =?, phone_no =?, comment =? WHERE person_id =?";
         try(PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, updatedPerson.phoneNumber);
-            pstmt.setString(2, updatedPerson.name);
+            pstmt.setString(1, updatedPerson.name);
+            pstmt.setString(2, updatedPerson.phoneNumber);
             pstmt.setString(3, updatedPerson.comment);
-            pstmt.setString(4, id);
+            pstmt.setInt(4, Integer.parseInt(id));
             pstmt.executeUpdate();
         } catch (SQLException e){
             System.out.println(e.getMessage());
@@ -70,7 +70,7 @@ public class PersonService {
     void deletePerson(String id){
         String query = "DELETE FROM person WHERE person_id =? ";
         try(PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, id);
+            pstmt.setInt(1, Integer.parseInt(id));
             pstmt.executeUpdate();
         } catch (SQLException e){
             System.out.println(e.getMessage());
@@ -78,10 +78,10 @@ public class PersonService {
     }
 
     void createPerson(Person person){
-        String query = "INSERT INTO person (phone_no, name, comment) VALUES (?,?,?)";
+        String query = "INSERT INTO person (name, phone_no, comment) VALUES (?,?,?)";
         try(PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, person.phoneNumber);
-            pstmt.setString(2, person.name);
+            pstmt.setString(1, person.name);
+            pstmt.setString(2, person.phoneNumber);
             pstmt.setString(3, person.comment);
             pstmt.executeUpdate();
         } catch (SQLException e){

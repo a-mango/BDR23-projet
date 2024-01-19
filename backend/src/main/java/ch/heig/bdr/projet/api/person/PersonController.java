@@ -39,7 +39,6 @@ public class PersonController implements CrudHandler {
         Person p = personService.getPersonById(id);
         if (p == null)
             throw new NullPointerException();
-
         ctx.json(p);
     }
 
@@ -49,7 +48,6 @@ public class PersonController implements CrudHandler {
         ArrayList<Person> persons = personService.getPersons();
         if (persons == null)
             throw new NullPointerException();
-
         ctx.json(persons);
     }
 

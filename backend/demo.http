@@ -1,10 +1,34 @@
+### Person GET ALL
+
+GET localhost:7000/api/person
+
+### Person GET BY ID
+
 GET localhost:7000/api/person/1
 
-### POST request
+### Person POST request
+
 POST localhost:7000/api/person
 Content-Type: application/json
 
 {
-    "id": 999,
-    "value": "content"
+  "phoneNumber": "123",
+  "name": "Jeffrey Dayne",
+  "comment": "Test POST"
 }
+
+### Person PUT UPDATE request
+
+PUT localhost:7000/api/person/1
+Content-Type: application/json
+
+{
+  "phoneNumber": "123",
+  "name": "Jeffrey Dayne",
+  "comment": "Test PUT"
+}
+
+### Person DELETE request
+
+DELETE localhost:7000/api/person/72
+
