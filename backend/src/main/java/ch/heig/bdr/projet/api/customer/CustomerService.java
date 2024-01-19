@@ -26,7 +26,7 @@ public class CustomerService {
     }
 
     Customer getCustomerById(String id){
-        String query = "SELECT * FROM customer_info_view WHERE customer_id = ?";
+        String query = "SELECT * FROM customer_info_view WHERE customer_id =?";
         try (PreparedStatement pstmt = conn.prepareStatement(query)){
             pstmt.setString(1, id);
             try(ResultSet rs = pstmt.executeQuery()) {
@@ -44,14 +44,13 @@ public class CustomerService {
 
     ArrayList<Customer> getCustomers(){
         String query = "SELECT * FROM customer_info_view";
-        try(PreparedStatement pstmt = conn.prepareStatement(query)) {
-            try(ResultSet rs = pstmt.executeQuery(query)) {
+        try(Statement pstmt = conn.createStatement(); ResultSet rs = pstmt.executeQuery(query)){
                 ArrayList<Customer> customers = new ArrayList<>();
                 while (rs.next()) {
                     customers.add(newCustomerFromResultSet(rs));
                 }
                 return customers;
-            }
+
         } catch (SQLException e){
             Utils.logError(e);
             return null;
@@ -67,7 +66,7 @@ public class CustomerService {
             pstmt.setString(3, updatedCustomer.comment);
             pstmt.setBoolean(4, updatedCustomer.tosAccepted);
             pstmt.setString(4, updatedCustomer.privateNote);
-            pstmt.setString(6, id);
+            pstmt.setInt(6, Integer.parseInt(id));
             pstmt.setBoolean(7, updatedCustomer.tosAccepted);
 
             pstmt.executeUpdate();
@@ -79,7 +78,7 @@ public class CustomerService {
     void deleteCustomer(String id){
         String query = "DELETE FROM person WHERE person_id =?";
         try (PreparedStatement pstmt = conn.prepareStatement(query)){
-            pstmt.setString(1, id);
+            pstmt.setInt(1, Integer.parseInt(id));
             pstmt.executeUpdate();
         } catch (SQLException e){
             Utils.logError(e);
@@ -103,9 +102,8 @@ public class CustomerService {
     }
 
     protected Customer newCustomerFromResultSet(ResultSet rs) throws SQLException {
-        Person p = new Person(rs.getInt("customer_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"));
 
-        return new Customer(p.personId, p.phoneNumber, p.name, p.comment, rs.getString("private_note"), rs.getBoolean("tos_accepted"));
+        return new Customer(rs.getInt("customer_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"), rs.getString("private_note"), rs.getBoolean("tos_accepted"));
     }
 }
 
