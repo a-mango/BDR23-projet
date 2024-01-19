@@ -2,7 +2,7 @@ package ch.heig.bdr.projet.api.customer;
 
 import ch.heig.bdr.projet.api.PostgresConnection;
 import ch.heig.bdr.projet.api.person.Person;
-import ch.heig.bdr.projet.api.utils.utils;
+import ch.heig.bdr.projet.api.Utils;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class CustomerService {
                 }
             }
         } catch (SQLException e){
-            utils.logError(e);
+            Utils.logError(e);
             return null;
         }
     }
@@ -53,7 +53,7 @@ public class CustomerService {
                 return customers;
             }
         } catch (SQLException e){
-            utils.logError(e);
+            Utils.logError(e);
             return null;
         }
     }
@@ -68,11 +68,11 @@ public class CustomerService {
             pstmt.setBoolean(4, updatedCustomer.tosAccepted);
             pstmt.setString(4, updatedCustomer.privateNote);
             pstmt.setString(6, id);
-            pstmt.setString(7, updatedCustomer.tosAccepted ? "TRUE" : "FALSE");
+            pstmt.setBoolean(7, updatedCustomer.tosAccepted);
 
             pstmt.executeUpdate();
         } catch (SQLException e){
-            utils.logError(e);
+            Utils.logError(e);
         }
     }
 
@@ -82,7 +82,7 @@ public class CustomerService {
             pstmt.setString(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e){
-            utils.logError(e);
+            Utils.logError(e);
         }
     }
 
@@ -98,7 +98,7 @@ public class CustomerService {
 
             pstmt.executeUpdate();
         } catch (SQLException e){
-            utils.logError(e);
+            Utils.logError(e);
         }
     }
 
