@@ -18,8 +18,10 @@ import ch.heig.bdr.projet.api.sms.SmsService;
 import ch.heig.bdr.projet.api.specialization.SpecializationController;
 import ch.heig.bdr.projet.api.technician.TechnicianController;
 import io.javalin.Javalin;
+import io.javalin.plugin.bundled.CorsPluginConfig;
 
-import static io.javalin.apibuilder.ApiBuilder.*;
+import static io.javalin.apibuilder.ApiBuilder.crud;
+import static io.javalin.apibuilder.ApiBuilder.get;
 
 /**
  * Main class for the Javalin server.
@@ -43,11 +45,13 @@ public class Main {
         // Create the Javalin app
         Javalin app = Javalin.create(config -> {
             config.plugins.enableDevLogging();
+            config.plugins.enableCors(cors -> cors.add(CorsPluginConfig::anyHost));
         }).start(7000);
 
         app.before(ctx -> {
             ctx.header("Access-Control-Allow-Origin", "*");
             ctx.header("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
+            ctx.header("Access-Control-Allow-Headers", "content-type");
         });
 
         // Register 404
