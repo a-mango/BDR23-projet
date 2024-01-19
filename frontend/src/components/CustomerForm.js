@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import useData from '../hooks/useData';
 
 const CustomerForm = () => {
     const {
@@ -9,7 +10,13 @@ const CustomerForm = () => {
         formState: { errors },
     } = useForm();
 
-    const onSubmit = (data) => console.log(data);
+    const { create } = useData('customer');
+
+    const onSubmit = (data) => {
+        data.phoneNumber = data.phoneNumber.replace(/\s/g, '');
+        console.log("Create customer", data);
+        create(data);
+    };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -22,12 +29,12 @@ const CustomerForm = () => {
 
                 <div>
                     <label>Phone</label>
-                    <input {...register('phone', { required: true })} />
+                    <input {...register('phoneNumber', { required: true })} />
                     {errors.phone && <span>This field is required</span>}
                 </div>
                 <div className="form-tos">
                     <label>TOS Accepted</label>
-                    <input type="checkbox" {...register('tosAccepted')} />
+                    <input type="checkbox" {...register('tosAccepted', { required: true })} />
                 </div>
             </div>
 
@@ -42,8 +49,8 @@ const CustomerForm = () => {
                 </div>
             </div>
             <div className="form-controls">
-                <button type="submit">Submit<CheckIcon className="h-5 w-5"/></button>
-                <button type="reset">Reset<XMarkIcon className="h-5 w-5"/></button>
+                <button type="submit">Submit<CheckIcon className="h-5 w-5" /></button>
+                <button type="reset">Reset<XMarkIcon className="h-5 w-5" /></button>
             </div>
         </form>
     );
