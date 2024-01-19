@@ -1,6 +1,7 @@
 package ch.heig.bdr.projet.api;
 
 import ch.heig.bdr.projet.api.brand.BrandController;
+import ch.heig.bdr.projet.api.category.CategoryController;
 import ch.heig.bdr.projet.api.customer.CustomerController;
 import ch.heig.bdr.projet.api.customer.CustomerService;
 import ch.heig.bdr.projet.api.language.LanguageController;
@@ -60,6 +61,7 @@ public class Main {
             get("api/reparation/{repairId}/sms", new SmsController()::getAllByRepairId);
             get("api/language", new LanguageController()::getAll);
             get("api/brand", new BrandController()::getAll);
+            get("api/category", new CategoryController()::getAll);
         });
     }
 }
