@@ -1,27 +1,50 @@
-import {useForm} from "react-hook-form"
+import { useForm } from 'react-hook-form';
 
 const CustomerForm = () => {
     const {
         register,
         handleSubmit,
         watch,
-        formState: {errors},
-    } = useForm()
+        formState: { errors },
+    } = useForm();
 
-    const onSubmit = (data) => console.log(data)
-
-    console.log(watch("example")) // watch input value by passing the name of it
+    const onSubmit = (data) => console.log(data);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <input defaultValue="test" {...register("example")} />
+            <div>
+                <div>
+                    <label>Name</label>
+                    <input {...register('name', { required: true })} />
+                    {errors.name && <span>This field is required</span>}
+                </div>
 
-            <input {...register("exampleRequired", {required: true})} />
-            {errors.exampleRequired && <span>This field is required</span>}
+                <div>
+                    <label>Phone</label>
+                    <input {...register('phone', { required: true })} />
+                    {errors.phone && <span>This field is required</span>}
+                </div>
 
-            <input type="submit"/>
+                <div>
+                    <label>TOS Accepted</label>
+                    <input type="checkbox" {...register('tosAccepted')} />
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <label>Comment</label>
+                    <textarea {...register('comment')} />
+                </div>
+
+                <div>
+                    <label>Private Note</label>
+                    <textarea {...register('privateNote')} />
+                </div>
+            </div>
+            <button type="submit">Submit</button>
         </form>
-    )
-}
+    );
+};
 
 export default CustomerForm;
