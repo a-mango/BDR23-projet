@@ -19,6 +19,10 @@ h3 {
     @apply text-xl py-2;
 }
 
+button {
+    @apply m-1 px-4 py-2 border shadow text-sm w-min hover:brightness-90 hover:shadow-md;
+}
+
 form {
     @apply grid grid-cols-2 gap-4 bg-white text-gray-600 shadow;
 
@@ -33,8 +37,20 @@ form {
     input, textarea {
         @apply inline-block mt-1 w-full border border-gray-300 shadow-sm;
     }
-}
 
-button {
-    @apply mt-4 px-4 py-2 border shadow text-sm bg-apache bg-blue-500;
+    div:has(input[type="checkbox"]) {
+        @apply inline-block mt-1 border-gray-300;
+    }
+
+    .form-controls {
+        @apply flex flex-row justify-center col-span-2;
+    }
+
+    [type="submit"] {
+        @apply bg-apache;
+    }
+
+    [type="reset"] {
+        @apply bg-gray-300;
+    }
 }

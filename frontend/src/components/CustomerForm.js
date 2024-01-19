@@ -24,7 +24,6 @@ const CustomerForm = () => {
                     <input {...register('phone', { required: true })} />
                     {errors.phone && <span>This field is required</span>}
                 </div>
-
                 <div>
                     <label>TOS Accepted</label>
                     <input type="checkbox" {...register('tosAccepted')} />
@@ -36,13 +35,15 @@ const CustomerForm = () => {
                     <label>Comment</label>
                     <textarea {...register('comment')} />
                 </div>
-
                 <div>
                     <label>Private Note</label>
                     <textarea {...register('privateNote')} />
                 </div>
             </div>
-            <button type="submit">Submit</button>
+            <div className="form-controls">
+                <button type="submit">Submit</button>
+                <button type="reset">Reset</button>
+            </div>
         </form>
     );
 };
