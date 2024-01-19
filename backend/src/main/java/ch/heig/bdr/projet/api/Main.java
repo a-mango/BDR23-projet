@@ -55,6 +55,7 @@ public class Main {
             crud("api/person/{id}", new PersonController());
             crud("api/sms/{id}", new SmsController());
             crud("api/customer/{id}", new CustomerController());
+            get("api/repair/{repairId}/sms", new SmsController()::getAllByRepairId);
         });
     }
 }

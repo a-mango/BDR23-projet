@@ -19,10 +19,10 @@ public class SmsController implements CrudHandler {
     }
 
     @Override
-    public void create(@NotNull Context context) {
-        Sms sms = context.bodyAsClass(Sms.class);
+    public void create(@NotNull Context ctx) {
+        Sms sms = ctx.bodyAsClass(Sms.class);
         smsService.createSms(sms);
-        context.status(201);
+        ctx.status(201);
     }
 
     @Override
@@ -44,7 +44,6 @@ public class SmsController implements CrudHandler {
         Sms sms = smsService.getSmsById(id);
         if (sms == null)
             throw new NullPointerException();
-
         ctx.json(sms);
     }
 
@@ -55,5 +54,13 @@ public class SmsController implements CrudHandler {
             throw new NullPointerException();
         smsService.updateSms(id, updatedSms);
         ctx.status(200);
+    }
+
+    public void getAllByRepairId(@NotNull Context ctx) {
+        String repairId = ctx.pathParam("repairId");
+        ArrayList<Sms> sms = smsService.getSmsForRepairId(repairId);
+        if (sms == null)
+            throw new NullPointerException();
+        ctx.json(sms);
     }
 }

@@ -2,12 +2,8 @@ package ch.heig.bdr.projet.api.sms;
 
 import ch.heig.bdr.projet.api.PostgresConnection;
 import ch.heig.bdr.projet.api.ProcessingState;
-import ch.heig.bdr.projet.api.person.Person;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class SmsService {
@@ -18,15 +14,24 @@ public class SmsService {
         connection = PostgresConnection.getInstance().getConnection();
     }
 
+    /**
+     * Get all the sms for the reparation with the given id.
+     * @param id
+     * @return all the sms for the reparation with the given id.
+     */
     Sms getSmsById(String id) {
-        try {
-            Statement statement = connection.createStatement();
-            String query = "SELECT * FROM sms WHERE sms_id = " + id;
-            ResultSet rs = statement.executeQuery(query);
-            if (rs.next()) {
-                return new Sms(rs.getInt("sms_id"), rs.getInt("reparation_id"), rs.getDate("date_created"), rs.getString("message"), rs.getString("sender"), rs.getString("receiver"), (ProcessingState) rs.getObject("processing_state"));
-            } else {
-                return null;
+        String query = "SELECT * FROM sms WHERE sms_id =? ";
+        try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setInt(1, Integer.parseInt(id));
+            try(ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Sms(rs.getInt("sms_id"), rs.getInt("reparation_id"),
+                            rs.getDate("date_created"), rs.getString("message"),
+                            rs.getString("sender"), rs.getString("receiver"),
+                            ProcessingState.valueOf(rs.getString("processing_state")));
+                } else {
+                    return null;
+                }
             }
         } catch (SQLException e){
             System.out.println(e.getMessage());
@@ -35,13 +40,15 @@ public class SmsService {
     }
 
     ArrayList<Sms> getSms() {
-        try {
-            Statement statement = connection.createStatement();
-            String query = "SELECT * FROM sms";
-            ResultSet rs = statement.executeQuery(query);
+        String query = "SELECT * FROM sms";
+        try(Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query)) {
             ArrayList<Sms> sms = new ArrayList<>();
             while (rs.next()) {
-                sms.add(new Sms(rs.getInt("sms_id"), rs.getInt("reparation_id"), rs.getDate("date_created"), rs.getString("message"), rs.getString("sender"), rs.getString("receiver"), (ProcessingState) rs.getObject("processing_state")));
+                sms.add(new Sms(rs.getInt("sms_id"), rs.getInt("reparation_id"),
+                        rs.getDate("date_created"), rs.getString("message"),
+                        rs.getString("sender"), rs.getString("receiver"),
+                        ProcessingState.valueOf(rs.getString("processing_state"))));
             }
             return sms;
         } catch (SQLException e){
@@ -51,35 +58,61 @@ public class SmsService {
     }
 
     void createSms(Sms sms) {
-
-        try {
-            Statement statement = connection.createStatement();
-            // String query = "INSERT INTO sms (phone_no, name, comment) VALUES ('" + person.phone_number + "', '" + person.name + "', '" + person.comment + "')";
-            // statement.executeQuery(query);
-
+        String query = "INSERT INTO sms (reparation_id, message, sender, receiver, processing_state) VALUES (?, ?, ?, ?, CAST(? AS processing_state))";
+        try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setInt(1, sms.reparationId);
+            pstmt.setString(2, sms.message);
+            pstmt.setString(3, sms.sender);
+            pstmt.setString(4, sms.receiver);
+            pstmt.setString(5, sms.processingState.toString());
+            pstmt.executeUpdate();
         } catch (SQLException e){
             System.out.println(e.getMessage());
         }
     }
 
     void updateSms(String id, Sms sms) {
-        try {
-            Statement statement = connection.createStatement();
-            //String query = "UPDATE person SET phone_no = '" + updatedPerson.phone_number + "', name = '" + updatedPerson.name + "', comment = '" + updatedPerson.comment + "' WHERE person_id = " + id;
-            //statement.executeQuery(query);
+          String query = "UPDATE sms SET reparation_id = ?, message = ?, sender = ?, receiver = ?, processing_state = ? WHERE sms_id = ?";
+          try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+                pstmt.setInt(1, sms.reparationId);
+                pstmt.setString(2, sms.message);
+                pstmt.setString(3, sms.sender);
+                pstmt.setString(4, sms.receiver);
+                pstmt.setString(5, sms.processingState.toString());
+                pstmt.setString(6, id);
+                pstmt.executeUpdate();
+          } catch (SQLException e){
+                System.out.println(e.getMessage());
+          }
+    }
+
+    void deleteSms(String id) {
+        String query = "DELETE FROM sms WHERE sms_id = ?";
+        try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, id);
+            pstmt.executeUpdate();
         } catch (SQLException e){
             System.out.println(e.getMessage());
         }
     }
 
-    void deleteSms(String id) {
-        try {
-            Statement statement = connection.createStatement();
-            String query = "DELETE FROM sms WHERE sms_id = " + id;
-            statement.executeQuery(query);
+    ArrayList<Sms> getSmsForRepairId(String id) {
+        String query = "SELECT * FROM sms WHERE reparation_id =? ";
+        ArrayList<Sms> sms = new ArrayList<>();
+        try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setInt(1, Integer.parseInt(id));
+            try(ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    sms.add(new Sms(rs.getInt("sms_id"), rs.getInt("reparation_id"),
+                            rs.getDate("date_created"), rs.getString("message"),
+                            rs.getString("sender"), rs.getString("receiver"),
+                            ProcessingState.valueOf(rs.getString("processing_state"))));
+                }
+            }
         } catch (SQLException e){
             System.out.println(e.getMessage());
+            return null;
         }
-
+        return sms;
     }
 }
