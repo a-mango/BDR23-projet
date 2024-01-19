@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form';
+import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 
 const CustomerForm = () => {
     const {
@@ -24,7 +25,7 @@ const CustomerForm = () => {
                     <input {...register('phone', { required: true })} />
                     {errors.phone && <span>This field is required</span>}
                 </div>
-                <div>
+                <div className="form-tos">
                     <label>TOS Accepted</label>
                     <input type="checkbox" {...register('tosAccepted')} />
                 </div>
@@ -41,8 +42,8 @@ const CustomerForm = () => {
                 </div>
             </div>
             <div className="form-controls">
-                <button type="submit">Submit</button>
-                <button type="reset">Reset</button>
+                <button type="submit">Submit<CheckIcon className="h-5 w-5"/></button>
+                <button type="reset">Reset<XMarkIcon className="h-5 w-5"/></button>
             </div>
         </form>
     );

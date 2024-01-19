@@ -8,19 +8,23 @@ body {
 }
 
 h1 {
-    @apply text-4xl py-4;
+    @apply text-4xl p-2 py-4;
 }
 
 h2 {
-    @apply text-3xl py-2;
+    @apply text-3xl p-2 py-4;
 }
 
 h3 {
-    @apply text-xl py-2;
+    @apply text-xl p-2 py-2;
 }
 
 button {
-    @apply m-1 px-4 py-2 border shadow text-sm w-min hover:brightness-90 hover:shadow-md;
+    @apply flex items-center m-1 px-4 py-2 border shadow text-sm w-min hover:brightness-90 hover:shadow-md;
+
+    svg {
+        @apply ml-3;
+    }
 }
 
 form {
@@ -31,15 +35,19 @@ form {
     }
 
     label {
-        @apply inline-block text-sm font-medium text-gray-700 mr-2;
+        @apply inline-block text-lg text-gray-700 mr-2 underline decoration-apache decoration-4 ;
     }
 
     input, textarea {
         @apply inline-block mt-1 w-full border border-gray-300 shadow-sm;
     }
 
-    div:has(input[type="checkbox"]) {
-        @apply inline-block mt-1 border-gray-300;
+    div.form-tos {
+        @apply flex flex-row mt-1 border-gray-300 justify-center items-center;
+
+        input {
+            @apply inline-block mt-0;
+        }
     }
 
     .form-controls {
@@ -53,4 +61,12 @@ form {
     [type="reset"] {
         @apply bg-gray-300;
     }
+}
+
+input:focus, textarea:focus {
+    @apply border-4 border-apache outline-none;
+}
+
+input[type="checkbox"]:checked {
+    @apply text-apache;
 }
