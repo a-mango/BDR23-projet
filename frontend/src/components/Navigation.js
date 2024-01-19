@@ -11,7 +11,7 @@ const Link = ({text, link}) => {
 
 const Navigation = () => {
     return (
-        <nav className="py-4 border-b border-amber-500 text-xl">
+        <nav className="w-full mx-auto bg-atomic-tangerine py-4 border-amber-500 text-xl">
             <ul className="flex space-x-10 px-10">
                 <WrenchIcon className="h-8 w-8 text-gray-800 hover:text-black"/>
                 <Link text="Dashboard" link="/dashboard"/>

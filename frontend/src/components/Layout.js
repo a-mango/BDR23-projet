@@ -3,11 +3,9 @@ import Navigation from './Navigation';
 
 const Layout = ({children}) => {
     return (
-        <div className="flex flex-col min-h-screen justify-between bg-gradient-to-b from-gray-300 to-gray-400">
+        <div className="flex flex-col min-h-screen justify-between bg-acoustic-white">
             <div>
-                <header className="w-full mx-auto bg-gradient-to-r from-amber-600 to-amber-800 font-bold">
-                    <Navigation/>
-                </header>
+                <Navigation/>
                 {children}
             </div>
             <footer className="w-full bg-gray-200 flex items-center justify-center">
