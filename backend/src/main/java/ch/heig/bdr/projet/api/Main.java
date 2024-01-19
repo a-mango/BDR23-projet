@@ -11,6 +11,7 @@ import ch.heig.bdr.projet.api.reparation.ReparationController;
 import ch.heig.bdr.projet.api.reparation.ReparationService;
 import ch.heig.bdr.projet.api.sms.SmsController;
 import ch.heig.bdr.projet.api.sms.SmsService;
+import ch.heig.bdr.projet.api.specialization.SpecializationController;
 import io.javalin.Javalin;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
@@ -62,6 +63,7 @@ public class Main {
             get("api/language", new LanguageController()::getAll);
             get("api/brand", new BrandController()::getAll);
             get("api/category", new CategoryController()::getAll);
+            get("api/specialization", new SpecializationController()::getAll);
         });
     }
 }
