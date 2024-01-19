@@ -9,5 +9,8 @@ package ch.heig.bdr.projet.api;
  */
 public enum Location {
 
-    IN_STOCK, FOR_SALE, RETURNED, SOLD;
+    in_stock,
+    for_sale,
+    returned,
+    sold;
 }

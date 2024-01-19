@@ -72,7 +72,7 @@ public class SmsService {
     }
 
     void updateSms(String id, Sms sms) {
-          String query = "UPDATE sms SET reparation_id = ?, message = ?, sender = ?, receiver = ?, processing_state = ? WHERE sms_id = ?";
+          String query = "UPDATE sms SET reparation_id = ?, message = ?, sender = ?, receiver = ?, processing_state = CAST(? AS processing_state) WHERE sms_id = ?";
           try(PreparedStatement pstmt = connection.prepareStatement(query)) {
                 pstmt.setInt(1, sms.reparationId);
                 pstmt.setString(2, sms.message);

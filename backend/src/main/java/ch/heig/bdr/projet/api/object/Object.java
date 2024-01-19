@@ -1,7 +1,6 @@
 package ch.heig.bdr.projet.api.object;
 import ch.heig.bdr.projet.api.brand.*;
 import ch.heig.bdr.projet.api.category.*;
-import ch.heig.bdr.projet.api.customer.*;
 import ch.heig.bdr.projet.api.Location;
 
 import java.util.Date;
@@ -15,15 +14,16 @@ import java.util.Date;
  */
 public class Object {
 
-    public int id;
+    public int objectId;
+    public int customerId;
+
     public String name;
-    public String faultDescription;
+    public String faultDesc;
     public String remark;
-    public int serialNo;
+    public String serialNo;
     public Location location;
     public Brand brand;
     public Category category;
-    public Customer customer;
 
     /**
      * Object default constructor.
@@ -42,16 +42,16 @@ public class Object {
      * @param brand            The object brand.
      * @param category         The object category.
      */
-    public Object(int id, String name, String faultDescription, String remark, int serialNo, Location location, Brand brand, Category category, Customer customer) {
-        this.id = id;
+    public Object(int id, String name, String faultDescription, String remark, String serialNo, Location location, Brand brand, Category category, int customerId) {
+        this.objectId = id;
         this.name = name;
-        this.faultDescription = faultDescription;
+        this.faultDesc = faultDescription;
         this.remark = remark;
         this.serialNo = serialNo;
         this.location = location;
         this.brand = brand;
         this.category = category;
-        this.customer = customer;
+        this.customerId = customerId;
     }
 
     /**
