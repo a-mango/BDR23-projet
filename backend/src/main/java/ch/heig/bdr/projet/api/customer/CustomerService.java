@@ -28,7 +28,7 @@ public class CustomerService {
     Customer getCustomerById(String id){
         String query = "SELECT * FROM customer_info_view WHERE customer_id =?";
         try (PreparedStatement pstmt = conn.prepareStatement(query)){
-            pstmt.setString(1, id);
+            pstmt.setInt(1, Integer.parseInt(id));
             try(ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     return newCustomerFromResultSet(rs);
