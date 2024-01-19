@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+    .decorated {
+        @apply underline decoration-apache decoration-4;
+    }
+}
+
 body {
     font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -28,14 +34,18 @@ button {
 }
 
 form {
-    @apply grid grid-cols-2 gap-4 bg-white text-gray-600 shadow;
+    @apply grid grid-cols-2 gap-x-4 bg-white text-gray-600 shadow;
+
+    h2 {
+        @apply col-span-2 p-4 my-0 decorated;
+    }
 
     div {
         @apply flex flex-col p-2;
     }
 
     label {
-        @apply inline-block text-lg text-gray-700 mr-2 underline decoration-apache decoration-4 ;
+        @apply inline-block text-lg text-gray-700 mr-2 decorated;
     }
 
     input, textarea {
