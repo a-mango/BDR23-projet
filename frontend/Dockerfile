@@ -2,10 +2,9 @@
 FROM node:18-alpine as builder
 WORKDIR /app
 COPY package*.json .
-COPY yarn*.lock .
-RUN yarn install
+RUN npm install
 COPY . .
-RUN yarn build
+RUN npm run build
 
 # Deploy stage
 FROM node:18-alpine
