@@ -23,7 +23,7 @@ const CustomersPage = () => {
     }
 
     return (
-        <Page title={'Customers'}>
+        <Page title="Customers">
             {selectedCustomer && <CustomerForm selectedCustomer={selectedCustomer} />}
             {error && <div>Error: {error}</div>}
             {customers && customers.length > 0 ? (<Table data={customers} onRowClick={handleRowClick}/>) : (<p>No customers found.</p>)}

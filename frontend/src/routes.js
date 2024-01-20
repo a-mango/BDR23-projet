@@ -1,39 +1,33 @@
-import HomePage from './pages/HomePage';
-import ReceptionistPage from './pages/ReceptionistPage';
-import ManagerPage from './pages/ManagerPage';
-import CollaboratorsPage from './pages/CollaboratorsPage';
-import TechnicianPage from './pages/TechnicianPage';
-
 export const BASE_URL = 'http://localhost:7000/api';
-export const HOME = '/';
-export const DASHBOARD = '/dashboard';
-export const RECEPTIONIST = '/receptionist';
-export const MANAGER = '/manager';
-export const COLLABORATORS = '/manager/collaborators';
-export const TECHNICIAN = '/technician';
+export const HOME = '';
+export const DASHBOARD = 'dashboard';
+export const RECEPTIONIST = 'receptionist';
+export const CUSTOMERS = 'customers';
+export const MANAGER = 'manager';
+export const COLLABORATORS = 'collaborators';
+export const TECHNICIAN = 'technician';
+export const REPAIRS = 'repairs';
 
 
-const routesMap = [
-    { name: 'Home', path: HOME, element: <HomePage /> },
-    { name: 'Dashboard', path: DASHBOARD, element: <HomePage /> },
-    { name: 'Receptionist', path: RECEPTIONIST, element: <ReceptionistPage /> },
+export const routes = [
+    { name: 'Home', path: HOME },
     {
-        name: 'Manager', path: MANAGER, element: <ManagerPage />, children: [
-            { name: 'Collaborators', path: COLLABORATORS, element: <CollaboratorsPage /> },
+        name: 'Receptionist', path: RECEPTIONIST, children: [
+            { name: 'Customers', path: CUSTOMERS },
+            { name: 'Repairs', path: CUSTOMERS },
         ],
     },
-    { name: 'Technician', path: TECHNICIAN, element: <TechnicianPage /> },
+    {
+        name: 'Manager', path: MANAGER, children: [
+            { name: 'Dashboard', path: DASHBOARD },
+            { name: 'Customers', path: CUSTOMERS },
+            { name: 'Repairs', path: CUSTOMERS },
+            { name: 'Collaborators', path: COLLABORATORS },
+        ],
+    },
+    {
+        name: 'Technician', path: TECHNICIAN, children: [
+            { name: 'Repairs', path: COLLABORATORS },
+        ],
+    },
 ];
-
-export const routes = routesMap.map((route) => {
-    return {
-        path: route.path,
-        element: route.element,
-        children: route.children ? route.children.map((child) => {
-            return {
-                path: child.path,
-                element: child.element,
-            };
-        }) : null,
-    };
-});

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useData from '../hooks/useData';
 import SubNavigation from '../components/SubNavigation';
 import Page from '../components/Page';
+import { routes } from '../routes';
 
 const CollaboratorsPage = () => {
     const {data, fetch, fetchSingle, create, update, remove, error} = useData("collaborator");
@@ -16,13 +17,8 @@ const CollaboratorsPage = () => {
         return <div>Loading...</div>;
     }
 
-    const items = [
-        { text: 'Collaborators', link: '/manager/collaborators' },
-    ];
-
     return (
-        <Page subNav={<SubNavigation items={items} />}>
-
+        <>
             <h2>Collaborators</h2>
             {error && <div>Error: {error}</div>}
             {data && data.length > 0 ? (
@@ -35,7 +31,7 @@ const CollaboratorsPage = () => {
             ) : (
                 <p>No collaborators found.</p>
             )}
-        </Page>
+        </>
     );
 };
 
