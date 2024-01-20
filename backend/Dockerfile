@@ -12,13 +12,15 @@ ENV POSTGRESQL_PASSWORD ${POSTGRESQL_PASSWORD}
 ENV POSTGRESQL_DATABASE ${POSTGRESQL_DATABASE}
 ENV POSTGRESQL_POSTGRES_PASSWORD ${POSTGRESQL_POSTGRES_PASSWORD}
 
-#Name the image as backend
 LABEL Name=backend Version=0.0.1
 WORKDIR /app
 COPY . /app
+COPY wait-for.sh /wait-for.sh
 
+RUN chmod +x /wait-for.sh
+RUN apt-get update && apt-get install -y postgresql-client
 RUN mvn clean install
 
 EXPOSE 7000
 
-ENTRYPOINT java -jar target/*-SNAPSHOT-jar-with-dependencies.jar
+CMD ["/wait-for.sh", "postgresql", "java", "-jar", "target/*-SNAPSHOT-jar-with-dependencies.jar"]

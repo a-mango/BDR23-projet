@@ -8,9 +8,9 @@ COPY . .
 RUN yarn build
 
 # Deploy stage
-FROM nginx:1.19.0
+FROM node:18-alpine
 LABEL Name=frontend Version=0.0.1
-WORKDIR /usr/share/nginx/html
-RUN rm -rf ./*
+WORKDIR /app
 COPY --from=builder /app/build .
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+EXPOSE 80
+CMD ["npx", "serve", "-s", ".", "-l", "80"]

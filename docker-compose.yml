@@ -19,13 +19,6 @@ services:
     volumes:
       - .:/data:ro
 
-  web:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - "80:80"
-
   api:
     build:
       context: ./backend
@@ -40,3 +33,12 @@ services:
       - "7000:7000"
     depends_on:
       - postgresql
+
+  web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - api
