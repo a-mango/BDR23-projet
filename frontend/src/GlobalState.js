@@ -1,6 +1,17 @@
 import React, { createContext, useEffect, useReducer } from 'react';
 import axios from 'axios';
 import { BASE_URL } from './config';
+import * as actionTypes from './actionTypes';
+import {
+    fetchCustomers,
+    addCustomer,
+    updateCustomer,
+    removeCustomer,
+    fetchCollaborators,
+    addCollaborator,
+    updateCollaborator,
+    removeCollaborator,
+} from './actions';
 
 const initialState = { customers: [], alert: { type: '', message: '' } };
 const GlobalStateContext = createContext(initialState);
@@ -10,64 +21,38 @@ axios.defaults.baseURL = BASE_URL;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 axios.defaults.headers.common['Accept'] = 'application/json';
 
-const fetchCustomers = async (dispatch) => {
-    try {
-        const response = await axios.get('/customer');
-        dispatch({ type: 'SET_CUSTOMERS', payload: response.data });
-    } catch (error) {
-        dispatch({ type: 'SET_ALERT', payload: { type: 'error', message: error.message } });
-    }
-};
-
-const addCustomer = async (dispatch, customer) => {
-    try {
-        const response = await axios.post('/customer', customer);
-        dispatch({ type: 'ADD_CUSTOMER', payload: response.data });
-        dispatch({ type: 'SET_ALERT', payload: { type: 'success', message: 'Customer added successfully' } });
-    } catch (error) {
-        dispatch({ type: 'SET_ALERT', payload: { type: 'error', message: error.message || 'An error occurred while adding the customer' } });
-    }
-};
-
-const updateCustomer = async (dispatch, customer) => {
-    try {
-        const response = await axios.patch(`/customer/${customer.id}`, customer);
-        dispatch({ type: 'UPDATE_CUSTOMER', payload: response.data });
-        dispatch({ type: 'SET_ALERT', payload: { type: 'success', message: 'Customer updated successfully' } });
-    } catch (error) {
-        dispatch({ type: 'SET_ALERT', payload: { type: 'error', message: error.message || 'An error occurred while updating the customer' } });
-    }
-};
-
-const removeCustomer = async (dispatch, customerId) => {
-    try {
-        await axios.delete(`/customer/${customerId}`);
-        dispatch({ type: 'REMOVE_CUSTOMER', payload: customerId });
-        dispatch({ type: 'SET_ALERT', payload: { type: 'success', message: 'Customer removed successfully' } });
-    } catch (error) {
-        dispatch({ type: 'SET_ALERT', payload: { type: 'error', message: error.message } });
-    }
-};
-
 const GlobalStateProvider = ({ children }) => {
     const [state, dispatch] = useReducer((state, action) => {
         switch (action.type) {
-            case 'SET_CUSTOMERS':
+            case actionTypes.SET_CUSTOMERS:
                 return { ...state, customers: action.payload };
-            case 'ADD_CUSTOMER':
+            case actionTypes.ADD_CUSTOMER:
                 return { ...state, customers: [...state.customers, action.payload] };
-            case 'UPDATE_CUSTOMER':
+            case actionTypes.UPDATE_CUSTOMER:
                 return {
                     ...state, customers: state.customers.map(c => c.id === action.payload.id ? action.payload : c),
                 };
-            case 'REMOVE_CUSTOMER':
+            case actionTypes.REMOVE_CUSTOMER:
                 return {
                     ...state, customers: state.customers.filter(c => c.id !== action.payload),
                 };
-            case 'SET_ALERT':
+            case actionTypes.SET_ALERT:
                 return { ...state, alert: action.payload };
-            case 'CLEAR_ALERT':
+            case actionTypes.CLEAR_ALERT:
                 return { ...state, alert: { type: '', message: '' } };
+            case actionTypes.SET_COLLABORATORS:
+                return { ...state, collaborators: action.payload };
+            case actionTypes.ADD_COLLABORATOR:
+                return { ...state, collaborators: [...state.collaborators, action.payload] };
+            case actionTypes.UPDATE_COLLABORATOR:
+                return {
+                    ...state,
+                    collaborators: state.collaborators.map(c => c.id === action.payload.id ? action.payload : c),
+                };
+            case actionTypes.REMOVE_COLLABORATOR:
+                return {
+                    ...state, collaborators: state.collaborators.filter(c => c.id !== action.payload),
+                };
             default:
                 return state;
         }
@@ -80,7 +65,17 @@ const GlobalStateProvider = ({ children }) => {
         fetchCustomers(dispatch);
     }, [dispatch]);
 
-    return (<Provider value={{ state, dispatch, addCustomer, updateCustomer, removeCustomer }}>
+    return (<Provider value={{
+        state,
+        dispatch,
+        addCustomer,
+        updateCustomer,
+        removeCustomer,
+        fetchCollaborators,
+        addCollaborator,
+        updateCollaborator,
+        removeCollaborator,
+    }}>
         {children}
     </Provider>);
 };
