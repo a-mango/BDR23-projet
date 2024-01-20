@@ -14,7 +14,7 @@ import java.util.Date;
  */
 public class Object {
 
-    public int objectId;
+    public int id;
     public int customerId;
 
     public String name;
@@ -43,7 +43,7 @@ public class Object {
      * @param category         The object category.
      */
     public Object(int id, String name, String faultDescription, String remark, String serialNo, Location location, Brand brand, Category category, int customerId) {
-        this.objectId = id;
+        this.id = id;
         this.name = name;
         this.faultDesc = faultDescription;
         this.remark = remark;
