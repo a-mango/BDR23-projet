@@ -1,6 +1,8 @@
 package ch.heig.bdr.projet.api.receptionist;
 
 import ch.heig.bdr.projet.api.PostgresConnection;
+import ch.heig.bdr.projet.api.language.Language;
+import ch.heig.bdr.projet.api.language.LanguageService;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,7 +21,9 @@ public class ReceptionistService {
             pstmt.setInt(1, Integer.parseInt(id));
             try(ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    return new Receptionist(rs.getInt("receptionist_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"), rs.getString("email"));
+                    return new Receptionist(rs.getInt("receptionist_id"), rs.getString("phone_no"),
+                            rs.getString("name"), rs.getString("comment"),
+                            rs.getString("email"), getReceptionistLanguages(id));
                 } else {
                     return null;
                 }
@@ -36,7 +40,7 @@ public class ReceptionistService {
             ResultSet rs = statement.executeQuery(query)) {
             ArrayList<Receptionist> receptionists = new ArrayList<>();
             while (rs.next()) {
-                receptionists.add(new Receptionist(rs.getInt("receptionist_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"), rs.getString("email")));
+                receptionists.add(new Receptionist(rs.getInt("receptionist_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"), rs.getString("email"), getReceptionistLanguages(rs.getString("receptionist_id"))));
             }
             return receptionists;
         } catch (SQLException e){
@@ -83,5 +87,22 @@ public class ReceptionistService {
         }
     }
 
+
+    ArrayList<Language> getReceptionistLanguages(String id){
+        String query = "SELECT * FROM receptionist_language WHERE receptionist_id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, Integer.parseInt(id));
+            try(ResultSet rs = pstmt.executeQuery()) {
+                ArrayList<Language> languages = new ArrayList<>();
+                while (rs.next()) {
+                    languages.add(new Language(rs.getString("language")));
+                }
+                return languages;
+            }
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 
 }

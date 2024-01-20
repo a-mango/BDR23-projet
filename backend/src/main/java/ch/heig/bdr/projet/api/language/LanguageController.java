@@ -26,5 +26,7 @@ public class LanguageController {
             throw new NullPointerException();
         ctx.json(languages);
     }
+
+
 }
 
