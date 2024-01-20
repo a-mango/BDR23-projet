@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-scripts_dir="../scripts"
+scripts_dir="./scripts"
 seed_file="seed.sql"
 
 # Scripts to ignore
