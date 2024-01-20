@@ -15,16 +15,15 @@ const Page = ({ title, children }) => {
         }
     }, [error, clearGlobalError]);
 
-    return (
-        <>
+    return (<>
             <SubNavigation />
             <main className="container mx-auto pb-4">
-                {error && <div className="alert">{error}</div>}
+                {error.message &&
+                    <div className={`${error.type === 'error' ? 'error' : 'success'}`}>{error.message}</div>}
                 <h1>{title}</h1>
                 {children}
             </main>
-        </>
-    );
+        </>);
 };
 
 export default Page;

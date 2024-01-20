@@ -19,7 +19,7 @@ const useData = (resource) => {
             const response = await axios.get(`/${resource}`);
             setData(response.data);
         } catch (error) {
-            setGlobalError(error.message);
+            setGlobalError({ message: `An error occurred while getting the ${resource}.`, type: 'error' });
         }
     }, [resource]);
 
@@ -28,7 +28,7 @@ const useData = (resource) => {
             const response = await axios.get(`/${resource}/${id}`);
             return response.data;
         } catch (error) {
-            setGlobalError(error.message);
+            setGlobalError({ message: `An error occurred while getting the ${resource}.`, type: 'error' });
         }
     }, [resource]);
 
@@ -37,7 +37,7 @@ const useData = (resource) => {
             const response = await axios.post(`/${resource}`, newItem);
             setData(prevData => [...prevData, response.data]);
         } catch (error) {
-            setGlobalError(error.message);
+            setGlobalError({ message: `An error occurred while creating the ${resource}.`, type: 'error' });
         }
     }, [resource]);
 
@@ -46,7 +46,7 @@ const useData = (resource) => {
             const response = await axios.patch(`/${resource}/${id}`, updatedItem);
             setData(prevData => prevData.map(item => item.id === id ? response.data : item));
         } catch (error) {
-            setGlobalError(error.message);
+            setGlobalError({ message: `An error occurred while updating the ${resource}.`, type: 'error' });
         }
     }, [resource]);
 
@@ -55,7 +55,7 @@ const useData = (resource) => {
             await axios.delete(`/${resource}/${id}`);
             setData(prevData => prevData.filter(item => item.id !== id));
         } catch (error) {
-            setGlobalError(error.message);
+            setGlobalError({ message: `An error occurred while deleting the ${resource}.`, type: 'error' });
         }
     }, [resource]);
 

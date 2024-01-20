@@ -3,14 +3,14 @@ import React, { createContext, useState, useContext } from 'react';
 const GlobalErrorContext = createContext();
 
 export const GlobalErrorProvider = ({ children }) => {
-    const [error, setError] = useState(null);
+    const [error, setError] = useState({ message: null, type: null });
 
-    const setGlobalError = (err) => {
-        setError(err);
+    const setGlobalError = ({ message, type }) => {
+        setError({ message, type });
     };
 
     const clearGlobalError = () => {
-        setError(null);
+        setError({ message: null, type: null });
     };
 
     return (

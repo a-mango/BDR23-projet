@@ -20,8 +20,11 @@ const CustomersPage = () => {
     };
 
     const handleDeleteClick = (customer) => {
-        console.log("DELETING", customer);
-        remove(customer.personId);
+        remove(customer.id).then(() => {
+            fetch();
+        }).then(() => {
+            setGlobalError({ message: 'Customer deleted successfully.', type: 'success' });
+        });
     }
 
     if (isLoading) {

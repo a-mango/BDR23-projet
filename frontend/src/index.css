@@ -37,6 +37,10 @@ button {
     @apply p-2 my-2 text-red-500 bg-red-100 border border-red-500 shadow;
 }
 
+.success {
+    @apply p-2 my-2 text-green-500 bg-green-100 border border-green-500 shadow;
+}
+
 form {
     @apply grid grid-cols-2 gap-x-4 my-2 bg-white text-gray-600 shadow transition-all transform duration-500 ease-in-out;
 
