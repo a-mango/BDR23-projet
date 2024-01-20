@@ -2,6 +2,7 @@ package ch.heig.bdr.projet.api;
 
 import ch.heig.bdr.projet.api.brand.BrandController;
 import ch.heig.bdr.projet.api.category.CategoryController;
+import ch.heig.bdr.projet.api.collaborator.CollaboratorController;
 import ch.heig.bdr.projet.api.customer.CustomerController;
 import ch.heig.bdr.projet.api.customer.CustomerService;
 import ch.heig.bdr.projet.api.language.LanguageController;
@@ -14,6 +15,7 @@ import ch.heig.bdr.projet.api.reparation.ReparationService;
 import ch.heig.bdr.projet.api.sms.SmsController;
 import ch.heig.bdr.projet.api.sms.SmsService;
 import ch.heig.bdr.projet.api.specialization.SpecializationController;
+import ch.heig.bdr.projet.api.technician.TechnicianController;
 import io.javalin.Javalin;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
@@ -61,6 +63,8 @@ public class Main {
             crud("api/person/{id}", new PersonController());
             crud("api/sms/{id}", new SmsController());
             crud("api/customer/{id}", new CustomerController());
+            crud("api/collaborator/{id}", new CollaboratorController());
+            crud("api/technician/{id}", new TechnicianController());
             crud("api/receptionist/{id}", new ReceptionistController());
             crud("api/object/{id}", new ObjectController());
             get("api/reparation/{repairId}/sms", new SmsController()::getAllByRepairId);

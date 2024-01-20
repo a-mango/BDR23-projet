@@ -1,7 +1,6 @@
 package ch.heig.bdr.projet.api.customer;
 
 import ch.heig.bdr.projet.api.PostgresConnection;
-import ch.heig.bdr.projet.api.person.Person;
 import ch.heig.bdr.projet.api.Utils;
 
 import java.sql.*;

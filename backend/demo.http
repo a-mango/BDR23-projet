@@ -4,7 +4,7 @@ GET localhost:7000/api/person
 
 ### Person GET BY ID
 
-GET localhost:7000/api/person/1
+GET localhost:7000/api/person/67
 
 ### Person POST request
 
@@ -19,16 +19,112 @@ Content-Type: application/json
 
 ### Person PUT UPDATE request
 
-PUT localhost:7000/api/person/1
+PATCH localhost:7000/api/person/1
 Content-Type: application/json
 
 {
-  "phoneNumber": "123",
+  "phoneNumber": "111111111",
   "name": "Jeffrey Dayne",
   "comment": "Test PUT"
 }
 
 ### Person DELETE request
 
-DELETE localhost:7000/api/person/72
+DELETE localhost:7000/api/person/1
 
+### Person tests
+
+### get all persons OK
+GET localhost:7000/api/person/
+
+### get one person NOT WORKING 500
+GET localhost:7000/api/person/1
+
+### create a person OK
+POST localhost:7000/api/person
+Content-Type: application/json
+
+{
+  "phoneNumber": 999,
+  "name": "maria",
+  "comment": "un commentaire"
+}
+
+### update a person - NOT FOUND 404
+PUT localhost:7000/api/person/1
+Content-Type: application/json
+
+{
+  "phoneNumber": 999,
+  "name": "maria",
+  "comment": "un commentaire"
+}
+
+### delete a person - 204 mais toujours dans person quand on fait un getAll
+DELETE localhost:7000/api/person/1
+
+
+### customer tests
+### get all customers OK
+GET localhost:7000/api/customer/
+
+### get one customer NOT WORKING 500
+GET localhost:7000/api/customer/1
+
+### create a customer OK
+POST localhost:7000/api/customer
+Content-Type: application/json
+
+{
+  "name": "maria",
+  "phoneNumber": 999,
+  "comment": "un commentaire",
+  "tosAccepted": true,
+  "privateNote": "a private note"
+}
+
+### update a customer NOT WORKING
+PATCH localhost:7000/api/customer/1
+
+{
+    "name": "maria",
+    "phoneNumber": 999,
+    "comment": "another commentaire",
+  "tosAccepted": true,
+  "privateNote": "another note"
+}
+
+### delete a customer OK
+DELETE localhost:7000/api/customer/1
+
+### technician tests
+### get all technicians OK
+GET localhost:7000/api/technician/
+
+### get one technician
+GET localhost:7000/api/technician/67
+
+### create a technician OK
+PATCH localhost:7000/api/technician/67
+
+{
+    "name": "maria",
+    "phoneNumber": 999,
+    "comment": "another commentaire",
+  "tosAccepted": true,
+  "privateNote": "another note"
+}
+
+### update a technician
+PATCH localhost:7000/api/technician/67
+
+{
+    "name": "maria",
+    "phoneNumber": 999,
+    "comment": "another commentaire",
+  "tosAccepted": true,
+  "privateNote": "another note"
+}
+
+### delete a technician
+DELETE localhost:7000/api/technician/67
