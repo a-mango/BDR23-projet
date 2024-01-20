@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import SubNavigation from './SubNavigation';
-import { Outlet } from 'react-router-dom';
+import { useGlobalError } from '../GlobalErrorProvider';
 
 const Page = ({ title, children }) => {
+    const { error, clearGlobalError } = useGlobalError();
+
+    useEffect(() => {
+        if (error) {
+            const timer = setTimeout(() => {
+                clearGlobalError();
+            }, 10000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [error, clearGlobalError]);
+
     return (
         <>
             <SubNavigation />
-            <main className="container mx-auto py-4">
+            <main className="container mx-auto pb-4">
+                {error && <div className="alert">{error}</div>}
                 <h1>{title}</h1>
                 {children}
             </main>

@@ -3,9 +3,10 @@ import Page from "../components/Page";
 import Table from "../components/Table";
 import useData from "../hooks/useData";
 import CustomerForm from '../components/CustomerForm';
+import { useGlobalError } from '../GlobalErrorProvider';
 
 const CustomersPage = () => {
-    const {data: customers, fetch, fetchSingle, create, update, remove, error} = useData("customer");
+    const { setGlobalError } = useGlobalError();    const {data: customers, fetch, fetchSingle, create, update, remove} = useData("customer");
     const [selectedCustomer, setSelectedCustomer] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -18,6 +19,11 @@ const CustomersPage = () => {
         setSelectedCustomer(customer);
     };
 
+    const handleDeleteClick = (customer) => {
+        console.log("DELETING", customer);
+        remove(customer.personId);
+    }
+
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -25,8 +31,7 @@ const CustomersPage = () => {
     return (
         <Page title="Customers">
             {selectedCustomer && <CustomerForm selectedCustomer={selectedCustomer} />}
-            {error && <div>Error: {error}</div>}
-            {customers && customers.length > 0 ? (<Table data={customers} onRowClick={handleRowClick}/>) : (<p>No customers found.</p>)}
+            {customers && customers.length > 0 ? (<Table data={customers} onRowClick={handleRowClick} onDeleteClick={handleDeleteClick}/>) : (<p>No customers found.</p>)}
         </Page>
     );
 };
