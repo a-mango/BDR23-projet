@@ -1335,7 +1335,8 @@ VALUES (1, 'The repair cost for your laptop is CHF 80.00.', '+1234567890', '7509
        (49, 'The repair cost for your winter gloves is CHF 80.00.', '+1234567890', '4406289262', 'processed', '2022-04-26 03:08:00'),
        (49, 'I accept', '4406289262', '+1234567890', 'processed', '2022-04-27 17:08:00'),
        (50, 'The repair cost for your hiking backpack is CHF 50.00.', '+1234567890', '9898594506', 'processed', '2022-04-27 14:08:00'),
-       (50, 'OK', '9898594506', '+1234567890', 'processed', '2022-04-28 13:08:00');--
+       (50, 'OK', '9898594506', '+1234567890', 'processed', '2022-04-28 13:08:00');
+--
 -- Views
 --
 
@@ -1397,6 +1398,23 @@ CREATE TRIGGER update_collaborator_person_trigger_on_insert
 INSTEAD OF INSERT ON collab_info_view
 FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person_on_insert();
 
+
+-- Delete person and collaborator when there is an delete on collab_info_view
+
+CREATE OR REPLACE FUNCTION delete_collaborator_person_on_delete() RETURNS TRIGGER AS $$
+BEGIN
+
+    DELETE FROM person
+    WHERE person_id = OLD.collaborator_id;
+
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER delete_collaborator_person_trigger_on_delete
+    INSTEAD OF DELETE ON collab_info_view
+    FOR EACH ROW EXECUTE PROCEDURE delete_collaborator_person_on_delete();
+
 -- View with the information that a receptionist can access
 CREATE OR REPLACE VIEW receptionist_view AS
 SELECT r.customer_id,
@@ -1454,6 +1472,22 @@ CREATE TRIGGER update_customer_person_trigger_on_insert
 INSTEAD OF INSERT ON customer_info_view
 FOR EACH ROW EXECUTE PROCEDURE update_customer_person_on_insert();
 
+-- Delete person and customer when there is an delete on customer_info_view
+
+CREATE OR REPLACE FUNCTION delete_customer_person_on_delete() RETURNS TRIGGER AS $$
+BEGIN
+
+    DELETE FROM person
+    WHERE person_id = OLD.customer_id;
+
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER delete_customer_person_trigger_on_delete
+    INSTEAD OF DELETE ON customer_info_view
+    FOR EACH ROW EXECUTE PROCEDURE delete_customer_person_on_delete();
+
 -- View with receptionist info
 CREATE OR REPLACE VIEW receptionist_info_view AS
 SELECT *
@@ -1483,6 +1517,22 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER update_collaborator_person_receptionist_trigger_on_insert
 INSTEAD OF INSERT ON receptionist_info_view
 FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person_receptionist_on_insert();
+
+-- Delete person and receptionist when there is an delete on receptionist_info_view
+
+CREATE OR REPLACE FUNCTION delete_receptionist_person_on_delete() RETURNS TRIGGER AS $$
+BEGIN
+
+    DELETE FROM person
+    WHERE person_id = OLD.receptionist_id;
+
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER delete_receptionist_person_trigger_on_delete
+    INSTEAD OF DELETE ON receptionist_info_view
+    FOR EACH ROW EXECUTE PROCEDURE delete_receptionist_person_on_delete();
 
 -- View with technician info
 CREATE OR REPLACE VIEW technician_info_view AS
@@ -1514,6 +1564,22 @@ CREATE TRIGGER update_collaborator_person_technician_trigger_on_insert
 INSTEAD OF INSERT ON technician_info_view
 FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person_technician_on_insert();
 
+-- Delete person and technician when there is an delete on technician_info_view
+
+CREATE OR REPLACE FUNCTION delete_technician_person_on_delete() RETURNS TRIGGER AS $$
+BEGIN
+
+    DELETE FROM person
+    WHERE person_id = OLD.technician_id;
+
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER delete_technician_person_trigger_on_delete
+    INSTEAD OF DELETE ON technician_info_view
+    FOR EACH ROW EXECUTE PROCEDURE delete_technician_person_on_delete();
+
 -- View with manager info
 CREATE OR REPLACE VIEW manager_info_view AS
 SELECT *
@@ -1543,3 +1609,19 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER update_collaborator_person_manager_trigger_on_insert
 INSTEAD OF INSERT ON manager_info_view
 FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person_manager_on_insert();
+
+-- Delete person and manager when there is an delete on manager_info_view
+
+CREATE OR REPLACE FUNCTION delete_manager_person_on_delete() RETURNS TRIGGER AS $$
+BEGIN
+
+    DELETE FROM person
+    WHERE person_id = OLD.manager_id;
+
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER delete_manager_person_trigger_on_delete
+    INSTEAD OF DELETE ON manager_info_view
+    FOR EACH ROW EXECUTE PROCEDURE delete_manager_person_on_delete();
