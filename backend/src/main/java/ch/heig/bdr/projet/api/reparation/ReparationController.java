@@ -4,6 +4,8 @@ import io.javalin.apibuilder.CrudHandler;
 import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 /**
  * Reparation controller class.
  *
@@ -19,8 +21,6 @@ public class ReparationController implements CrudHandler {
 
     /**
      * Constructor.
-     *
-     * @param reparationService The reparation service to use.
      */
     public ReparationController() {
         this.reparationService = new ReparationService();
@@ -28,22 +28,40 @@ public class ReparationController implements CrudHandler {
 
     @Override
     public void create(@NotNull Context ctx) {
+        Reparation reparation = ctx.bodyAsClass(Reparation.class);
+        reparationService.createReparation(reparation);
+        ctx.status(201);
     }
 
     @Override
     public void getOne(@NotNull Context ctx, @NotNull String id) {
+        Reparation r = reparationService.getReparationById(id);
+        if (r == null)
+            throw new NullPointerException();
+        ctx.json(r);
     }
 
     @Override
     public void getAll(@NotNull Context ctx) {
+        ArrayList<Reparation> reparations = reparationService.getReparations();
+        if (reparations == null)
+            throw new NullPointerException();
+        ctx.json(reparations);
     }
 
     @Override
-    public void update(Context ctx, @NotNull String id) {
+    public void update(@NotNull Context ctx, @NotNull String id) {
+        Reparation updatedReparation = ctx.bodyAsClass(Reparation.class);
+        if (updatedReparation == null)
+            throw new NullPointerException();
+        reparationService.updateReparation(id, updatedReparation);
+        ctx.status(200);
     }
 
     @Override
     public void delete(@NotNull Context ctx, @NotNull String id) {
+        reparationService.deleteReparation(id);
+        ctx.status(204);
     }
 
 }

@@ -9,5 +9,5 @@ package ch.heig.bdr.projet.api;
  */
 public enum ReparationState {
 
-    WAITING, ONGOING, DONE, ADANDONED;
+    waiting, ongoing, done, abandoned;
 }

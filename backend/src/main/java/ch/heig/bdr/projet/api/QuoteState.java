@@ -8,5 +8,5 @@ package ch.heig.bdr.projet.api;
  */
 public enum QuoteState {
 
-    ACCEPTED, DECLINED, WAITING;
+    accepted, declined, waiting;
 }

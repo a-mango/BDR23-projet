@@ -35,10 +35,6 @@ public class Main {
      * @param args Command line arguments, not used.
      */
     public static void main(String[] args) {
-        final ReparationService reparationService = new ReparationService();
-        final PersonService personService = new PersonService();
-        final SmsService smsService = new SmsService();
-        final CustomerService customerService = new CustomerService();
 
         // Create the Javalin app
         Javalin app = Javalin.create(config -> config.plugins.enableDevLogging()).start(7000);
