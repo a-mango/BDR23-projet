@@ -6,6 +6,7 @@ import ch.heig.bdr.projet.api.collaborator.CollaboratorController;
 import ch.heig.bdr.projet.api.customer.CustomerController;
 import ch.heig.bdr.projet.api.customer.CustomerService;
 import ch.heig.bdr.projet.api.language.LanguageController;
+import ch.heig.bdr.projet.api.manager.ManagerController;
 import ch.heig.bdr.projet.api.object.ObjectController;
 import ch.heig.bdr.projet.api.person.PersonController;
 import ch.heig.bdr.projet.api.person.PersonService;
@@ -66,6 +67,7 @@ public class Main {
             crud("api/collaborator/{id}", new CollaboratorController());
             crud("api/technician/{id}", new TechnicianController());
             crud("api/receptionist/{id}", new ReceptionistController());
+            crud("api/manager/{id}", new ManagerController());
             crud("api/object/{id}", new ObjectController());
             get("api/reparation/{repairId}/sms", new SmsController()::getAllByRepairId);
             get("api/language", new LanguageController()::getAll);
