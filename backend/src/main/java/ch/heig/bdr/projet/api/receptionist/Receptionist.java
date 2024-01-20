@@ -14,7 +14,8 @@ import java.util.ArrayList;
  */
 public class Receptionist extends Collaborator {
 
-    public ArrayList<Language> languages = new ArrayList<>();
+    // TODO: find a solution to implement languages
+    // public ArrayList<Language> languages = new ArrayList<>();
 
     /**
      * Collaborator constructor.
@@ -32,8 +33,8 @@ public class Receptionist extends Collaborator {
      * @param comment    Comments about the collaborator
      * @param email       The collaborator's email.
      */
-    public Receptionist(int id, String phoneNumber, String name, String comment, String email, ArrayList<Language> languages) {
+    public Receptionist(int id, String phoneNumber, String name, String comment, String email/*, ArrayList<Language> languages*/) {
         super(id, phoneNumber, name, comment, email);
-        this.languages = languages;
+        // this.languages = languages;
     }
 }
