@@ -1,9 +1,10 @@
+import React, { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
-import useData from '../hooks/useData';
-import { useEffect, useState } from 'react';
+import { GlobalStateContext } from '../GlobalState';
 
 const CustomerForm = ({ selectedCustomer }) => {
+    const { dispatch, addCustomer, updateCustomer } = useContext(GlobalStateContext);
     const {
         register,
         handleSubmit,
@@ -12,10 +13,9 @@ const CustomerForm = ({ selectedCustomer }) => {
         setValue,
     } = useForm();
 
-    const { create, update } = useData('customer');
-
     useEffect(() => {
         if (selectedCustomer) {
+            setValue('id', selectedCustomer.id);
             setValue('name', selectedCustomer.name);
             setValue('phoneNumber', selectedCustomer.phoneNumber);
             setValue('tosAccepted', selectedCustomer.tosAccepted);
@@ -26,12 +26,10 @@ const CustomerForm = ({ selectedCustomer }) => {
 
     const onSubmit = (data) => {
         data.phoneNumber = data.phoneNumber.replace(/\s/g, '');
-        if (selectedCustomer && selectedCustomer.personId) {
-            console.log('Patching customer', data);
-            update(selectedCustomer.personId, data);
+        if (selectedCustomer && selectedCustomer.id) {
+            updateCustomer(dispatch, { ...selectedCustomer, ...data });
         } else {
-            console.log('Posting customer', data);
-            create(data);
+            addCustomer(dispatch, data);
         }
     };
 

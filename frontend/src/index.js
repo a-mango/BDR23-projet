@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import { GlobalErrorProvider } from './GlobalErrorProvider';
+import { GlobalStateProvider } from './GlobalState';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <GlobalErrorProvider>
-      <App />
-    </GlobalErrorProvider>
+      <GlobalStateProvider>
+        <App />
+      </GlobalStateProvider>
   </React.StrictMode>
 );

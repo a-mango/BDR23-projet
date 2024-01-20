@@ -1,25 +1,18 @@
-import React, { useEffect } from 'react';
+// frontend/src/components/Page.js
+import React, { useContext } from 'react';
+import { GlobalStateContext } from '../GlobalState';
 import SubNavigation from './SubNavigation';
-import { useGlobalError } from '../GlobalErrorProvider';
+import Alert from './Alert';
 
 const Page = ({ title, children }) => {
-    const { error, clearGlobalError } = useGlobalError();
+    const { state } = useContext(GlobalStateContext);
+    const { alert } = state;
 
-    useEffect(() => {
-        if (error) {
-            const timer = setTimeout(() => {
-                clearGlobalError();
-            }, 10000);
-
-            return () => clearTimeout(timer);
-        }
-    }, [error, clearGlobalError]);
 
     return (<>
             <SubNavigation />
             <main className="container mx-auto">
-                {error.message &&
-                    <div className={`${error.type === 'error' ? 'error' : 'success'}`}>{error.message}</div>}
+                {alert.message && <Alert type={alert.type} message={alert.message} />}
                 <h1>{title}</h1>
                 {children}
             </main>
