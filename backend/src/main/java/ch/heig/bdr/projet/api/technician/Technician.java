@@ -16,8 +16,9 @@ import java.util.ArrayList;
  */
 public class Technician extends Collaborator {
 
-    public ArrayList<Specialization> specializations = new ArrayList<>();
-    public ArrayList<Reparation> reparations = new ArrayList<>();
+    // TODO: find a solution to implement specializations and reparations
+    //public ArrayList<Specialization> specializations = new ArrayList<>();
+    //public ArrayList<Reparation> reparations = new ArrayList<>();
 
     /**
      * Technician default constructor
@@ -36,10 +37,10 @@ public class Technician extends Collaborator {
      * @param specializations The technician's specializations
      * @param reparations The technician's reparations
      */
-    public Technician(int id, String phoneNumber, String name, String email, String comment, ArrayList<Specialization> specializations, ArrayList<Reparation> reparations) {
+    public Technician(int id, String phoneNumber, String name, String email, String comment/*, ArrayList<Specialization> specializations, ArrayList<Reparation> reparations*/) {
         super(id, phoneNumber, name, comment, email);
-        this.specializations = specializations;
-        this.reparations = reparations;
+        //this.specializations = specializations;
+        //this.reparations = reparations;
     }
 
 }
