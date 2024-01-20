@@ -12,8 +12,8 @@ const RepairForm = ({ selectedRepair, onClose }) => {
     useEffect(() => {
         if (selectedRepair) {
             setValue('id', selectedRepair.id);
-            setValue('dateCreated', selectedRepair.dateCreated);
-            setValue('dateModified', selectedRepair.dateModified);
+            setValue('dateCreated', formatDate(selectedRepair.dateCreated));
+            setValue('dateModified', formatDate(selectedRepair.dateModified));
             setValue('quote', selectedRepair.quote);
             setValue('description', selectedRepair.description);
             setValue('estimatedDuration', selectedRepair.estimatedDuration);
@@ -26,7 +26,10 @@ const RepairForm = ({ selectedRepair, onClose }) => {
     }, [selectedRepair, setValue]);
 
     const onSubmit = (data) => {
-        console.log('Submit repair', data);
+
+        data.dateCreated = new Date(data.dateCreated).toISOString().split('.')[0] + 'Z';
+        data.dateModified = new Date(data.dateModified).toISOString().split('.')[0] + 'Z';
+
         if (selectedRepair && selectedRepair.id) {
             updateRepair(dispatch, { ...selectedRepair, ...data });
         } else {
@@ -34,17 +37,25 @@ const RepairForm = ({ selectedRepair, onClose }) => {
         }
     };
 
+    const formatDate = (date) => {
+        return date.slice(0, 16);
+    };
+
+    useEffect(() => {
+        console.log(selectedRepair);
+    }, [selectedRepair]);
+
     return (<form onSubmit={handleSubmit(onSubmit)}>
         {selectedRepair && selectedRepair.id && <h2>Details for repair #{selectedRepair.id}</h2>}
         <div className="col-1">
             <div className="row">
                 <div>
                     <label>Date created</label>
-                    <input {...register('dateCreated')} readOnly />
+                    <input type="datetime-local" {...register('dateCreated')} />
                 </div>
                 <div>
                     <label>Date modified</label>
-                    <input {...register('dateModified')} readOnly />
+                    <input type="datetime-local" {...register('dateModified')} />
                 </div>
             </div>
 
@@ -56,33 +67,37 @@ const RepairForm = ({ selectedRepair, onClose }) => {
                 </div>
                 <div>
                     <label>Estimated duration</label>
-                    <input type="number" {...register('estimatedDuration', { required: true })} />
+                    <input type="time" {...register('estimatedDuration', { required: true })} />
                 </div>
             </div>
 
             <div className="row">
-                <label>Description</label>
-                <textarea {...register('description', { required: true })} />
+                <div>
+                    <label>Description</label>
+                    <textarea {...register('description', { required: true })} rows={5} />
+                </div>
             </div>
         </div>
 
         <div className="col-2">
-            <div>
-                <label>Reparation state</label>
-                <select {...register('reparationState', { required: true })}>
-                    <option value="waiting">Waiting</option>
-                    <option value="ongoing">Ongoing</option>
-                    <option value="done">Done</option>
-                    <option value="abandoned">Abandoned</option>
-                </select>
-            </div>
-            <div>
-                <label>Quote state</label>
-                <select {...register('quoteState',{ required: true })}>
-                    <option value="accepted">Accepted</option>
-                    <option value="declined">Declined</option>
-                    <option value="waiting">Waiting</option>
-                </select>
+            <div className="row">
+                <div>
+                    <label>Reparation state</label>
+                    <select {...register('reparationState', { required: true })}>
+                        <option value="waiting">Waiting</option>
+                        <option value="ongoing">Ongoing</option>
+                        <option value="done">Done</option>
+                        <option value="abandoned">Abandoned</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Quote state</label>
+                    <select {...register('quoteState', { required: true })}>
+                        <option value="accepted">Accepted</option>
+                        <option value="declined">Declined</option>
+                        <option value="waiting">Waiting</option>
+                    </select>
+                </div>
             </div>
         </div>
         <div className="form-controls">
