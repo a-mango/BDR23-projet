@@ -22,7 +22,6 @@ const CustomersPage = () => {
     const handleDeleteClick = (customer) => {
         remove(customer.id).then(() => {
             fetch();
-        }).then(() => {
             setGlobalError({ message: 'Customer deleted successfully.', type: 'success' });
         });
     }

@@ -90,6 +90,8 @@ input[type="checkbox"]:checked {
 }
 
 table {
+    @apply my-8;
+
     thead {
         @apply bg-apache text-white;
     }

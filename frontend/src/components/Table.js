@@ -2,6 +2,11 @@ import React from 'react';
 import { TrashIcon } from '@heroicons/react/24/outline';
 
 const Table = ({data, onRowClick, onDeleteClick}) => {
+    const onDelete = (event, row) => {
+        event.stopPropagation();
+        onDeleteClick(row);
+    }
+
     return (<table className="table-auto w-full">
         <thead>
             <tr>
@@ -15,7 +20,7 @@ const Table = ({data, onRowClick, onDeleteClick}) => {
                 className={`cursor-pointer hover:bg-apache ${index % 2 === 0 ? 'bg-gray-200' : ''}`}>
                 {Object.values(row).map((cell, index) => (<td key={index} className="border px-4 py-2">{cell}</td>))}
                 <td className="h-20 px-4 py-2 grid place-items-center">
-                    <TrashIcon onClick={() => onDeleteClick(row)} className="h-5 w-5 text-red-500" />
+                    <TrashIcon onClick={(event) => onDelete(event, row)} className="h-5 w-5 text-red-500" />
                 </td>
             </tr>
         ))}

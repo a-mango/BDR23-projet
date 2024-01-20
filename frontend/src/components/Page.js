@@ -17,7 +17,7 @@ const Page = ({ title, children }) => {
 
     return (<>
             <SubNavigation />
-            <main className="container mx-auto pb-4">
+            <main className="container mx-auto">
                 {error.message &&
                     <div className={`${error.type === 'error' ? 'error' : 'success'}`}>{error.message}</div>}
                 <h1>{title}</h1>
