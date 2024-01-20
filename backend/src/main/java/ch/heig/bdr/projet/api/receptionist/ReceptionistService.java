@@ -49,29 +49,72 @@ public class ReceptionistService {
         }
     }
 
-    void createReceptionist(Receptionist receptionist){
-        String query = "INSERT INTO receptionist_info_view (phone_no, name, comment, email) VALUES (?, ?, ?, ?)";
-        try(PreparedStatement pstmt = conn.prepareStatement(query)) {
+    void createReceptionist(Receptionist receptionist) {
+        String insertReceptionistQuery = "INSERT INTO receptionist_info_view (phone_no, name, comment, email) VALUES (?, ?, ?, ?)";
+        //String insertLanguageQuery = "INSERT INTO receptionist_language (receptionist_id, language) VALUES (?, ?)";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(insertReceptionistQuery, Statement.RETURN_GENERATED_KEYS);
+             /*PreparedStatement pstmt2 = conn.prepareStatement(insertLanguageQuery)*/) {
+
             pstmt.setString(1, receptionist.phoneNumber);
             pstmt.setString(2, receptionist.name);
             pstmt.setString(3, receptionist.comment);
             pstmt.setString(4, receptionist.email);
-            pstmt.executeUpdate();
-        } catch (SQLException e){
+
+            // Execute the insert query for receptionist_info_view
+            int rowsAffected = pstmt.executeUpdate();
+
+            // Check if the insertion was successful
+            if (rowsAffected > 0) {
+                // Retrieve the generated keys (including the generated ID)
+                try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int receptionistId = generatedKeys.getInt(1);
+
+                        // Update the receptionist object with the generated ID
+                        receptionist.id = receptionistId;
+
+                        // Insert language rows with the generated receptionist ID
+                        for (Language language : receptionist.languages) {
+                            addReceptionistLanguage(receptionistId, language.name);
+                        }
+                    }
+                }
+            } else {
+                System.out.println("Failed to insert receptionist.");
+            }
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-
     }
+
 
     void updateReceptionist(String id, Receptionist updatedReceptionist){
         String query = "UPDATE receptionist_info_view SET name =?, phone_no =?, comment =?, email =? WHERE receptionist_id =?";
-        try(PreparedStatement pstmt = conn.prepareStatement(query)) {
+        String query2 = "DELETE FROM receptionist_language WHERE receptionist_id =?";
+        String query3 = "INSERT INTO receptionist_language (receptionist_id, language) VALUES (?, ?)";
+        ArrayList<Language> currentLanguages = getReceptionistLanguages(id);
+        ArrayList<Language> languagesToAdd = new ArrayList<>(updatedReceptionist.languages);
+        languagesToAdd.removeAll(currentLanguages);
+        ArrayList<Language> languagesToDelete = new ArrayList<>(currentLanguages);
+        languagesToDelete.removeAll(updatedReceptionist.languages);
+        try(PreparedStatement pstmt = conn.prepareStatement(query);
+            PreparedStatement pstmt2 = conn.prepareStatement(query2);
+            PreparedStatement pstmt3 = conn.prepareStatement(query3)) {
             pstmt.setString(1, updatedReceptionist.name);
             pstmt.setString(2, updatedReceptionist.phoneNumber);
             pstmt.setString(3, updatedReceptionist.comment);
             pstmt.setString(4, updatedReceptionist.email);
             pstmt.setInt(5, Integer.parseInt(id));
             pstmt.executeUpdate();
+            for(Language language : languagesToAdd){
+                pstmt3.setInt(1, updatedReceptionist.id);
+                pstmt3.setString(2, language.name);
+                pstmt3.executeUpdate();
+            }
+            for(Language language : languagesToDelete){
+                deleteReceptionistLanguage(id, language.name);
+            }
         } catch (SQLException e){
             System.out.println(e.getMessage());
         }
@@ -104,5 +147,29 @@ public class ReceptionistService {
             return null;
         }
     }
+
+    void addReceptionistLanguage(int id, String language){
+        String query = "INSERT INTO receptionist_language (receptionist_id, language) VALUES (?, ?)";
+        try(PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, id);
+            pstmt.setString(2, language);
+            pstmt.executeUpdate();
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    void deleteReceptionistLanguage(String id, String language){
+        String query = "DELETE FROM receptionist_language WHERE receptionist_id =? AND language = ?";
+        try(PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, Integer.parseInt(id));
+            pstmt.setString(2, language);
+            pstmt.executeUpdate();
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+
 
 }
