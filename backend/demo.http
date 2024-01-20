@@ -83,12 +83,12 @@ Content-Type: application/json
   "privateNote": "a private note"
 }
 
-### update a customer NOT WORKING
+### update a customer OK
 PATCH localhost:7000/api/customer/1
 
 {
     "name": "maria",
-    "phoneNumber": 999,
+    "phoneNumber": 333,
     "comment": "another commentaire",
   "tosAccepted": true,
   "privateNote": "another note"
@@ -101,57 +101,25 @@ DELETE localhost:7000/api/customer/1
 ### get all technicians OK
 GET localhost:7000/api/technician/
 
-### get one technician
-GET localhost:7000/api/technician/67
+### get one technician OK
+GET localhost:7000/api/technician/73
 
 ### create a technician OK
-PATCH localhost:7000/api/technician/67
+POST localhost:7000/api/technician
 
 {
     "name": "maria",
-    "phoneNumber": 999,
+    "phoneNumber": 444666,
     "comment": "another commentaire",
-  "tosAccepted": true,
-  "privateNote": "another note"
+  "email": "mariamaria@cyberchimps.com"
 }
 
 ### update a technician
-PATCH localhost:7000/api/technician/67
+PATCH localhost:7000/api/technician/73
 
 {
     "name": "maria",
-    "phoneNumber": 999,
-    "comment": "another commentaire",
-  "tosAccepted": true,
-  "privateNote": "another note"
+    "phoneNumber": 555555,
+    "comment": "updated commentaire",
+   "email": "mariamaria@cyberchimps.com"
 }
-
-### delete a customer  id 1 à 50   OK WORKING
-DELETE localhost:7000/api/customer/49
-
-###
-GET localhost:7000/api/customer
-
-### delete a collaborator id 51 à 71 NOT WORKING
-DELETE localhost:7000/api/collaborator/71
-
-###
-GET localhost:7000/api/person
-
-### delete a technician id 54 à 68 NOT WORKING
-DELETE localhost:7000/api/technician/68
-
-###
-GET localhost:7000/api/person
-
-### delete a receptionist id 69 à 71 NOT WORKING
-DELETE localhost:7000/api/receptionist/70
-
-###
-GET localhost:7000/api/person
-
-### delete a manager id 51 à 53 NOT WORKING
-DELETE localhost:7000/api/manager/53
-
-###  get all managers OK WORKING
-GET localhost:7000/api/manager
