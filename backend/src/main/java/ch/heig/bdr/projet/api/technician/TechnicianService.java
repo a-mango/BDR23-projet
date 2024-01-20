@@ -65,7 +65,7 @@ public class TechnicianService {
     }
 
     void deleteTechnician(String id){
-        String query = "DELETE FROM technician WHERE technician_id =? ";
+        String query = "DELETE FROM technician_info_view WHERE technician_id =? ";
         try(PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, Integer.parseInt(id));
             pstmt.executeUpdate();
@@ -75,7 +75,7 @@ public class TechnicianService {
     }
 
     void createTechnician(Technician technician){
-        String query = "INSERT INTO technician (name, phone_no, comment, email) VALUES (?,?,?,?)";
+        String query = "INSERT INTO technician_info_view (name, phone_no, comment, email) VALUES (?,?,?,?)";
         try(PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, technician.name);
             pstmt.setString(2, technician.phoneNumber);
