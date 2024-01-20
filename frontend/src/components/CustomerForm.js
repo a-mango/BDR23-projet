@@ -15,12 +15,12 @@ const CustomerForm = ({ selectedCustomer, onClose }) => {
 
     useEffect(() => {
         if (selectedCustomer) {
-            setValue('id', selectedCustomer.id);
-            setValue('name', selectedCustomer.name);
-            setValue('phoneNumber', selectedCustomer.phoneNumber);
-            setValue('tosAccepted', selectedCustomer.tosAccepted);
-            setValue('comment', selectedCustomer.comment);
-            setValue('privateNote', selectedCustomer.privateNote);
+            setValue('id', selectedCustomer.id || '')
+            setValue('name', selectedCustomer.name || '');
+            setValue('phoneNumber', selectedCustomer.phoneNumber || '');
+            setValue('tosAccepted', selectedCustomer.tosAccepted || false);
+            setValue('comment', selectedCustomer.comment || '');
+            setValue('privateNote', selectedCustomer.privateNote || '');
         }
     }, [selectedCustomer, setValue]);
 

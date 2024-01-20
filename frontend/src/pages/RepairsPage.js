@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Page from '../components/Page';
 import Table from '../components/Table';
 import RepairForm from '../components/RepairForm';
+import Title from '../components/Title';
 import { GlobalStateContext } from '../GlobalState';
 
 const RepairsPage = () => {
@@ -41,9 +42,14 @@ const RepairsPage = () => {
     };
 
     return (
-        <Page title="Repairs">
+        <Page>
+            <Title
+                title="Repairs"
+                actionText="New Repair"
+                onAction={() => setSelectedRepair({})}
+            />
             {selectedRepair && <RepairForm selectedRepair={selectedRepair} onAddRepair={handleAddRepair}
-                                               onUpdateRepair={handleUpdateRepair} onClose={handleCloseForm} />}
+                                           onUpdateRepair={handleUpdateRepair} onClose={handleCloseForm} />}
             {state.repairs && state.repairs.length > 0 ? (
                 <Table data={state.repairs} onRowClick={handleSetRepair} onDeleteClick={handleDeleteClick} />) : (
                 <p>No repairs found.</p>)}

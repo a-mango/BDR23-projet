@@ -40,11 +40,19 @@ button {
         @apply mr-2;
     }
     &.alert-error {
-        @apply p-2 my-2 text-red-500 bg-red-100 border border-red-500 shadow;
+        @apply p-2 my-2 text-red-600 bg-red-100 border border-red-600 shadow;
     }
 
     &.alert-success {
-        @apply p-2 my-2 text-green-500 bg-green-100 border border-green-500 shadow;
+        @apply p-2 my-2 text-green-600 bg-green-100 border border-green-600 shadow;
+    }
+}
+
+.title-container {
+    @apply flex flex-row items-center justify-between;
+
+    button {
+        @apply bg-scarlet text-white text-xl py-4 w-max;
     }
 }
 
@@ -118,6 +126,7 @@ table {
     thead {
         @apply bg-apache text-white;
     }
+
     tr {
         @apply h-20;
     }

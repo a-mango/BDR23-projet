@@ -9,24 +9,33 @@ const RepairForm = ({ selectedRepair, onClose }) => {
         register, handleSubmit, watch, formState: { errors }, setValue,
     } = useForm();
 
+    const formattedNow = () => {
+        const now = new Date();
+        return `${now.getFullYear()}-${String(now.getMonth() + 1)
+            .padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}T${String(now.getHours())
+            .padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+    };
     useEffect(() => {
-        if (selectedRepair) {
-            setValue('id', selectedRepair.id);
+        if (new Date(selectedRepair?.dateCreated).toString() !== 'Invalid Date') {
             setValue('dateCreated', formatDate(selectedRepair.dateCreated));
-            setValue('dateModified', formatDate(selectedRepair.dateModified));
-            setValue('quote', selectedRepair.quote);
-            setValue('description', selectedRepair.description);
-            setValue('estimatedDuration', selectedRepair.estimatedDuration);
-            setValue('reparationState', selectedRepair.reparationState);
-            setValue('quoteState', selectedRepair.quoteState);
-            setValue('receptionist_id', selectedRepair.receptionist_id);
-            setValue('customer_id', selectedRepair.customer_id);
-            setValue('object_id', selectedRepair.object_id);
+        } else {
+            setValue('dateCreated', formattedNow());
+        }
+
+        if (selectedRepair) {
+            setValue('id', selectedRepair.id || '');
+            setValue('quote', selectedRepair.quote || '0');
+            setValue('description', selectedRepair.description || '');
+            setValue('estimatedDuration', selectedRepair.estimatedDuration || '00:00');
+            setValue('reparationState', selectedRepair.reparationState || 'waiting');
+            setValue('quoteState', selectedRepair.quoteState || 'waiting');
+            setValue('receptionist_id', selectedRepair.receptionist_id || '');
+            setValue('customer_id', selectedRepair.customer_id || '');
+            setValue('object_id', selectedRepair.object_id || '');
         }
     }, [selectedRepair, setValue]);
 
     const onSubmit = (data) => {
-
         data.dateCreated = new Date(data.dateCreated).toISOString().split('.')[0] + 'Z';
         data.dateModified = new Date(data.dateModified).toISOString().split('.')[0] + 'Z';
 
@@ -40,10 +49,6 @@ const RepairForm = ({ selectedRepair, onClose }) => {
     const formatDate = (date) => {
         return date.slice(0, 16);
     };
-
-    useEffect(() => {
-        console.log(selectedRepair);
-    }, [selectedRepair]);
 
     return (<form onSubmit={handleSubmit(onSubmit)}>
         {selectedRepair && selectedRepair.id && <h2>Details for repair #{selectedRepair.id}</h2>}

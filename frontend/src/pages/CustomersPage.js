@@ -3,6 +3,7 @@ import Page from '../components/Page';
 import Table from '../components/Table';
 import CustomerForm from '../components/CustomerForm';
 import { GlobalStateContext } from '../GlobalState';
+import Title from '../components/Title';
 
 const CustomersPage = () => {
     const { state, dispatch, addCustomer, updateCustomer, removeCustomer } = useContext(GlobalStateContext);
@@ -41,7 +42,8 @@ const CustomersPage = () => {
     };
 
     return (
-        <Page title="Customers">
+        <Page>
+            <Title title="Customers" actionText="New Customer" onAction={() => setSelectedCustomer({})} />
             {selectedCustomer && <CustomerForm selectedCustomer={selectedCustomer} onAddCustomer={handleAddCustomer}
                                                onUpdateCustomer={handleUpdateCustomer} onClose={handleCloseForm} />}
             {state.customers && state.customers.length > 0 ? (

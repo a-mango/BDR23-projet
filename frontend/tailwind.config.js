@@ -9,6 +9,7 @@ module.exports = {
         'atomic-tangerine': '#f9dc62',
         'apache': '#5acca0',
         'acoustic-white': '#eeebdf',
+        'scarlet': '#f86a6a',
       },
     },
   },
