@@ -35,8 +35,8 @@ const CustomerForm = ({ selectedCustomer, onClose }) => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            {selectedCustomer && selectedCustomer.personId &&
-                <h2>Details for customer #{selectedCustomer.personId}</h2>}
+            {selectedCustomer && selectedCustomer.id &&
+                <h2>Details for customer #{selectedCustomer.id}</h2>}
             <div>
                 <div>
                     <label>Name</label>
