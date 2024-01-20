@@ -26,12 +26,15 @@ public class CustomerController implements CrudHandler {
     public void create(@NotNull Context ctx) {
         Customer c = ctx.bodyAsClass(Customer.class);
         customerService.createCustomer(c);
+        ctx.json(c);
         ctx.status(201);
     }
 
     @Override
     public void delete(@NotNull Context ctx, @NotNull String id) {
+        final var customer = customerService.getCustomerById(id);
         customerService.deleteCustomer(id);
+        ctx.json(customer);
         ctx.status(204);
     }
 
@@ -59,6 +62,8 @@ public class CustomerController implements CrudHandler {
         if (updatedCustomer == null)
             throw new NullPointerException();
         customerService.updateCustomer(id, updatedCustomer);
+
+        ctx.json(updatedCustomer);
         ctx.status(200);
     }
 }
