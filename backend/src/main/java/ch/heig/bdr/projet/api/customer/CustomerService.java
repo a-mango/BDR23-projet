@@ -57,16 +57,15 @@ public class CustomerService {
     }
 
     void updateCustomer(String id, Customer updatedCustomer){
-        String query = "UPDATE customer SET phone_no =?, name =?, comment =?, tos_accepted =?, private_note =? WHERE customer_id =?  AND ? IN (TRUE, FALSE)";
+        String query = "UPDATE customer_info_view SET phone_no =?, name =?, comment =?, tos_accepted =?, private_note =? WHERE customer_id =?";
 
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, updatedCustomer.phoneNumber);
             pstmt.setString(2, updatedCustomer.name);
             pstmt.setString(3, updatedCustomer.comment);
             pstmt.setBoolean(4, updatedCustomer.tosAccepted);
-            pstmt.setString(4, updatedCustomer.privateNote);
+            pstmt.setString(5, updatedCustomer.privateNote);
             pstmt.setInt(6, Integer.parseInt(id));
-            pstmt.setBoolean(7, updatedCustomer.tosAccepted);
 
             pstmt.executeUpdate();
         } catch (SQLException e){

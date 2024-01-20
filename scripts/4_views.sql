@@ -43,6 +43,26 @@ FROM customer c
 INNER JOIN person p
 ON c.customer_id = p.person_id;
 
+CREATE OR REPLACE FUNCTION update_customer_person() RETURNS TRIGGER AS $$
+BEGIN
+    -- Update person table
+    UPDATE person
+    SET name = NEW.name, phone_no = NEW.phone_no, comment = NEW.comment
+    WHERE person_id = NEW.customer_id;
+
+    -- Update customer table
+    UPDATE customer
+    SET tos_accepted = NEW.tos_accepted, private_note = NEW.private_note
+    WHERE customer_id = NEW.customer_id;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_customer_person_trigger
+INSTEAD OF UPDATE ON customer_info_view
+FOR EACH ROW EXECUTE PROCEDURE update_customer_person();
+
 -- View with collaborators info
 CREATE OR REPLACE VIEW collab_info_view AS
 SELECT *
