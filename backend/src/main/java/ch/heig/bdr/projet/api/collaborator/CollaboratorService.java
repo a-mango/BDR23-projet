@@ -2,7 +2,6 @@ package ch.heig.bdr.projet.api.collaborator;
 
 import ch.heig.bdr.projet.api.PostgresConnection;
 import ch.heig.bdr.projet.api.Utils;
-import ch.heig.bdr.projet.api.customer.Customer;
 import ch.heig.bdr.projet.api.person.Person;
 
 import java.sql.*;
@@ -102,6 +101,6 @@ public class CollaboratorService {
     protected Collaborator newCollaboratorFromResultSet(ResultSet rs) throws SQLException {
         Person p = new Person(rs.getInt("customer_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"));
 
-        return new Collaborator(p.personId, p.phoneNumber, p.name, p.comment, rs.getString("email"));
+        return new Collaborator(p.id, p.phoneNumber, p.name, p.comment, rs.getString("email"));
     }
 }
