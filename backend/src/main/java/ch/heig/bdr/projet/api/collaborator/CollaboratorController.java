@@ -38,7 +38,6 @@ public class CollaboratorController implements CrudHandler {
         ArrayList<Collaborator> collaborators = collaboratorService.getCollaborators();
         if (collaborators == null)
             throw new NullPointerException();
-
         ctx.json(collaborators);
     }
 
@@ -47,7 +46,6 @@ public class CollaboratorController implements CrudHandler {
         Collaborator collaborator = collaboratorService.getCollaboratorById(id);
         if (collaborator == null)
             throw new NullPointerException();
-
         ctx.json(collaborator);
     }
 

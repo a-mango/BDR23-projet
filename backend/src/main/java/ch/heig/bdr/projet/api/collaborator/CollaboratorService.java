@@ -25,10 +25,9 @@ public class CollaboratorService {
     }
 
     Collaborator getCollaboratorById(String id){
-        String query = "SELECT * FROM collab_info_view WHERE collaborator_id = ?";
-
+        String query = "SELECT * FROM collab_info_view WHERE collaborator_id =?";
         try (PreparedStatement pstmt = conn.prepareStatement(query)){
-            pstmt.setString(1, id);
+            pstmt.setInt(1, Integer.parseInt(id));
             try(ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     return newCollaboratorFromResultSet(rs);
@@ -44,14 +43,13 @@ public class CollaboratorService {
 
     ArrayList<Collaborator> getCollaborators(){
         String query = "SELECT * FROM collab_info_view";
-        try (PreparedStatement pstmt = conn.prepareStatement(query)){
-            try(ResultSet rs = pstmt.executeQuery()) {
-                ArrayList<Collaborator> collaborators = new ArrayList<>();
-                while (rs.next()) {
-                    collaborators.add(newCollaboratorFromResultSet(rs));
-                }
-                return collaborators;
+        try(Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(query)) {
+            ArrayList<Collaborator> collaborators = new ArrayList<>();
+            while (rs.next()) {
+                collaborators.add(newCollaboratorFromResultSet(rs));
             }
+            return collaborators;
         } catch (SQLException e){
             Utils.logError(e);
             return null;
@@ -59,47 +57,45 @@ public class CollaboratorService {
     }
 
     void updateCollaborator(String id, Collaborator updatedCollaborator){
-        String query = "UPDATE collaborator SET phone_no = ?, name = ?, comment = ?, email = ? WHERE customer_id =?";
+        String query = "UPDATE collab_info_view SET phone_no = ?, name = ?, comment = ?, email = ? WHERE collaborator_id =?";
         try (PreparedStatement pstmt = conn.prepareStatement(query)){
             pstmt.setString(1, updatedCollaborator.phoneNumber);
             pstmt.setString(2, updatedCollaborator.name);
             pstmt.setString(3, updatedCollaborator.comment);
             pstmt.setString(4, updatedCollaborator.email);
-            pstmt.setString(5, id);
-
-            pstmt.executeUpdate(query);
+            pstmt.setInt(5, Integer.parseInt(id));
+            pstmt.executeUpdate();
         } catch (SQLException e){
             Utils.logError(e);
         }
     }
 
     void deleteCollaborator(String id){
-        String query = "DELETE FROM person WHERE person_id =?";
+        String query = "DELETE FROM collab_info_view WHERE collaborator_id =?";
         try (PreparedStatement pstmt = conn.prepareStatement(query)){
-            pstmt.setString(1, id);
-            pstmt.executeUpdate(query);
+            pstmt.setInt(1, Integer.parseInt(id));
+            pstmt.executeUpdate();
         } catch (SQLException e){
             Utils.logError(e);
         }
     }
 
     void createCollaborator(Collaborator collaborator){
-        String query = "CALL projet.InsertCollaborator(?, ?, ?, ?)";
-
+        String query = "INSERT INTO collab_info_view (name, phone_no, comment, email) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(query)){
             pstmt.setString(1, collaborator.name);
             pstmt.setString(2, collaborator.phoneNumber);
             pstmt.setString(3, collaborator.comment);
             pstmt.setString(4, collaborator.email);
 
-            pstmt.executeUpdate(query);
+            pstmt.executeUpdate();
         } catch (SQLException e){
             Utils.logError(e);
         }
     }
 
     protected Collaborator newCollaboratorFromResultSet(ResultSet rs) throws SQLException {
-        Person p = new Person(rs.getInt("customer_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"));
+        Person p = new Person(rs.getInt("collaborator_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"));
 
         return new Collaborator(p.id, p.phoneNumber, p.name, p.comment, rs.getString("email"));
     }
