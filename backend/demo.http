@@ -126,5 +126,32 @@ PATCH localhost:7000/api/technician/67
   "privateNote": "another note"
 }
 
-### delete a technician
-DELETE localhost:7000/api/technician/67
+### delete a customer  id 1 à 50   OK WORKING
+DELETE localhost:7000/api/customer/49
+
+###
+GET localhost:7000/api/customer
+
+### delete a collaborator id 51 à 71 NOT WORKING
+DELETE localhost:7000/api/collaborator/71
+
+###
+GET localhost:7000/api/person
+
+### delete a technician id 54 à 68 NOT WORKING
+DELETE localhost:7000/api/technician/68
+
+###
+GET localhost:7000/api/person
+
+### delete a receptionist id 69 à 71 NOT WORKING
+DELETE localhost:7000/api/receptionist/70
+
+###
+GET localhost:7000/api/person
+
+### delete a manager id 51 à 53 NOT WORKING
+DELETE localhost:7000/api/manager/53
+
+###  get all managers OK WORKING
+GET localhost:7000/api/manager
