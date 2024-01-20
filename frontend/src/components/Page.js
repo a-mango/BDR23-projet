@@ -1,4 +1,3 @@
-// frontend/src/components/Page.js
 import React, { useContext } from 'react';
 import { GlobalStateContext } from '../GlobalState';
 import SubNavigation from './SubNavigation';
