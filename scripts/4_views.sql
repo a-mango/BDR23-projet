@@ -32,7 +32,7 @@ BEGIN
     SET name = NEW.name, phone_no = NEW.phone_no, comment = NEW.comment
     WHERE person_id = NEW.collaborator_id;
 
-    -- Update customer table
+    -- Update collaborator table
     UPDATE collaborator
     SET email = NEW.email
     WHERE collaborator_id = NEW.collaborator_id;
@@ -87,13 +87,6 @@ CREATE TRIGGER update_customer_person_trigger
 INSTEAD OF UPDATE ON customer_info_view
 FOR EACH ROW EXECUTE PROCEDURE update_customer_person();
 
--- View with collaborators info
-CREATE OR REPLACE VIEW collab_info_view AS
-SELECT *
-FROM collaborator c
-INNER JOIN person p
-ON c.collaborator_id = p.person_id;
-
 -- View with receptionist info
 CREATE OR REPLACE VIEW receptionist_info_view AS
 SELECT *
@@ -102,6 +95,12 @@ INNER JOIN collaborator c
 ON r.receptionist_id = c.collaborator_id
 INNER JOIN person p
 ON r.receptionist_id = p.person_id;
+
+-- Update person, collaborator and receptionist when receptionist_info_view is updated
+
+CREATE TRIGGER update_collaborator_person_receptionist_trigger
+INSTEAD OF UPDATE ON receptionist_info_view
+FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person();
 
 -- View with technician info
 CREATE OR REPLACE VIEW technician_info_view AS
@@ -112,6 +111,12 @@ ON t.technician_id = c.collaborator_id
 INNER JOIN person p
 ON t.technician_id = p.person_id;
 
+-- Update person, collaborator and technician when receptionist_info_view is updated
+
+CREATE TRIGGER update_collaborator_person_receptionist_trigger
+INSTEAD OF UPDATE ON technician_info_view
+FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person();
+
 -- View with manager info
 CREATE OR REPLACE VIEW manager_info_view AS
 SELECT *
@@ -120,3 +125,9 @@ INNER JOIN collaborator c
 ON m.manager_id = c.collaborator_id
 INNER JOIN person p
 ON m.manager_id = p.person_id;
+
+-- Update person, collaborator and technician when receptionist_info_view is updated
+
+CREATE TRIGGER update_collaborator_person_manager_trigger
+INSTEAD OF UPDATE ON manager_info_view
+FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person();
