@@ -16,7 +16,7 @@ const CustomersPage = () => {
         }
     };
 
-    const handleRowClick = (customer) => {
+    const handleSetCustomer = (customer) => {
         setSelectedCustomer(customer);
     };
 
@@ -36,11 +36,15 @@ const CustomersPage = () => {
         }
     };
 
+    const handleCloseForm = () => {
+        setSelectedCustomer(null);
+    };
+
     return (<Page title="Customers">
             {selectedCustomer && <CustomerForm selectedCustomer={selectedCustomer} onAddCustomer={handleAddCustomer}
-                                               onUpdateCustomer={handleUpdateCustomer} />}
+                                               onUpdateCustomer={handleUpdateCustomer} onClose={handleCloseForm} />}
             {state.customers && state.customers.length > 0 ? (
-                <Table data={state.customers} onRowClick={handleRowClick} onDeleteClick={handleDeleteClick} />) : (
+                <Table data={state.customers} onRowClick={handleSetCustomer} onDeleteClick={handleDeleteClick} />) : (
                 <p>No customers found.</p>)}
         </Page>);
 };

@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { CheckIcon, XMarkIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { GlobalStateContext } from '../GlobalState';
 
-const CustomerForm = ({ selectedCustomer }) => {
+const CustomerForm = ({ selectedCustomer, onClose }) => {
     const { dispatch, addCustomer, updateCustomer } = useContext(GlobalStateContext);
     const {
         register,
@@ -68,6 +68,7 @@ const CustomerForm = ({ selectedCustomer }) => {
             <div className="form-controls">
                 <button type="submit">Submit<CheckIcon className="h-5 w-5" /></button>
                 <button type="reset">Reset<XMarkIcon className="h-5 w-5" /></button>
+                <button type="button" onClick={onClose}>Close<XCircleIcon className="h-5 w-5" /></button>
             </div>
         </form>
     );
