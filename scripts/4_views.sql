@@ -18,10 +18,32 @@ FROM receptionist;
 
 -- View with collaborators informations
 CREATE OR REPLACE VIEW collab_info_view AS
-SELECT v.role, v.id, p.name, p.phone_no, c.email
-FROM collab_role_id_view v
-         INNER JOIN person p ON v.id = p.person_id
-         INNER JOIN collaborator c ON p.person_id = c.collaborator_id;
+SELECT *
+FROM collaborator c
+INNER JOIN person p
+ON c.collaborator_id = p.person_id;
+
+-- Update person and collaborator when collab_info_view is updated
+
+CREATE OR REPLACE FUNCTION update_collaborator_person() RETURNS TRIGGER AS $$
+BEGIN
+    -- Update person table
+    UPDATE person
+    SET name = NEW.name, phone_no = NEW.phone_no, comment = NEW.comment
+    WHERE person_id = NEW.collaborator_id;
+
+    -- Update customer table
+    UPDATE collaborator
+    SET email = NEW.email
+    WHERE collaborator_id = NEW.collaborator_id;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_collaborator_person_trigger
+INSTEAD OF UPDATE ON collab_info_view
+FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person();
 
 -- View with the information that a receptionist can access
 CREATE OR REPLACE VIEW receptionist_view AS
@@ -42,6 +64,8 @@ SELECT *
 FROM customer c
 INNER JOIN person p
 ON c.customer_id = p.person_id;
+
+-- Update Person and Customer when customer_info_view is updated
 
 CREATE OR REPLACE FUNCTION update_customer_person() RETURNS TRIGGER AS $$
 BEGIN
