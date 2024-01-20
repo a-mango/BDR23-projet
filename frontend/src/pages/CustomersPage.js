@@ -40,13 +40,15 @@ const CustomersPage = () => {
         setSelectedCustomer(null);
     };
 
-    return (<Page title="Customers">
+    return (
+        <Page title="Customers">
             {selectedCustomer && <CustomerForm selectedCustomer={selectedCustomer} onAddCustomer={handleAddCustomer}
                                                onUpdateCustomer={handleUpdateCustomer} onClose={handleCloseForm} />}
             {state.customers && state.customers.length > 0 ? (
                 <Table data={state.customers} onRowClick={handleSetCustomer} onDeleteClick={handleDeleteClick} />) : (
                 <p>No customers found.</p>)}
-        </Page>);
+        </Page>
+    );
 };
 
 export default CustomersPage;

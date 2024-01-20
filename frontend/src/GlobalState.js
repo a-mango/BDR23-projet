@@ -7,11 +7,13 @@ import {
     addCustomer,
     updateCustomer,
     removeCustomer,
-    fetchCollaborators,
-    addCollaborator,
-    updateCollaborator,
-    removeCollaborator,
-} from './actions';
+} from './actions/customerActions';
+import {
+    fetchTechnicians,
+    addTechnician,
+    updateTechnician,
+    removeTechnician,
+} from './actions/technicianActions';
 
 const initialState = { customers: [], alert: { type: '', message: '' } };
 const GlobalStateContext = createContext(initialState);
@@ -40,18 +42,18 @@ const GlobalStateProvider = ({ children }) => {
                 return { ...state, alert: action.payload };
             case actionTypes.CLEAR_ALERT:
                 return { ...state, alert: { type: '', message: '' } };
-            case actionTypes.SET_COLLABORATORS:
-                return { ...state, collaborators: action.payload };
-            case actionTypes.ADD_COLLABORATOR:
-                return { ...state, collaborators: [...state.collaborators, action.payload] };
-            case actionTypes.UPDATE_COLLABORATOR:
+            case actionTypes.SET_TECHNICIANS:
+                return { ...state, technicians: action.payload };
+            case actionTypes.ADD_TECHNICIAN:
+                return { ...state, technicians: [...state.technicians, action.payload] };
+            case actionTypes.UPDATE_TECHNICIAN:
                 return {
                     ...state,
-                    collaborators: state.collaborators.map(c => c.id === action.payload.id ? action.payload : c),
+                    technicians: state.technicians.map(c => c.id === action.payload.id ? action.payload : c),
                 };
-            case actionTypes.REMOVE_COLLABORATOR:
+            case actionTypes.REMOVE_TECHNICIAN:
                 return {
-                    ...state, collaborators: state.collaborators.filter(c => c.id !== action.payload),
+                    ...state, technicians: state.technicians.filter(c => c.id !== action.payload),
                 };
             default:
                 return state;
@@ -71,10 +73,10 @@ const GlobalStateProvider = ({ children }) => {
         addCustomer,
         updateCustomer,
         removeCustomer,
-        fetchCollaborators,
-        addCollaborator,
-        updateCollaborator,
-        removeCollaborator,
+        fetchTechnicians,
+        addTechnician,
+        updateTechnician,
+        removeTechnician,
     }}>
         {children}
     </Provider>);
