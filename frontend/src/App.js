@@ -13,6 +13,7 @@ function App() {
             <Layout>
                 <Routes>
                     <Route path="/" element={<HomePage />} />
+                    <Route path="technician" element={<RepairsPage/>} />
                     <Route path="receptionist" element={<CustomersPage/>}>
                         <Route index path="customers" element={<CustomersPage/>} />
                         <Route path="reparations" element={<RepairsPage/>} />
@@ -20,7 +21,6 @@ function App() {
                     <Route path="manager" element={<Page/>}>
                         <Route index path="collaborators" element={<CollaboratorsPage/>} />
                     </Route>
-                    <Route path="technician" element={<RepairsPage/>} />
                 </Routes>
             </Layout>
         </Router>

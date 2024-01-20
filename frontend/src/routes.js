@@ -1,20 +1,26 @@
 export const BASE_URL = 'http://localhost:7000/api';
 export const HOME = '';
-export const DASHBOARD = 'dashboard';
+export const TECHNICIAN = 'technician';
+export const REPAIRS = 'reparations';
 export const RECEPTIONIST = 'receptionist';
 export const CUSTOMERS = 'customers';
 export const MANAGER = 'manager';
-export const COLLABORATORS = 'collaborators';
-export const TECHNICIAN = 'technician';
-export const REPAIRS = 'repairs';
-
+export const DASHBOARD = 'dashboard';
+export const TECHNICIANS = 'technicians';
+export const RECEPTIONISTS = 'receptionists';
+export const MANAGERS = 'managers';
 
 export const routes = [
     { name: 'Home', path: HOME },
     {
         name: 'Receptionist', path: RECEPTIONIST, children: [
             { name: 'Customers', path: CUSTOMERS },
-            { name: 'Repairs', path: CUSTOMERS },
+            { name: 'Repairs', path: REPAIRS },
+        ],
+    },
+    {
+        name: 'Technician', path: TECHNICIAN, children: [
+            { name: 'Repairs', path: REPAIRS },
         ],
     },
     {
@@ -22,12 +28,9 @@ export const routes = [
             { name: 'Dashboard', path: DASHBOARD },
             { name: 'Customers', path: CUSTOMERS },
             { name: 'Repairs', path: CUSTOMERS },
-            { name: 'Collaborators', path: COLLABORATORS },
-        ],
-    },
-    {
-        name: 'Technician', path: TECHNICIAN, children: [
-            { name: 'Repairs', path: COLLABORATORS },
+            { name: 'Technicians', path: TECHNICIANS },
+            { name: 'Receptionists', path: RECEPTIONISTS },
+            { name: 'Manager', path: MANAGERS },
         ],
     },
 ];

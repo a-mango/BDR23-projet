@@ -1,27 +1,52 @@
-import React, {useEffect, useState} from 'react';
-import Page from "../components/Page";
-import Table from "../components/Table";
-import useData from "../hooks/useData";
+import React, { useContext, useEffect, useState } from 'react';
+import Page from '../components/Page';
+import Table from '../components/Table';
+import RepairForm from '../components/RepairForm';
+import { GlobalStateContext } from '../GlobalState';
 
 const RepairsPage = () => {
-    const {data, fetch, fetchSingle, create, update, remove, error} = useData("repair");
+    const { state, dispatch, addRepair, updateRepair, removeRepair } = useContext(GlobalStateContext);
+    const [selectedRepair, setSelectedRepair] = useState(null);
 
-    const [isLoading, setIsLoading] = useState(true);
+    const handleAddRepair = (repair) => {
+        try {
+            addRepair(dispatch, repair);
+        } catch (error) {
+            dispatch({ type: 'SET_ERROR', payload: error.message });
+        }
+    };
 
-    useEffect(() => {
-        fetch();
-        setIsLoading(false);
-    }, [fetch]);
+    const handleSetRepair = (repair) => {
+        setSelectedRepair(repair);
+    };
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
+    const handleDeleteClick = (repair) => {
+        try {
+            removeRepair(dispatch, repair.id);
+        } catch (error) {
+            dispatch({ type: 'SET_ERROR', payload: error.message });
+        }
+    };
+
+    const handleUpdateRepair = (repair) => {
+        try {
+            updateRepair(dispatch, repair);
+        } catch (error) {
+            dispatch({ type: 'SET_ERROR', payload: error.message });
+        }
+    };
+
+    const handleCloseForm = () => {
+        setSelectedRepair(null);
+    };
 
     return (
-        <Page>
-            <h2>Repairs</h2>
-            {error && <div>Error: {error}</div>}
-            {data && data.length > 0 ? (<Table data={data}/>) : (<p>No repairs found.</p>)}
+        <Page title="Repairs">
+            {selectedRepair && <RepairForm selectedRepair={selectedRepair} onAddRepair={handleAddRepair}
+                                               onUpdateRepair={handleUpdateRepair} onClose={handleCloseForm} />}
+            {state.repairs && state.repairs.length > 0 ? (
+                <Table data={state.repairs} onRowClick={handleSetRepair} onDeleteClick={handleDeleteClick} />) : (
+                <p>No repairs found.</p>)}
         </Page>
     );
 };
