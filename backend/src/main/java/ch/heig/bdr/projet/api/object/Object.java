@@ -3,8 +3,6 @@ import ch.heig.bdr.projet.api.brand.*;
 import ch.heig.bdr.projet.api.category.*;
 import ch.heig.bdr.projet.api.Location;
 
-import java.util.Date;
-
 /**
  * Class representing an object.
  *
@@ -52,31 +50,5 @@ public class Object {
         this.brand = brand;
         this.category = category;
         this.customerId = customerId;
-    }
-
-    /**
-     * Intern class representing a sale
-     */
-    public static class Sale{
-
-        int idSale;
-        int price;
-        Date dateCreated;
-        Date dateSold;
-
-        /**
-         * Sale constructor.
-         *
-         * @param idSale      The sale id.
-         * @param price       The sale price.
-         * @param dateCreated The sale creation date.
-         * @param dateSold    The sale sold date.
-         */
-        public Sale(int idSale, int price, Date dateCreated, Date dateSold) {
-            this.idSale = idSale;
-            this.price = price;
-            this.dateCreated = dateCreated;
-            this.dateSold = dateSold;
-        }
     }
 }

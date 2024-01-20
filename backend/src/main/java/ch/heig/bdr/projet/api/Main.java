@@ -4,17 +4,14 @@ import ch.heig.bdr.projet.api.brand.BrandController;
 import ch.heig.bdr.projet.api.category.CategoryController;
 import ch.heig.bdr.projet.api.collaborator.CollaboratorController;
 import ch.heig.bdr.projet.api.customer.CustomerController;
-import ch.heig.bdr.projet.api.customer.CustomerService;
 import ch.heig.bdr.projet.api.language.LanguageController;
 import ch.heig.bdr.projet.api.manager.ManagerController;
 import ch.heig.bdr.projet.api.object.ObjectController;
+import ch.heig.bdr.projet.api.sale.SaleController;
 import ch.heig.bdr.projet.api.person.PersonController;
-import ch.heig.bdr.projet.api.person.PersonService;
 import ch.heig.bdr.projet.api.receptionist.ReceptionistController;
 import ch.heig.bdr.projet.api.reparation.ReparationController;
-import ch.heig.bdr.projet.api.reparation.ReparationService;
 import ch.heig.bdr.projet.api.sms.SmsController;
-import ch.heig.bdr.projet.api.sms.SmsService;
 import ch.heig.bdr.projet.api.specialization.SpecializationController;
 import ch.heig.bdr.projet.api.technician.TechnicianController;
 import io.javalin.Javalin;
@@ -57,7 +54,7 @@ public class Main {
         });
 
         // Exception handling
-        app.exception(Exception.class, (e, ctx) -> ctx.status(500).result("Internal server error"));
+        //app.exception(Exception.class, (e, ctx) -> ctx.status(500).result("Internal server error"));
 
         // Register routes
         app.routes(() -> {
@@ -70,6 +67,8 @@ public class Main {
             crud("api/receptionist/{id}", new ReceptionistController());
             crud("api/manager/{id}", new ManagerController());
             crud("api/object/{id}", new ObjectController());
+            crud("api/sale/{id}", new SaleController());
+            // get("api/statistics", new StatisticsService::getStatistics);
             get("api/reparation/{repairId}/sms", new SmsController()::getAllByRepairId);
             get("api/language", new LanguageController()::getAll);
             get("api/brand", new BrandController()::getAll);
