@@ -1,7 +1,7 @@
 // SubNavigation.js
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { routes } from '../routes';
+import { routes } from '../config/routes';
 
 const SubNavigation = () => {
     const { pathname } = useLocation();

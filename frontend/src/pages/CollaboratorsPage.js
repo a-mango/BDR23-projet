@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useData from '../hooks/useData';
 import SubNavigation from '../components/SubNavigation';
 import Page from '../components/Page';
-import { routes } from '../routes';
+import { routes } from '../config/routes';
 
 const CollaboratorsPage = () => {
     const {data, fetch, fetchSingle, create, update, remove, error} = useData("collaborator");
