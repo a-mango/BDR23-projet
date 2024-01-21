@@ -2,11 +2,12 @@ SET search_path TO projet;
 
 -- Create a new Person and Customer in one transaction
 CREATE OR REPLACE PROCEDURE projet.InsertCustomer(
-    _name VARCHAR,
-    _phone_no VARCHAR,
-    _comment TEXT,
-    _tos_accepted BOOLEAN,
-    _private_note TEXT
+    IN _name VARCHAR,
+    IN _phone_no VARCHAR,
+    IN _comment TEXT,
+    IN _tos_accepted BOOLEAN,
+    IN _private_note TEXT,
+    OUT _new_id INTEGER
 )
     LANGUAGE plpgsql
 AS
@@ -21,7 +22,8 @@ BEGIN
 
     -- Insert into Customer using the new Person ID
     INSERT INTO projet.customer (customer_id, tos_accepted, private_note)
-    VALUES (new_person_id, _tos_accepted, _private_note);
+    VALUES (new_person_id, _tos_accepted, _private_note)
+    RETURNING customer_id INTO _new_id;
 END;
 $$;
 

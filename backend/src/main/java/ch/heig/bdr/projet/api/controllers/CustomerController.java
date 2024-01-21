@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class CustomerController implements CrudHandler {
 
-    CustomerService customerService;
+    private CustomerService customerService;
 
     public CustomerController() {
         this.customerService = new CustomerService();
@@ -25,7 +25,7 @@ public class CustomerController implements CrudHandler {
     @Override
     public void create(@NotNull Context ctx) {
         Customer c = ctx.bodyAsClass(Customer.class);
-        customerService.createCustomer(c);
+        c.id = customerService.createCustomer(c);
         ctx.json(c);
         ctx.status(201);
     }
