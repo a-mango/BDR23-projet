@@ -2,12 +2,17 @@ import React, { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { CheckIcon, XCircleIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { GlobalStateContext } from '../providers/GlobalState';
+import CustomSelect from '../components/CustomSelect';
 
 const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
-    const { dispatch, addRepair, updateRepair } = useContext(GlobalStateContext);
+    const { state, dispatch, addRepair, updateRepair } = useContext(GlobalStateContext);
+    const { brands, categories } = state;
     const {
-        register, handleSubmit, watch, formState: { errors }, setValue,
+        register, control, handleSubmit, watch, formState: { errors }, setValue,
     } = useForm();
+
+    const brandOptions = brands.map(brand => ({ value: brand.name, label: brand.name }));
+    const categoryOptions = categories.map(category => ({ value: category.name, label: category.name }));
 
     const formattedNow = () => {
         const now = new Date();
@@ -46,7 +51,7 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
             setValue('object.customerId', selectedRepair.object?.customerId || '');
             setValue('object.faultDesc', selectedRepair.object?.faultDesc || '');
             setValue('object.id', selectedRepair.object?.id || '');
-            setValue('object.location', selectedRepair.object?.location || '');
+            setValue('object.location', selectedRepair.object?.location || 'in_stock');
             setValue('object.name', selectedRepair.object?.name || '');
             setValue('object.remark', selectedRepair.object?.remark || '');
             setValue('object.serialNo', selectedRepair.object?.serialNo || '');
@@ -112,11 +117,11 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
             <div className="row">
                 <div>
                     <label>Object Brand</label>
-                    <input {...register('object.brand.name', { required: true })} />
+                    <CustomSelect control={control} name="object.brand.name" options={brandOptions} />
                 </div>
                 <div>
                     <label>Object Category</label>
-                    <input {...register('object.category.name', { required: true })} />
+                    <CustomSelect control={control} name="object.category.name" options={categoryOptions} />
                 </div>
             </div>
             <div className="row">
