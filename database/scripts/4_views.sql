@@ -169,7 +169,7 @@ FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person();
 CREATE OR REPLACE FUNCTION update_collaborator_person_receptionist_on_insert() RETURNS TRIGGER AS $$
 BEGIN
 
-    CALL InsertReceptionist(NEW.name, NEW.phone_no, NEW.comment, NEW.email);
+    CALL createReceptionist(NEW.name, NEW.phone_no, NEW.comment, NEW.email, NEW.languages);
 
     RETURN NEW;
 END;
