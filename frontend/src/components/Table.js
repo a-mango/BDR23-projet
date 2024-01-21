@@ -11,13 +11,16 @@ const Table = ({ data, onRowClick, onDeleteClick }) => {
         return header.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     };
 
-    const flattenArray = (array) => {
+    const formatCell = (array) => {
         if (array === null) {
             return '';
         } else if (Array.isArray(array)) {
-            return array.map(flattenArray).join(', ');
+            return array.map(formatCell).join(', ');
         } else if (typeof array === 'object') {
-            return Object.values(array).map(flattenArray).join(', ');
+            return Object.values(array).map(formatCell).join(', ');
+        } else if (!isNaN(Date.parse(array))) {
+            const date = new Date(array);
+            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
         }
 
         return array;
@@ -25,8 +28,8 @@ const Table = ({ data, onRowClick, onDeleteClick }) => {
 
     const sortedData = [...data].sort((a, b) => a.id - b.id);
 
-
-    return (<table className="table-auto w-full">
+    return (
+        <table className="table-auto w-full">
         <thead>
         <tr>
             {Object.keys(sortedData[0]).map((key, index) => (
@@ -36,11 +39,11 @@ const Table = ({ data, onRowClick, onDeleteClick }) => {
         </thead>
         <tbody>
             {sortedData.map((row, index) => (
-                <tr key={index} onClick={() => onRowClick(row)}
+                <tr key={index} onClick={() => onRowClick(row.id)}
                     className={`cursor-pointer hover:bg-apache ${index % 2 === 0 ? 'bg-gray-200' : ''}`}>
                     {Object.values(row).map((cell, index) => (
                         <td key={index} className="border px-4 py-2">
-                            {Array.isArray(cell) ? flattenArray(cell) : cell}
+                            {formatCell(cell)}
                         </td>
                     ))}
                     <td className="h-20 px-4 py-2 grid place-items-center">

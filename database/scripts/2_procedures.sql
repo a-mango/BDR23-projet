@@ -138,12 +138,14 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE PROCEDURE create_receptionist(
-    IN in_email VARCHAR(128),
+-- Used in the API to create a new receptionist
+CREATE OR REPLACE PROCEDURE createReceptionist(
     IN in_name VARCHAR(128),
     IN in_phone_no VARCHAR(11),
     IN in_comment TEXT,
-    IN in_languages VARCHAR(32)[]
+    IN in_email VARCHAR(128),
+    IN in_languages VARCHAR(32)[],
+    OUT _new_id INTEGER
 )
     LANGUAGE plpgsql
 AS $$
@@ -159,22 +161,27 @@ BEGIN
     INSERT INTO collaborator(collaborator_id, email)
     VALUES (i, in_email);
 
+    -- Insert into receptionist table
+    INSERT INTO receptionist(receptionist_id)
+    VALUES (i)
+    RETURNING receptionist_id INTO _new_id;
+
     -- Insert languages into receptionist_language table
-    FOR i IN 1..array_length(in_languages, 1)
+    FOR j IN 1..array_length(in_languages, 1)
         LOOP
             INSERT INTO receptionist_language(receptionist_id, language)
-            VALUES (i, in_languages[i]);
+            VALUES (_new_id, in_languages[j]);
         END LOOP;
 END;
 $$;
 
-
-CREATE OR REPLACE PROCEDURE update_receptionist(
+-- Used in the API to update a receptionist
+CREATE OR REPLACE PROCEDURE updateReceptionist(
     IN in_receptionist_id INT,
-    IN in_email VARCHAR(128),
     IN in_name VARCHAR(128),
     IN in_phone_no VARCHAR(11),
     IN in_comment TEXT,
+    IN in_email VARCHAR(128),
     IN in_new_languages VARCHAR(32)[],  -- New array of languages
     IN in_current_languages VARCHAR(32)[]  -- Current array of languages
 )
@@ -204,40 +211,26 @@ BEGIN
 END;
 $$;
 
--- Create a new Reparation and Object in one transaction
-
-CREATE OR REPLACE PROCEDURE create_reparation(
-    IN in_quote INT,
-    IN in_repair_description TEXT,
-    IN in_estimated_duration INTERVAL,
-    IN in_receptionist_id INT,
-    IN in_customer_id INT,
-    IN in_object_name VARCHAR(128),
-    IN in_fault_description TEXT,
-    IN in_remark TEXT,
-    IN in_serial_no VARCHAR(128),
-    IN in_brand_name VARCHAR(128),
-    IN in_category_name VARCHAR(128),
+-- Create a new Person, Collaborator and Technician in one transaction
+CREATE OR REPLACE PROCEDURE projet.InsertTechnician(
+    _name VARCHAR,
+    _phone_no VARCHAR,
+    _comment TEXT,
+    _email TEXT,
     OUT _new_id INTEGER
 )
     LANGUAGE plpgsql
-AS
-$$
+AS $$
 DECLARE
-    new_object_id INT;
+    new_person_id INTEGER := 0;
 BEGIN
+    -- Insert into a Collaborator and get the new ID
+    CALL projet.InsertCollaborator(_name, _phone_no, _comment, _email, new_person_id);
 
-    -- Insert into object table
-    INSERT INTO object(name, fault_desc, remark, serial_no, brand, category, customer_id)
-    VALUES (in_object_name, in_fault_description, in_remark, in_serial_no, in_brand_name,
-            in_category_name, in_customer_id)
-    RETURNING object_id INTO new_object_id;
-
-    -- Insert into reparation table
-    INSERT INTO reparation(quote, description, estimated_duration, receptionist_id, customer_id, object_id)
-    VALUES (in_quote, in_repair_description, in_estimated_duration, in_receptionist_id, in_customer_id, new_object_id)
-    RETURNING reparation_id INTO _new_id;
+    -- Insert into Technician using the new Person ID
+    INSERT INTO projet.technician (technician_id)
+    VALUES (new_person_id)
+    RETURNING technician_id INTO _new_id;
 
 END;
 $$;
-

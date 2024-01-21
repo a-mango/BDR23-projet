@@ -43,6 +43,7 @@ button {
     .icon {
         @apply mr-2;
     }
+
     &.alert-error {
         @apply p-2 my-2 text-red-600 bg-red-100 border border-red-600 shadow;
     }
@@ -78,21 +79,26 @@ form {
     .row {
         @apply flex flex-row items-center;
 
-        div {
+        div.item {
             @apply w-full
         }
     }
 
-    div {
+    div.col-1, div.col-2 {
         @apply flex flex-col p-2;
     }
 
-    label {
-        @apply inline-block text-lg text-gray-700 mr-2 decorated mb-1;
+    div.item {
+        @apply p-2;
+
+        label {
+            @apply inline-block text-lg text-gray-700 mr-2 decorated mb-2;
+        }
     }
 
+
     input, textarea, select {
-        @apply inline-block w-full border border-gray-300 shadow-sm;
+        @apply inline-block w-full border border-gray-300 shadow-sm !important;
     }
 
     div.form-tos {
@@ -101,10 +107,22 @@ form {
         input {
             @apply inline-block mt-0;
         }
+
+        input {
+            @apply inline-block w-8 h-8 ml-2 border border-gray-300 shadow-sm !important;
+
+            &:hover, &:checked, &:active, &:focus {
+                @apply border-apache border-4 !important;
+            }
+        }
     }
 
     .form-controls {
-        @apply flex flex-row justify-center col-span-2;
+        @apply flex flex-row justify-center col-span-2 mt-4 mb-8;
+
+        button {
+            @apply text-lg;
+        }
     }
 
     [type="submit"] {
@@ -116,12 +134,12 @@ form {
     }
 }
 
-input, textarea, select, button {
+input, textarea, select, button, .select-custom {
     @apply shadow !important;
 }
 
 input:focus, input:active, textarea:focus, textarea:active, select:focus, select:active, button:focus, button:active {
-    @apply border-4 border-apache outline-none ring-0 ring-apache;
+    @apply border-4 border-apache outline-none ring-0 ring-apache !important;
 }
 
 input[type="checkbox"]:checked {
@@ -141,7 +159,7 @@ table {
 }
 
 input[type="time"]::-webkit-datetime-edit-ampm-field {
-    display: none;
+    display: none !important;
 }
 
 .stats-container {

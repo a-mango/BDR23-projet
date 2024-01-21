@@ -17,8 +17,8 @@ const RepairsPage = () => {
         }
     };
 
-    const handleSetRepair = (repair) => {
-        setSelectedRepair(repair);
+    const handleSetRepair = (id) => {
+        setSelectedRepair(state.repairs.find((repair) => repair.id === id));
     };
 
     const handleDeleteClick = (repair) => {
@@ -41,6 +41,18 @@ const RepairsPage = () => {
         setSelectedRepair(null);
     };
 
+    const filterColumns = (data) => {
+        const columnDenyList = ['dateModified', 'receptionist_id', 'customer_id', 'object_id', 'sms'];
+        return data.map((row) => {
+            return Object.keys(row).reduce((newRow, key) => {
+                if (!columnDenyList.includes(key)) {
+                    newRow[key] = row[key];
+                }
+                return newRow;
+            }, {});
+        });
+    };
+
     return (
         <Page>
             <Title
@@ -52,7 +64,7 @@ const RepairsPage = () => {
                                            onAddRepair={handleAddRepair} onUpdateRepair={handleUpdateRepair}
                                            onClose={handleCloseForm} />}
             {state.repairs && state.repairs.length > 0 ? (
-                <Table data={state.repairs} onRowClick={handleSetRepair} onDeleteClick={handleDeleteClick} />) : (
+                <Table data={filterColumns(state.repairs)} onRowClick={handleSetRepair} onDeleteClick={handleDeleteClick} />) : (
                 <p>No repairs found.</p>)}
         </Page>
     );
