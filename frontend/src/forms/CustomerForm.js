@@ -41,6 +41,7 @@ const CustomerForm = ({ selectedCustomer, setSelectedCustomer, onClose }) => {
         <form onSubmit={handleSubmit(onSubmit)}>
             {selectedCustomer && selectedCustomer.id &&
                 <h2>Details for customer #{selectedCustomer.id}</h2>}
+            <input type="hidden" {...register('id')} />
             <div>
                 <div>
                     <label>Name</label>
