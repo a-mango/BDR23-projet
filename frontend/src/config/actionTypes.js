@@ -24,4 +24,5 @@ export const SET_REPAIRS = 'SET_REPAIRS';
 export const ADD_REPAIR = 'ADD_REPAIR';
 export const UPDATE_REPAIR = 'UPDATE_REPAIR';
 export const REMOVE_REPAIR = 'REMOVE_REPAIR';
+export const SET_STATISTICS = 'SET_STATISTICS';
 

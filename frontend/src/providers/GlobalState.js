@@ -2,36 +2,17 @@ import React, { createContext, useEffect, useReducer } from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../config/config';
 import * as actionTypes from '../config/actionTypes';
+import { addCustomer, fetchCustomers, removeCustomer, updateCustomer } from '../actions/customerActions';
+import { addTechnician, fetchTechnicians, removeTechnician, updateTechnician } from '../actions/technicianActions';
 import {
-    fetchCustomers,
-    addCustomer,
-    updateCustomer,
-    removeCustomer,
-} from '../actions/customerActions';
-import {
-    fetchTechnicians,
-    addTechnician,
-    updateTechnician,
-    removeTechnician,
-} from '../actions/technicianActions';
-import {
-    fetchReceptionists,
     addReceptionist,
-    updateReceptionist,
+    fetchReceptionists,
     removeReceptionist,
+    updateReceptionist,
 } from '../actions/receptionistActions';
-import {
-    fetchManagers,
-    addManager,
-    updateManager,
-    removeManager,
-} from '../actions/managerActions';
-import {
-    fetchRepairs,
-    addRepair,
-    updateRepair,
-    removeRepair,
-} from '../actions/repairActions';
+import { addManager, fetchManagers, removeManager, updateManager } from '../actions/managerActions';
+import { addRepair, fetchRepairs, removeRepair, updateRepair } from '../actions/repairActions';
+import { fetchStatistics } from '../actions/statisticsActions';
 
 const initialState = { customers: [], alert: { type: '', message: '' } };
 const GlobalStateContext = createContext(initialState);
@@ -66,8 +47,7 @@ const GlobalStateProvider = ({ children }) => {
                 return { ...state, technicians: [...state.technicians, action.payload] };
             case actionTypes.UPDATE_TECHNICIAN:
                 return {
-                    ...state,
-                    technicians: state.technicians.map(c => c.id === action.payload.id ? action.payload : c),
+                    ...state, technicians: state.technicians.map(c => c.id === action.payload.id ? action.payload : c),
                 };
             case actionTypes.REMOVE_TECHNICIAN:
                 return {
@@ -110,6 +90,8 @@ const GlobalStateProvider = ({ children }) => {
                 return {
                     ...state, repairs: state.repairs.filter(c => c.id !== action.payload),
                 };
+            case actionTypes.SET_STATISTICS:
+                return { ...state, statistics: action.payload };
             default:
                 return state;
         }
@@ -122,6 +104,7 @@ const GlobalStateProvider = ({ children }) => {
         fetchCustomers(dispatch);
         fetchRepairs(dispatch);
         fetchReceptionists(dispatch);
+        fetchStatistics(dispatch);
     }, [dispatch]);
 
     return (<Provider value={{
