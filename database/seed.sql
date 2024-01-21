@@ -222,7 +222,6 @@ CREATE OR REPLACE TRIGGER on_reparation_update_update_date
 EXECUTE FUNCTION date_updated();
 
 -- When there is an insertion on sale table, check that reparation.quote_state is 'declined'
-
 CREATE OR REPLACE FUNCTION quote_state_is_declined()
     RETURNS TRIGGER AS
 $$
@@ -247,7 +246,6 @@ CREATE OR REPLACE TRIGGER verify_quote_state_is_declined_for_reparation
 EXECUTE FUNCTION quote_state_is_declined();
 
 -- When object.location is updated into 'for_sale' or 'sold',  check that quote_state is 'declined'
-
 CREATE OR REPLACE FUNCTION quote_state_is_declined_for_object()
     RETURNS TRIGGER AS
 $$
@@ -272,7 +270,6 @@ CREATE OR REPLACE TRIGGER verify_quote_state_is_declined_for_object
 EXECUTE FUNCTION quote_state_is_declined_for_object();
 
 -- When reparation.reparation_state is updated into 'ongoing' or 'done', check that quote_state is 'accepted'
-
 CREATE OR REPLACE FUNCTION quote_state_is_accepted()
     RETURNS TRIGGER AS
 $$
@@ -293,7 +290,6 @@ CREATE OR REPLACE TRIGGER verify_quote_state_is_accepted
 EXECUTE FUNCTION quote_state_is_accepted();
 
 -- When there is an insertion on reparation table, check that customer.tos_accepted is 'accepted'
-
 CREATE OR REPLACE FUNCTION tos_accepted()
     RETURNS TRIGGER AS
 $$
@@ -317,7 +313,6 @@ CREATE OR REPLACE TRIGGER verify_tos_accepted
 EXECUTE FUNCTION tos_accepted();
 
 -- When reparation.quote_state is updated to 'accepted', reparation.reparation_state becomes 'ongoing'
-
 CREATE OR REPLACE FUNCTION reservation_state_ongoing()
     RETURNS TRIGGER AS
 $$
@@ -333,6 +328,230 @@ CREATE OR REPLACE TRIGGER set_reservation_state_ongoing
     FOR EACH ROW
 EXECUTE FUNCTION reservation_state_ongoing();
 
+-- When a row is inserted in receptionist_language with a language that is not yet present in the language table,
+-- the new language is added to the table
+CREATE OR REPLACE FUNCTION insert_language_if_not_exists()
+    RETURNS TRIGGER AS
+$$
+BEGIN
+
+    IF NOT EXISTS (SELECT 1 FROM language WHERE name = NEW.language) THEN
+        INSERT INTO language(name) VALUES (NEW.language);
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER before_insert_receptionist_language
+BEFORE INSERT ON receptionist_language
+FOR EACH ROW
+EXECUTE FUNCTION insert_language_if_not_exists();
+
+-- Update person and collaborator when there is an update on collab_info_view
+CREATE OR REPLACE FUNCTION update_collaborator_person() RETURNS TRIGGER AS $$
+BEGIN
+    -- Update person table
+    UPDATE person
+    SET name = NEW.name, phone_no = NEW.phone_no, comment = NEW.comment
+    WHERE person_id = NEW.collaborator_id;
+
+    -- Update collaborator table
+    UPDATE collaborator
+    SET email = NEW.email
+    WHERE collaborator_id = NEW.collaborator_id;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER update_collaborator_person_trigger
+    INSTEAD OF UPDATE ON collab_info_view
+    FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person();
+
+-- Update person and collaborator when there is an insert on collab_info_view
+CREATE OR REPLACE FUNCTION update_collaborator_person_on_insert() RETURNS TRIGGER AS $$
+BEGIN
+
+    CALL InsertCollaborator(NEW.name, NEW.phone_no, NEW.comment, NEW.email, NEW.collaborator_id);
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER update_collaborator_person_trigger_on_insert
+    INSTEAD OF INSERT ON collab_info_view
+    FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person_on_insert();
+
+-- Delete person and collaborator when there is an delete on collab_info_view
+CREATE OR REPLACE FUNCTION delete_collaborator_person_on_delete() RETURNS TRIGGER AS $$
+BEGIN
+
+    DELETE FROM person
+    WHERE person_id = OLD.collaborator_id;
+
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER delete_collaborator_person_trigger_on_delete
+    INSTEAD OF DELETE ON collab_info_view
+    FOR EACH ROW EXECUTE PROCEDURE delete_collaborator_person_on_delete();
+
+-- Update Person and Customer when there is an update on customer_info_view
+CREATE OR REPLACE FUNCTION update_customer_person() RETURNS TRIGGER AS $$
+BEGIN
+    -- Update person table
+    UPDATE person
+    SET name = NEW.name, phone_no = NEW.phone_no, comment = NEW.comment
+    WHERE person_id = NEW.customer_id;
+
+    -- Update customer table
+    UPDATE customer
+    SET tos_accepted = NEW.tos_accepted, private_note = NEW.private_note
+    WHERE customer_id = NEW.customer_id;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER update_customer_person_trigger
+    INSTEAD OF UPDATE ON customer_info_view
+    FOR EACH ROW EXECUTE PROCEDURE update_customer_person();
+
+-- Update Person and Customer when there is an insert on customer_info_view
+CREATE OR REPLACE FUNCTION update_customer_person_on_insert() RETURNS TRIGGER AS $$
+BEGIN
+
+    CALL InsertCustomer(NEW.Name, NEW.phone_no, NEW.comment, NEW.tos_accepted, NEW.private_note);
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER update_customer_person_trigger_on_insert
+    INSTEAD OF INSERT ON customer_info_view
+    FOR EACH ROW EXECUTE PROCEDURE update_customer_person_on_insert();
+
+-- Delete person and customer when there is an delete on customer_info_view
+CREATE OR REPLACE FUNCTION delete_customer_person_on_delete() RETURNS TRIGGER AS $$
+BEGIN
+
+    DELETE FROM person
+    WHERE person_id = OLD.customer_id;
+
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER delete_customer_person_trigger_on_delete
+    INSTEAD OF DELETE ON customer_info_view
+    FOR EACH ROW EXECUTE PROCEDURE delete_customer_person_on_delete();
+
+
+-- Update person, collaborator and receptionist when receptionist_info_view is updated
+CREATE OR REPLACE TRIGGER update_collaborator_person_receptionist_trigger
+    INSTEAD OF UPDATE ON receptionist_info_view
+    FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person();
+
+-- Update person, collaborator and receptionist when there is an insert on receptionist_info_view
+CREATE OR REPLACE FUNCTION update_collaborator_person_receptionist_on_insert() RETURNS TRIGGER AS $$
+BEGIN
+
+    CALL createReceptionist(NEW.name, NEW.phone_no, NEW.comment, NEW.email, NEW.languages);
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER update_collaborator_person_receptionist_trigger_on_insert
+    INSTEAD OF INSERT ON receptionist_info_view
+    FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person_receptionist_on_insert();
+
+-- Delete person and receptionist when there is an delete on receptionist_info_view
+CREATE OR REPLACE FUNCTION delete_receptionist_person_on_delete() RETURNS TRIGGER AS $$
+BEGIN
+
+    DELETE FROM person
+    WHERE person_id = OLD.receptionist_id;
+
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER delete_receptionist_person_trigger_on_delete
+    INSTEAD OF DELETE ON receptionist_info_view
+    FOR EACH ROW EXECUTE PROCEDURE delete_receptionist_person_on_delete();
+
+
+-- Update person, collaborator and technician when technician_info_view is updated
+CREATE OR REPLACE TRIGGER update_collaborator_person_technician_trigger
+    INSTEAD OF UPDATE ON technician_info_view
+    FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person();
+
+-- Update person, collaborator and technician when there is an insert on technician_info_view
+CREATE OR REPLACE FUNCTION update_collaborator_person_technician_on_insert() RETURNS TRIGGER AS $$
+BEGIN
+
+    CALL InsertTechnician(NEW.name, NEW.phone_no, NEW.comment, NEW.email);
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER update_collaborator_person_technician_trigger_on_insert
+    INSTEAD OF INSERT ON technician_info_view
+    FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person_technician_on_insert();
+
+-- Delete person and technician when there is an delete on technician_info_view
+CREATE OR REPLACE FUNCTION delete_technician_person_on_delete() RETURNS TRIGGER AS $$
+BEGIN
+
+    DELETE FROM person
+    WHERE person_id = OLD.technician_id;
+
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER delete_technician_person_trigger_on_delete
+    INSTEAD OF DELETE ON technician_info_view
+    FOR EACH ROW EXECUTE PROCEDURE delete_technician_person_on_delete();
+
+
+-- Update person, collaborator and manager when manager_info_view is updated
+CREATE OR REPLACE TRIGGER update_collaborator_person_manager_trigger
+    INSTEAD OF UPDATE ON manager_info_view
+    FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person();
+
+-- Update person, collaborator and manager when there is an insert on manager_info_view
+CREATE OR REPLACE FUNCTION update_collaborator_person_manager_on_insert() RETURNS TRIGGER AS $$
+BEGIN
+
+    CALL InsertManager(NEW.name, NEW.phone_no, NEW.comment, NEW.email);
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER update_collaborator_person_manager_trigger_on_insert
+    INSTEAD OF INSERT ON manager_info_view
+    FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person_manager_on_insert();
+
+-- Delete person and manager when there is an delete on manager_info_view
+CREATE OR REPLACE FUNCTION delete_manager_person_on_delete() RETURNS TRIGGER AS $$
+BEGIN
+
+    DELETE FROM person
+    WHERE person_id = OLD.manager_id;
+
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER delete_manager_person_trigger_on_delete
+    INSTEAD OF DELETE ON manager_info_view
+    FOR EACH ROW EXECUTE PROCEDURE delete_manager_person_on_delete();
 SET search_path TO projet;
 
 -- Create a new person
@@ -449,67 +668,37 @@ BEGIN
 END;
 $$;
 
--- Create a new Person, Collaborator and Technician in one transaction
-CREATE OR REPLACE PROCEDURE projet.InsertTechnician(
-    _name VARCHAR,
-    _phone_no VARCHAR,
-    _comment TEXT,
-    _email TEXT,
+-- Create a new Person, Collaborator, Receptionist and language into receptionist_language in one transaction
+CREATE OR REPLACE PROCEDURE createReceptionist(
+    IN _name VARCHAR(128),
+    IN _phone_no VARCHAR(11),
+    IN _comment TEXT,
+    IN _email VARCHAR(128),
+    IN _languages VARCHAR(32)[],
     OUT _new_id INTEGER
 )
     LANGUAGE plpgsql
 AS $$
-DECLARE
-    new_person_id INTEGER := 0;
 BEGIN
-    -- Insert into a Collaborator and get the new ID
-    CALL projet.InsertCollaborator(_name, _phone_no, _comment, _email, new_person_id);
 
-    -- Insert into Technician using the new Person ID
-    INSERT INTO projet.technician (technician_id)
-    VALUES (new_person_id)
-    RETURNING technician_id INTO _new_id;
-
-END;
-$$;
-
-CREATE OR REPLACE PROCEDURE create_receptionist(
-    IN in_email VARCHAR(128),
-    IN in_name VARCHAR(128),
-    IN in_phone_no VARCHAR(11),
-    IN in_comment TEXT,
-    IN in_languages VARCHAR(32)[]
-)
-    LANGUAGE plpgsql
-AS $$
-DECLARE
-    i INT;
-BEGIN
-    -- Insert into person table
-    INSERT INTO person(name, phone_no, comment)
-    VALUES (in_name, in_phone_no, in_comment)
-    RETURNING person_id INTO i;
-
-    -- Insert into collaborator table
-    INSERT INTO collaborator(collaborator_id, email)
-    VALUES (i, in_email);
+    CALL projet.InsertReceptionist(_name, _phone_no, _comment, _email, _new_id);
 
     -- Insert languages into receptionist_language table
-    FOR i IN 1..array_length(in_languages, 1)
+    FOR j IN 1..array_length(_languages, 1)
         LOOP
             INSERT INTO receptionist_language(receptionist_id, language)
-            VALUES (i, in_languages[i]);
+            VALUES (_new_id, _languages[j]);
         END LOOP;
 END;
 $$;
 
-
-CREATE OR REPLACE PROCEDURE update_receptionist(
+-- Update a new Person, Collaborator, Receptionist and language into receptionist_language in one transaction
+CREATE OR REPLACE PROCEDURE updateReceptionist(
     IN in_receptionist_id INT,
-    IN in_email VARCHAR(128),
     IN in_name VARCHAR(128),
     IN in_phone_no VARCHAR(11),
     IN in_comment TEXT,
+    IN in_email VARCHAR(128),
     IN in_new_languages VARCHAR(32)[],  -- New array of languages
     IN in_current_languages VARCHAR(32)[]  -- Current array of languages
 )
@@ -538,7 +727,65 @@ BEGIN
     WHERE lang NOT IN (SELECT language FROM receptionist_language WHERE receptionist_id = in_receptionist_id);
 END;
 $$;
-SET search_path TO projet;
+
+-- Create a new Person, Collaborator and Technician in one transaction
+CREATE OR REPLACE PROCEDURE projet.InsertTechnician(
+    _name VARCHAR,
+    _phone_no VARCHAR,
+    _comment TEXT,
+    _email TEXT,
+    OUT _new_id INTEGER
+)
+    LANGUAGE plpgsql
+AS $$
+DECLARE
+    new_person_id INTEGER := 0;
+BEGIN
+    -- Insert into a Collaborator and get the new ID
+    CALL projet.InsertCollaborator(_name, _phone_no, _comment, _email, new_person_id);
+
+    -- Insert into Technician using the new Person ID
+    INSERT INTO projet.technician (technician_id)
+    VALUES (new_person_id)
+    RETURNING technician_id INTO _new_id;
+END;
+$$;
+
+
+-- Create a new Reparation and Object in one transaction
+
+CREATE OR REPLACE PROCEDURE create_reparation(
+    IN in_quote INT,
+    IN in_repair_description TEXT,
+    IN in_estimated_duration INTERVAL,
+    IN in_receptionist_id INT,
+    IN in_customer_id INT,
+    IN in_object_name VARCHAR(128),
+    IN in_fault_description TEXT,
+    IN in_remark TEXT,
+    IN in_serial_no VARCHAR(128),
+    IN in_brand_name VARCHAR(128),
+    IN in_category_name VARCHAR(128),
+    OUT _new_id INTEGER
+)
+    LANGUAGE plpgsql
+AS
+$$
+DECLARE
+    new_object_id INT;
+BEGIN
+    -- Insert into object table
+    INSERT INTO object(name, fault_desc, remark, serial_no, brand, category, customer_id)
+    VALUES (in_object_name, in_fault_description, in_remark, in_serial_no, in_brand_name,
+            in_category_name, in_customer_id)
+    RETURNING object_id INTO new_object_id;
+
+    -- Insert into reparation table
+    INSERT INTO reparation(quote, description, estimated_duration, receptionist_id, customer_id, object_id)
+    VALUES (in_quote, in_repair_description, in_estimated_duration, in_receptionist_id, in_customer_id, new_object_id)
+    RETURNING reparation_id INTO _new_id;
+END;
+$$;SET search_path TO projet;
 
 --
 -- Customer insertion
@@ -609,7 +856,7 @@ CALL projet.InsertManager('Julius Wasielewicz', '8921298385', NULL, 'jwasielewic
 
 --
 -- Technician insertion
--- Returns IDs 53 to 68
+-- Returns IDs 54 to 68
 --
 CALL InsertTechnician('Alphonso Kerrich', '9949134373', 'Aliquam sit amet diam in magna bibendum imperdiet.',
                       'akerrich0@dion.ne.jp', NULL); -- 54
@@ -630,6 +877,7 @@ CALL InsertTechnician('Ebba Lerer', '1371807550', NULL, 'elerere@netvibes.com', 
 
 --
 -- Receptionist insertion
+-- Returns IDs 69 to 71
 --
 CALL InsertReceptionist('Alic Klagges', '1167567619', NULL, 'aklagges0@shop-pro.jp', NULL); -- 69
 CALL InsertReceptionist('Celestyn Deeth', '8254514158', 'Quisque ut erat.', 'cdeeth1@nydailynews.com', NULL); -- 70
@@ -759,7 +1007,10 @@ VALUES ('Electronics'),
        ('Vehicle'),
        ('Miscellaneous');
 
-INSERT INTO object (object_id, name, fault_desc, location, remark, serial_no, brand, category)
+--
+-- Object insertion
+--
+INSERT INTO object (customer_id, name, fault_desc, location, remark, serial_no, brand, category)
 VALUES (1, 'Laptop', 'Not powering on', 'in_stock', 'Needs urgent repair', 'SN123456', 'Apeul', 'Electronics'),
        (2, 'Smartphone', 'Cracked screen', 'returned', 'Screen replacement needed', 'SN789012', 'Bousch',
         'Electronics'),
@@ -847,7 +1098,7 @@ VALUES (1, 'Laptop', 'Not powering on', 'in_stock', 'Needs urgent repair', 'SN12
         'Bousch', 'Clothing');
 
 --
--- Sale insertion
+-- Reparation insertion
 --
 INSERT INTO reparation (object_id, customer_id, receptionist_id, quote, description, estimated_duration,
                         reparation_state, quote_state, date_created, date_modified)
@@ -926,103 +1177,87 @@ VALUES (54, 1, '2 hours'); -- Laptop reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (54, 2, '1.5 hours'); -- Smartphone reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (54, 3, '2.5 hours');
--- Desktop Computer reparation
+VALUES (54, 3, '2.5 hours'); -- Desktop Computer reparation
 
 -- Technician ID 55 (Electrical specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (55, 5, '1 hour'); -- Vacuum Cleaner reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (55, 6, '1.5 hours');
--- Toaster reparation
+VALUES (55, 6, '1.5 hours'); -- Toaster reparation
 
 -- Technician ID 56 (Woodworking specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (56, 7, '3 hours'); -- Dining Table reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (56, 8, '2 hours');
--- Sofa reparation
--- ...
+VALUES (56, 8, '2 hours'); -- Sofa reparation
 
 -- Technician ID 57 (Mechanics specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (57, 9, '2 hours'); -- Drill reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (57, 10, '2.5 hours');
--- Circular Saw reparation
+VALUES (57, 10, '2.5 hours'); -- Circular Saw reparation
 
 -- Technician ID 58 (Sewing specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (58, 13, '1.5 hours'); -- Leather Jacket reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (58, 14, '1 hour');
--- Running Shoes reparation
+VALUES (58, 14, '1 hour'); -- Running Shoes reparation
 
 -- Technician ID 59 (Miscellaneous specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (59, 17, '2 hours'); -- Watch reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (59, 18, '1.5 hours');
--- Bluetooth Speaker reparation
+VALUES (59, 18, '1.5 hours'); -- Bluetooth Speaker reparation
 
 -- Technician ID 60 (Electronics specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (60, 19, '3 hours'); -- Digital Camera reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (60, 20, '2 hours');
--- Headphones reparation
--- ...
+VALUES (60, 20, '2 hours'); -- Headphones reparation
 
 -- Technician ID 61 (Electrical specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (61, 21, '2.5 hours'); -- Laser Printer reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (61, 22, '2 hours');
--- External Hard Drive reparation
+VALUES (61, 22, '2 hours'); -- External Hard Drive reparation
 
 -- Technician ID 62 (Woodworking specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (62, 25, '3.5 hours'); -- Bookshelf reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (62, 26, '2.5 hours');
--- Office Chair reparation
+VALUES (62, 26, '2.5 hours'); -- Office Chair reparation
 
 -- Technician ID 63 (Mechanics specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (63, 27, '4 hours'); -- Angle Grinder reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (63, 28, '3 hours');
--- Electric Screwdriver reparation
+VALUES (63, 28, '3 hours'); -- Electric Screwdriver reparation
 
 -- Technician ID 64 (Sewing specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (64, 31, '2 hours'); -- Leather Boots reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (64, 32, '1.5 hours');
--- Winter Jacket reparation
+VALUES (64, 32, '1.5 hours'); -- Winter Jacket reparation
 
 -- Technician ID 65 (Mechanics specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (65, 33, '3.5 hours'); -- Motorcycle reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (65, 34, '2 hours');
--- Skateboard reparation
+VALUES (65, 34, '2 hours'); -- Skateboard reparation
 
 -- Technician ID 66 (Electronics specialization)
 -- Assuming these technicians also take on Electronics-related tasks
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (66, 37, '2.5 hours'); -- Smartwatch reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (66, 38, '2 hours');
--- Bluetooth Earbuds reparation
+VALUES (66, 38, '2 hours'); -- Bluetooth Earbuds reparation
 
 -- Technician ID 67 (Electrical specialization)
 -- Assuming these technicians also take on Electrical-related tasks
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (67, 41, '3 hours'); -- Microwave reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (67, 42, '1.5 hours');
--- Air Purifier reparation
+VALUES (67, 42, '1.5 hours'); -- Air Purifier reparation
 
 -- Technician ID 68 (Miscellaneous specialization)
 -- Assigning miscellaneous tasks
@@ -1033,8 +1268,7 @@ VALUES (68, 36, '2.5 hours'); -- Portable Fan reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (68, 29, '2 hours'); -- Tape Measure reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (68, 30, '1 hour');
--- Hacksaw reparation
+VALUES (68, 30, '1 hour'); -- Hacksaw reparation
 
 -- Looping back to Technician ID 54 (Electronics specialization) for remaining Electronics reparations
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
@@ -1044,22 +1278,19 @@ VALUES (54, 38, '1.5 hours'); -- Bluetooth Earbuds reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (54, 39, '3 hours'); -- Laptop Docking Station reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (54, 40, '2.5 hours');
--- Graphics Card reparation
+VALUES (54, 40, '2.5 hours'); -- Graphics Card reparation
 
 -- Technician ID 55 (Electrical specialization) for remaining Electrical reparations
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (55, 41, '2 hours'); -- Microwave reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (55, 42, '1.5 hours');
--- Air Purifier reparation
+VALUES (55, 42, '1.5 hours'); -- Air Purifier reparation
 
 -- Technician ID 56 (Woodworking specialization) for remaining Woodworking reparations
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (56, 43, '2 hours'); -- Coffee Table reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (56, 44, '2.5 hours');
--- Office Desk reparation
+VALUES (56, 44, '2.5 hours'); -- Office Desk reparation
 
 -- Technician ID 57 (Mechanics specialization) for remaining Mechanics reparations
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
@@ -1069,15 +1300,13 @@ VALUES (57, 46, '2 hours'); -- Impact Driver reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (57, 47, '1.5 hours'); -- Utility Knife reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (57, 48, '2 hours');
--- Adjustable Wrench reparation
+VALUES (57, 48, '2 hours'); -- Adjustable Wrench reparation
 
 -- Technician ID 58 (Sewing specialization) for remaining Sewing reparations
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (58, 49, '2 hours'); -- Winter Gloves reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (58, 50, '1.5 hours');
--- Hiking Backpack reparation
+VALUES (58, 50, '1.5 hours'); -- Hiking Backpack reparation
 
 
 --
@@ -1303,7 +1532,8 @@ VALUES (1, 'The repair cost for your laptop is CHF 80.00.', '+1234567890', '7509
        (49, 'I accept', '4406289262', '+1234567890', 'received', '2022-04-27 17:08:00'),
        (50, 'The repair cost for your hiking backpack is CHF 50.00.', '+1234567890', '9898594506', 'processed',
         '2022-04-27 14:08:00'),
-       (50, 'OK', '9898594506', '+1234567890', 'received', '2022-04-28 13:08:00');--
+       (50, 'OK', '9898594506', '+1234567890', 'received', '2022-04-28 13:08:00');
+--
 -- Views
 --
 
@@ -1328,59 +1558,6 @@ FROM collaborator c
 INNER JOIN person p
 ON c.collaborator_id = p.person_id;
 
--- Update person and collaborator when collab_info_view is updated
-
-CREATE OR REPLACE FUNCTION update_collaborator_person() RETURNS TRIGGER AS $$
-BEGIN
-    -- Update person table
-    UPDATE person
-    SET name = NEW.name, phone_no = NEW.phone_no, comment = NEW.comment
-    WHERE person_id = NEW.collaborator_id;
-
-    -- Update collaborator table
-    UPDATE collaborator
-    SET email = NEW.email
-    WHERE collaborator_id = NEW.collaborator_id;
-
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER update_collaborator_person_trigger
-INSTEAD OF UPDATE ON collab_info_view
-FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person();
-
--- Update person and collaborator when there is an insert on collab_info_view
-
-CREATE OR REPLACE FUNCTION update_collaborator_person_on_insert() RETURNS TRIGGER AS $$
-BEGIN
-
-    CALL InsertCollaborator(NEW.name, NEW.phone_no, NEW.comment, NEW.email, NEW.collaborator_id);
-
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER update_collaborator_person_trigger_on_insert
-INSTEAD OF INSERT ON collab_info_view
-FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person_on_insert();
-
--- Delete person and collaborator when there is an delete on collab_info_view
-
-CREATE OR REPLACE FUNCTION delete_collaborator_person_on_delete() RETURNS TRIGGER AS $$
-BEGIN
-
-    DELETE FROM person
-    WHERE person_id = OLD.collaborator_id;
-
-    RETURN OLD;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER delete_collaborator_person_trigger_on_delete
-INSTEAD OF DELETE ON collab_info_view
-FOR EACH ROW EXECUTE PROCEDURE delete_collaborator_person_on_delete();
-
 -- View with the information that a receptionist can access
 CREATE OR REPLACE VIEW receptionist_view AS
 SELECT r.customer_id,
@@ -1401,59 +1578,6 @@ FROM customer c
 INNER JOIN person p
 ON c.customer_id = p.person_id;
 
--- Update Person and Customer when customer_info_view is updated
-
-CREATE OR REPLACE FUNCTION update_customer_person() RETURNS TRIGGER AS $$
-BEGIN
-    -- Update person table
-    UPDATE person
-    SET name = NEW.name, phone_no = NEW.phone_no, comment = NEW.comment
-    WHERE person_id = NEW.customer_id;
-
-    -- Update customer table
-    UPDATE customer
-    SET tos_accepted = NEW.tos_accepted, private_note = NEW.private_note
-    WHERE customer_id = NEW.customer_id;
-
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER update_customer_person_trigger
-INSTEAD OF UPDATE ON customer_info_view
-FOR EACH ROW EXECUTE PROCEDURE update_customer_person();
-
--- Update Person and Customer when there is an insert on customer_info_view
-
-CREATE OR REPLACE FUNCTION update_customer_person_on_insert() RETURNS TRIGGER AS $$
-BEGIN
-
-    CALL InsertCustomer(NEW.Name, NEW.phone_no, NEW.comment, NEW.tos_accepted, NEW.private_note);
-
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER update_customer_person_trigger_on_insert
-INSTEAD OF INSERT ON customer_info_view
-FOR EACH ROW EXECUTE PROCEDURE update_customer_person_on_insert();
-
--- Delete person and customer when there is an delete on customer_info_view
-
-CREATE OR REPLACE FUNCTION delete_customer_person_on_delete() RETURNS TRIGGER AS $$
-BEGIN
-
-    DELETE FROM person
-    WHERE person_id = OLD.customer_id;
-
-    RETURN OLD;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER delete_customer_person_trigger_on_delete
-INSTEAD OF DELETE ON customer_info_view
-FOR EACH ROW EXECUTE PROCEDURE delete_customer_person_on_delete();
-
 -- View with receptionist info
 CREATE OR REPLACE VIEW receptionist_info_view AS
 SELECT *
@@ -1462,43 +1586,6 @@ INNER JOIN collaborator c
 ON r.receptionist_id = c.collaborator_id
 INNER JOIN person p
 ON r.receptionist_id = p.person_id;
-
--- Update person, collaborator and receptionist when receptionist_info_view is updated
-
-CREATE TRIGGER update_collaborator_person_receptionist_trigger
-INSTEAD OF UPDATE ON receptionist_info_view
-FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person();
-
--- Update person, collaborator and receptionist when there is an insert on receptionist_info_view
-
-CREATE OR REPLACE FUNCTION update_collaborator_person_receptionist_on_insert() RETURNS TRIGGER AS $$
-BEGIN
-
-    CALL InsertReceptionist(NEW.name, NEW.phone_no, NEW.comment, NEW.email);
-
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER update_collaborator_person_receptionist_trigger_on_insert
-INSTEAD OF INSERT ON receptionist_info_view
-FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person_receptionist_on_insert();
-
--- Delete person and receptionist when there is an delete on receptionist_info_view
-
-CREATE OR REPLACE FUNCTION delete_receptionist_person_on_delete() RETURNS TRIGGER AS $$
-BEGIN
-
-    DELETE FROM person
-    WHERE person_id = OLD.receptionist_id;
-
-    RETURN OLD;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER delete_receptionist_person_trigger_on_delete
-INSTEAD OF DELETE ON receptionist_info_view
-FOR EACH ROW EXECUTE PROCEDURE delete_receptionist_person_on_delete();
 
 -- View with technician info
 CREATE OR REPLACE VIEW technician_info_view AS
@@ -1509,43 +1596,6 @@ ON t.technician_id = c.collaborator_id
 INNER JOIN person p
 ON t.technician_id = p.person_id;
 
--- Update person, collaborator and technician when technician_info_view is updated
-
-CREATE TRIGGER update_collaborator_person_receptionist_trigger
-INSTEAD OF UPDATE ON technician_info_view
-FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person();
-
--- Update person, collaborator and technician when there is an insert on technician_info_view
-
-CREATE OR REPLACE FUNCTION update_collaborator_person_technician_on_insert() RETURNS TRIGGER AS $$
-BEGIN
-
-    CALL InsertTechnician(NEW.name, NEW.phone_no, NEW.comment, NEW.email);
-
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER update_collaborator_person_technician_trigger_on_insert
-INSTEAD OF INSERT ON technician_info_view
-FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person_technician_on_insert();
-
--- Delete person and technician when there is an delete on technician_info_view
-
-CREATE OR REPLACE FUNCTION delete_technician_person_on_delete() RETURNS TRIGGER AS $$
-BEGIN
-
-    DELETE FROM person
-    WHERE person_id = OLD.technician_id;
-
-    RETURN OLD;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER delete_technician_person_trigger_on_delete
-INSTEAD OF DELETE ON technician_info_view
-FOR EACH ROW EXECUTE PROCEDURE delete_technician_person_on_delete();
-
 -- View with manager info
 CREATE OR REPLACE VIEW manager_info_view AS
 SELECT *
@@ -1554,40 +1604,3 @@ INNER JOIN collaborator c
 ON m.manager_id = c.collaborator_id
 INNER JOIN person p
 ON m.manager_id = p.person_id;
-
--- Update person, collaborator and manager when manager_info_view is updated
-
-CREATE TRIGGER update_collaborator_person_manager_trigger
-INSTEAD OF UPDATE ON manager_info_view
-FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person();
-
--- Update person, collaborator and manager when there is an insert on manager_info_view
-
-CREATE OR REPLACE FUNCTION update_collaborator_person_manager_on_insert() RETURNS TRIGGER AS $$
-BEGIN
-
-    CALL InsertManager(NEW.name, NEW.phone_no, NEW.comment, NEW.email);
-
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER update_collaborator_person_manager_trigger_on_insert
-INSTEAD OF INSERT ON manager_info_view
-FOR EACH ROW EXECUTE PROCEDURE update_collaborator_person_manager_on_insert();
-
--- Delete person and manager when there is an delete on manager_info_view
-
-CREATE OR REPLACE FUNCTION delete_manager_person_on_delete() RETURNS TRIGGER AS $$
-BEGIN
-
-    DELETE FROM person
-    WHERE person_id = OLD.manager_id;
-
-    RETURN OLD;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER delete_manager_person_trigger_on_delete
-INSTEAD OF DELETE ON manager_info_view
-FOR EACH ROW EXECUTE PROCEDURE delete_manager_person_on_delete();
