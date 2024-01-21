@@ -9,7 +9,7 @@ const Link = ({text, link}) => {
     )
 }
 
-const Navigation = () => {
+const Nav = () => {
     return (
         <nav className="w-full mx-auto bg-atomic-tangerine py-4 border-amber-500 text-xl">
             <ul className="flex space-x-10 px-10">
@@ -23,4 +23,4 @@ const Navigation = () => {
     )
 }
 
-export default Navigation;
+export default Nav;

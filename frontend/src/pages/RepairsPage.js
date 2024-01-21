@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Page from '../components/Page';
 import Table from '../components/Table';
-import RepairForm from '../components/RepairForm';
+import RepairForm from '../forms/RepairForm';
 import Title from '../components/Title';
 import { GlobalStateContext } from '../providers/GlobalState';
 

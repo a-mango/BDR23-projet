@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { GlobalStateContext } from '../providers/GlobalState';
-import SubNavigation from './SubNavigation';
+import SubNav from './SubNav';
 import Alert from './Alert';
 
 const Page = ({ children }) => {
@@ -8,7 +8,7 @@ const Page = ({ children }) => {
     const { alert } = state;
 
     return (<>
-            <SubNavigation />
+            <SubNav />
             <main className="container mx-auto">
                 {alert.message && <Alert type={alert.type} message={alert.message} />}
                 {children}

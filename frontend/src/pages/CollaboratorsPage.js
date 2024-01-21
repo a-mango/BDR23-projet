@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useData from '../hooks/useData';
-import SubNavigation from '../components/SubNavigation';
+import SubNav from '../components/SubNav';
 import Page from '../components/Page';
 import { routes } from '../config/routes';
 
