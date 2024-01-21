@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { CheckIcon, XCircleIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { GlobalStateContext } from '../providers/GlobalState';
 import CustomSelect from '../components/CustomSelect';
+import Table from '../components/Table';
 
 const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
     const { state, dispatch, addRepair, updateRepair } = useContext(GlobalStateContext);
@@ -38,6 +39,11 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
         return `${now.getFullYear()}-${String(now.getMonth() + 1)
             .padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}T${String(now.getHours())
             .padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+    };
+
+    const filterSmsColumns = (data) => {
+        // Keep only "message"
+        return data.map((row) => { return { message: row.message }; });
     };
 
     useEffect(() => {
@@ -192,6 +198,10 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
                     <textarea {...register('object.remark')} />
                 </div>
             </div>
+        </div>
+
+        <div className="form-messages">
+            <Table data={filterSmsColumns(selectedRepair.sms)} hideDelete={true} />
         </div>
 
         <div className="form-controls">

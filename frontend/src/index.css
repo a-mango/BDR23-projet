@@ -132,6 +132,22 @@ form {
     [type="reset"] {
         @apply bg-gray-300;
     }
+
+    .form-messages {
+        @apply flex flex-col col-span-2 p-4;
+
+        .alert {
+            @apply p-2 my-2 text-red-600 bg-red-100 border border-red-600 shadow;
+        }
+
+        table {
+            @apply my-0;
+        }
+
+        tr, td {
+            @apply h-10;
+        }
+    }
 }
 
 input, textarea, select, button, .select-custom {

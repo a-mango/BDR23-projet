@@ -1,7 +1,7 @@
 import React from 'react';
 import { TrashIcon } from '@heroicons/react/24/outline';
 
-const Table = ({ data, onRowClick, onDeleteClick }) => {
+const Table = ({ data, onRowClick, onDeleteClick, hideDelete }) => {
     const onDelete = (event, row) => {
         event.stopPropagation();
         onDeleteClick(row);
@@ -34,10 +34,10 @@ const Table = ({ data, onRowClick, onDeleteClick }) => {
         <tr>
             {Object.keys(sortedData[0]).map((key, index) => (
                 <th key={index} className="px-4 py-2">{formatHeader(key)}</th>))}
-            <th className="px-4 py-2">Actions</th>
+            {!hideDelete && <th className="px-4 py-2">Delete</th>}
         </tr>
         </thead>
-        <tbody>
+            <tbody>
             {sortedData.map((row, index) => (
                 <tr key={index} onClick={() => onRowClick(row.id)}
                     className={`cursor-pointer hover:bg-apache ${index % 2 === 0 ? 'bg-gray-200' : ''}`}>
@@ -46,13 +46,15 @@ const Table = ({ data, onRowClick, onDeleteClick }) => {
                             {formatCell(cell)}
                         </td>
                     ))}
-                    <td className="h-20 px-4 py-2 grid place-items-center">
-                        <TrashIcon onClick={(event) => onDelete(event, row)} className="h-5 w-5 text-red-500" />
-                    </td>
+                    {!hideDelete && (
+                        <td className="h-20 px-4 py-2 grid place-items-center">
+                            <TrashIcon onClick={(event) => onDelete(event, row)} className="h-5 w-5 text-red-500" />
+                        </td>
+                    )}
                 </tr>
             ))}
         </tbody>
-    </table>);
+        </table>);
 };
 
 export default Table;
