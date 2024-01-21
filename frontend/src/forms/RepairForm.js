@@ -95,17 +95,17 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
         data.dateCreated = new Date(data.dateCreated);
         data.dateModified = new Date(data.dateModified);
 
-
         // Un-nest enum properties where needed.
         data.receptionist_id = data?.receptionist_id?.value || data?.receptionist_id;
         data.customer_id = data?.customer_id?.value || data?.customer_id;
         data.quoteState = data?.quoteState?.value || data?.quoteState;
         data.reparationState = data?.reparationState?.value || data?.reparationState;
-        data.object.location = data?.object?.location.value;
         const brandValue = data?.object?.brand?.name?.value || data?.object?.brand?.name;
         const categoryValue = data?.object?.category?.name?.value || data?.object?.category?.name;
+        const locationValue = data?.object?.location?.value || data?.object?.location;
         data.object.brand = { "name": brandValue };
         data.object.category = { "name": categoryValue };
+        data.object.location = locationValue;
 
         console.log("Adding repair", data);
 
