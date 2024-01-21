@@ -5,6 +5,7 @@ import ch.heig.bdr.projet.api.PostgresConnection;
 import ch.heig.bdr.projet.api.models.QuoteState;
 import ch.heig.bdr.projet.api.models.ReparationState;
 import ch.heig.bdr.projet.api.models.Reparation;
+import ch.heig.bdr.projet.api.models.Object;
 
 import java.sql.*;
 import java.time.Duration;
@@ -110,19 +111,21 @@ public class ReparationService {
     }
 
     public void createReparation(Reparation reparation){
-        //String query = "CALL create_reparation(?,?,?,?,CAST(? AS INTERVAL),CAST(? AS reparation_state),CAST(? AS quote_state),?,?,?)";
-        String query = "CALL create_reparation(?, ?, ?, ?, CAST(? AS INTERVAL), CAST(? AS reparation_state), CAST(? AS quote_state), ?, ?, ?, ?, ?, ?, ? ,?, ?)";
+        String query = "CALL create_reparation(?, CAST(? AS TEXT), CAST(? AS INTERVAL), ?, ?, ?, CAST(? AS TEXT), CAST(? AS TEXT), ?, ? ,?)";
         try(PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setObject(1, OffsetDateTime.parse(reparation.dateCreated), Types.TIMESTAMP_WITH_TIMEZONE);
-            pstmt.setObject(2, OffsetDateTime.parse(reparation.dateModified), Types.TIMESTAMP_WITH_TIMEZONE);
-            pstmt.setInt(3, reparation.quote);
-            pstmt.setString(4, reparation.description);
-            pstmt.setObject(5, Duration.between(LocalTime.MIDNIGHT, reparation.estimatedDuration.toLocalTime()), Types.OTHER);
-            pstmt.setString(6, reparation.reparationState.toString());
-            pstmt.setString(7, reparation.quoteState.toString());
-            pstmt.setInt(8, reparation.receptionist_id);
-            pstmt.setInt(9, reparation.customer_id);
-            pstmt.setInt(10, reparation.object_id);
+            pstmt.setInt(1, reparation.quote);
+            pstmt.setString(2, reparation.description);
+            pstmt.setObject(3, Duration.between(LocalTime.MIDNIGHT, reparation.estimatedDuration.toLocalTime()), Types.OTHER);
+            pstmt.setInt(4, reparation.receptionist_id);
+            pstmt.setInt(5, reparation.customer_id);
+
+            pstmt.setString(6, reparation.object.name);
+            pstmt.setString(7, reparation.object.faultDesc);
+            pstmt.setString(8, reparation.object.remark);
+            pstmt.setString(9, reparation.object.serialNo);
+            pstmt.setString(10, reparation.object.brand.name);
+            pstmt.setString(11, reparation.object.category.name);
+
             pstmt.executeUpdate();
         } catch (SQLException e){
             System.out.println(e.getMessage());

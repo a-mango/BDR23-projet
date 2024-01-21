@@ -219,7 +219,7 @@ VALUES ('Electronics'),
        ('Vehicle'),
        ('Miscellaneous');
 
-INSERT INTO object (object_id, name, fault_desc, location, remark, serial_no, brand, category)
+INSERT INTO object (customer_id, name, fault_desc, location, remark, serial_no, brand, category)
 VALUES (1, 'Laptop', 'Not powering on', 'in_stock', 'Needs urgent repair', 'SN123456', 'Apeul', 'Electronics'),
        (2, 'Smartphone', 'Cracked screen', 'returned', 'Screen replacement needed', 'SN789012', 'Bousch',
         'Electronics'),
