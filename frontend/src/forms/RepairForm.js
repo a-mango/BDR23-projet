@@ -15,6 +15,7 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
             .padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}T${String(now.getHours())
             .padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
     };
+
     useEffect(() => {
         if (new Date(selectedRepair?.dateCreated).toString() !== 'Invalid Date') {
             setValue('dateCreated', formatDate(selectedRepair.dateCreated));
