@@ -19,12 +19,18 @@ public class CustomerService {
     Connection conn;
 
     /**
-     * Constructor.
+     * Default constructor.
      */
     public CustomerService() {
         conn = PostgresConnection.getInstance().getConnection();
     }
 
+    /**
+     * Get a customer by id.
+     *
+     * @param id id of the customer to get
+     * @return Customer with the given id
+     */
     public Customer getCustomerById(String id) {
         String query = "SELECT * FROM customer_info_view WHERE customer_id =?";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -42,6 +48,11 @@ public class CustomerService {
         }
     }
 
+    /**
+     * Get all customers.
+     *
+     * @return ArrayList<Customer> list of customers
+     */
     public ArrayList<Customer> getCustomers() {
         String query = "SELECT * FROM customer_info_view";
         try (Statement pstmt = conn.createStatement(); ResultSet rs = pstmt.executeQuery(query)) {
@@ -57,6 +68,12 @@ public class CustomerService {
         }
     }
 
+    /**
+     * Update a customer.
+     *
+     * @param id              id of the customer to update
+     * @param updatedCustomer updated customer
+     */
     public void updateCustomer(String id, Customer updatedCustomer) {
         String query = "UPDATE customer_info_view SET phone_no =?, name =?, comment =?, tos_accepted =?, private_note =? WHERE customer_id =?";
 
@@ -74,6 +91,11 @@ public class CustomerService {
         }
     }
 
+    /**
+     * Delete a customer.
+     *
+     * @param id id of the customer to delete
+     */
     public void deleteCustomer(String id) {
         String query = "DELETE FROM person WHERE person_id =?";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -84,6 +106,12 @@ public class CustomerService {
         }
     }
 
+    /**
+     * Create a customer.
+     *
+     * @param customer customer to create
+     * @return id of the created customer
+     */
     public int createCustomer(Customer customer) {
         String query = "CALL projet.InsertCustomer(?, ?, ?, ?, ?, ?)";
 
@@ -104,10 +132,16 @@ public class CustomerService {
         }
     }
 
+    /**
+     * Create a customer from a ResultSet.
+     *
+     * @param rs ResultSet to create the customer from
+     * @return Customer created from the ResultSet
+     * @throws SQLException if an error occurs while accessing the ResultSet
+     */
     protected Customer newCustomerFromResultSet(ResultSet rs) throws SQLException {
 
-        return new Customer(rs.getInt("customer_id"), rs.getString("phone_no"), rs.getString("name"),
-                            rs.getString("comment"), rs.getString("private_note"), rs.getBoolean("tos_accepted"));
+        return new Customer(rs.getInt("customer_id"), rs.getString("phone_no"), rs.getString("name"), rs.getString("comment"), rs.getString("private_note"), rs.getBoolean("tos_accepted"));
     }
 }
 

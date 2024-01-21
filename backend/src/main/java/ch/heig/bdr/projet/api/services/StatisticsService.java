@@ -6,19 +6,31 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Statistics service.
+ *
+ * @author Aubry Mangold <aubry.mangold@heig-vd.ch>
+ * @author Eva Ray <eva.ray@heig-vd.ch>
+ * @author Vitòria Cosmo De Oliviera <maria.cosmodeoliveira@heig-vd.ch>
+ */
 public class StatisticsService {
-    enum GraphType { Bar, Pie, Line }
-
     private final Connection conn;
 
+    /**
+     * Default constructor.
+     */
     public StatisticsService() {
         conn = PostgresConnection.getInstance().getConnection();
     }
 
+    /**
+     * Get all statistics.
+     *
+     * @return HashMap<String, Object> list of statistics
+     */
     public HashMap<String, Object> getStatistics() {
         var statistics = new HashMap<String, Object>();
         statistics.put("numbers", Map.of("name", "Numbers", "type", GraphType.Bar, "data", numbers()));
@@ -36,6 +48,11 @@ public class StatisticsService {
         return statistics;
     }
 
+    /**
+     * Get all statistics related to counts
+     *
+     * @return HashMap<String, Integer> list of statistics related to counts
+     */
     private HashMap<String, Integer> numbers() {
         HashMap<String, Integer> numbers = new HashMap<>();
         numbers.put("ongoingRepairCount", ongoingRepairCount());
@@ -45,6 +62,11 @@ public class StatisticsService {
         return numbers;
     }
 
+    /**
+     * Gat all employees per type of collaborator (receptionist, technician, manager)
+     *
+     * @return HashMap<String, Integer> list of employees per type of collaborator
+     */
     private HashMap<String, Integer> employeesPerType() {
         final String query = """
                 SELECT 'Manager' AS role,
@@ -71,6 +93,11 @@ public class StatisticsService {
         }
     }
 
+    /**
+     * Get the number of ongoing repairs
+     *
+     * @return Integer number of ongoing repairs
+     */
     private Integer ongoingRepairCount() {
         final String query = """
                 SELECT COUNT(*) AS nb_ongoing_rep
@@ -89,6 +116,11 @@ public class StatisticsService {
         }
     }
 
+    /**
+     * Get the ongoing repairs per category
+     *
+     * @return HashMap<String, Integer> list of ongoing repairs per category
+     */
     private HashMap<String, Integer> ongoingRepairsPerCategory() {
         final String query = """
                 SELECT o.category, COUNT(*) nb_ongoing_rep_per_cat
@@ -111,6 +143,11 @@ public class StatisticsService {
         }
     }
 
+    /**
+     * Get the number of finished repairs
+     *
+     * @return Integer number of finished repairs
+     */
     private Integer finishedRepairs() {
         final String query = """
                 SELECT COUNT(*) AS nb_done_rep
@@ -129,6 +166,11 @@ public class StatisticsService {
         }
     }
 
+    /**
+     * Get the finished repairs per category
+     *
+     * @return HashMap<String, Integer> list of finished repairs per category
+     */
     private HashMap<String, Integer> finishedRepairsPerCategory() {
         final String query = """
                 SELECT o.category, COUNT(*) AS nb_done_rep_per_cat
@@ -151,6 +193,11 @@ public class StatisticsService {
         }
     }
 
+    /**
+     * Get the number of objects for sale
+     *
+     * @return Integer number of objects for sale
+     */
     private Integer objectsForSale() {
         final String query = """
                 SELECT COUNT(*) AS nb_forsale_obj
@@ -169,6 +216,11 @@ public class StatisticsService {
         }
     }
 
+    /**
+     * Get the number of sold objects
+     *
+     * @return Integer number of sold objects
+     */
     private Integer soldObjects() {
         final String query = """
                 SELECT COUNT(*) AS nb_sold_obj
@@ -187,6 +239,11 @@ public class StatisticsService {
         }
     }
 
+    /**
+     * Get the number of objects per category
+     *
+     * @return HashMap<String, Integer> list of objects per category
+     */
     private HashMap<String, Integer> objectsPerCategory() {
         final String query = """
                 SELECT category, COUNT(*) AS nb_obj_per_cat
@@ -206,6 +263,11 @@ public class StatisticsService {
         }
     }
 
+    /**
+     * Get the number of objects per brand
+     *
+     * @return HashMap<String, Integer> list of objects per brand
+     */
     private HashMap<String, Integer> objectsPerBrand() {
         final String query = """
                 SELECT brand, COUNT(*) AS nb_obj_per_brand
@@ -225,6 +287,11 @@ public class StatisticsService {
         }
     }
 
+    /**
+     * Get the hours worked per specialisation
+     *
+     * @return HashMap<String, Integer> list of hours worked per specialisation
+     */
     private HashMap<String, Integer> hoursWorkedPerSpecialisation() {
         final String query = """
                 SELECT sr.spec_name, ((CAST(SUM(EXTRACT(EPOCH FROM tr.time_worked)) AS DECIMAL)) / 360) AS total_worked_time_hours
@@ -245,6 +312,11 @@ public class StatisticsService {
         }
     }
 
+    /**
+     * Get the repairs per month
+     *
+     * @return HashMap<String, Integer> list of repairs per month
+     */
     private HashMap<String, Integer> repairsPerMonth() {
         final String query = """
                 SELECT date_trunc('month', date_created) AS DATE, COUNT(*) AS nb_rep_per_month
@@ -264,6 +336,11 @@ public class StatisticsService {
         }
     }
 
+    /**
+     * Get the number of repairs created per receptionist
+     *
+     * @return HashMap<String, Integer> number of repairs created per receptionist
+     */
     private HashMap<String, Integer> repairsCreatedPerReceptionist() {
         final String query = """
                 SELECT p.name, COUNT(*) AS nb_rep_per_recept
@@ -286,6 +363,11 @@ public class StatisticsService {
         }
     }
 
+    /**
+     * Get the numbe of receptionists per language
+     *
+     * @return HashMap<String, Integer> number of receptionists per language
+     */
     private HashMap<String, Integer> receptionistsPerLanguage() {
         final String query = """
                 SELECT LANGUAGE, COUNT(*) AS nb_recept_per_lang
@@ -305,6 +387,11 @@ public class StatisticsService {
         }
     }
 
+    /**
+     * Get the number of sms received per day
+     *
+     * @return HashMap<String, Integer> number of sms received per day
+     */
     private HashMap<String, Integer> smsReceivedPerDay() {
         final String query = """
                 SELECT date_trunc('day', date_created) AS date, COUNT(*) AS nb_rec_sms_per_day
@@ -325,6 +412,11 @@ public class StatisticsService {
         }
     }
 
+    /**
+     * Get the number of sms sent per day
+     *
+     * @return HashMap<String, Integer> number of sms sent per day
+     */
     private HashMap<String, Integer> smsSentPerDay() {
         final String query = """
                 SELECT date_trunc('day', date_created) AS date, COUNT(*) AS nb_sent_sms_per_day
@@ -344,4 +436,6 @@ public class StatisticsService {
             return null;
         }
     }
+
+    enum GraphType {Bar, Pie, Line}
 }

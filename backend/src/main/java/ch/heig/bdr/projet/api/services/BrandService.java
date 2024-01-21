@@ -27,16 +27,20 @@ public class BrandService {
         conn = PostgresConnection.getInstance().getConnection();
     }
 
-    public ArrayList<Brand> getBrands(){
+    /**
+     * Get all brands.
+     *
+     * @return ArrayList<Brand> list of brands
+     */
+    public ArrayList<Brand> getBrands() {
         String query = "SELECT * FROM brand";
-        try(Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery(query)) {
+        try (Statement statement = conn.createStatement(); ResultSet rs = statement.executeQuery(query)) {
             ArrayList<Brand> brands = new ArrayList<>();
             while (rs.next()) {
                 brands.add(new Brand(rs.getString("name")));
             }
             return brands;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
         }

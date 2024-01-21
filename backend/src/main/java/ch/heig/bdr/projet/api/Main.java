@@ -41,7 +41,7 @@ public class Main {
         });
 
         // Exception handling
-        //app.exception(Exception.class, (e, ctx) -> ctx.status(500).result("Internal server error"));
+        app.exception(Exception.class, (e, ctx) -> ctx.status(500).result("Internal server error"));
 
         // Register routes
         app.routes(() -> {

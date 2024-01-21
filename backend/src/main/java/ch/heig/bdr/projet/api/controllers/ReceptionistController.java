@@ -19,16 +19,14 @@ public class ReceptionistController implements CrudHandler {
     @Override
     public void getAll(@NotNull Context ctx) {
         ArrayList<Receptionist> receptionists = receptionistService.getReceptionists();
-        if (receptionists == null)
-            throw new NullPointerException();
+        if (receptionists == null) throw new NullPointerException();
         ctx.json(receptionists);
     }
 
     @Override
     public void getOne(@NotNull Context ctx, @NotNull String id) {
-        Receptionist r = receptionistService.getReceptionistByIs(id);
-        if (r == null)
-            throw new NullPointerException();
+        Receptionist r = receptionistService.getReceptionistById(id);
+        if (r == null) throw new NullPointerException();
         ctx.json(r);
     }
 
@@ -48,8 +46,7 @@ public class ReceptionistController implements CrudHandler {
     @Override
     public void update(@NotNull Context ctx, @NotNull String id) {
         Receptionist r = ctx.bodyAsClass(Receptionist.class);
-        if (r == null)
-            throw new NullPointerException();
+        if (r == null) throw new NullPointerException();
         receptionistService.updateReceptionist(id, r);
         ctx.status(200);
     }

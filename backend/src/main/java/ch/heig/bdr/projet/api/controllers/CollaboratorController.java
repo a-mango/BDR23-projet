@@ -18,10 +18,18 @@ import java.util.ArrayList;
 public class CollaboratorController implements CrudHandler {
     private CollaboratorService collaboratorService;
 
-    public CollaboratorController(){
+    /**
+     * Default constructor.
+     */
+    public CollaboratorController() {
         collaboratorService = new CollaboratorService();
     }
 
+    /**
+     * Create a collaborator.
+     *
+     * @param ctx The context of the request.
+     */
     @Override
     public void create(@NotNull Context ctx) {
         Collaborator c = ctx.bodyAsClass(Collaborator.class);
@@ -29,36 +37,56 @@ public class CollaboratorController implements CrudHandler {
         ctx.status(201);
     }
 
+    /**
+     * Delete a collaborator.
+     *
+     * @param ctx The context of the request.
+     * @param id  The collaborator id.
+     */
     @Override
     public void delete(@NotNull Context ctx, @NotNull String id) {
         collaboratorService.deleteCollaborator(id);
         ctx.status(204);
     }
 
+    /**
+     * Get all collaborators.
+     *
+     * @param ctx The context of the request.
+     */
     @Override
     public void getAll(@NotNull Context ctx) {
         ArrayList<Collaborator> collaborators = collaboratorService.getCollaborators();
-        if (collaborators == null)
-            throw new NullPointerException();
+        if (collaborators == null) throw new NullPointerException();
         ctx.json(collaborators);
     }
 
+    /**
+     * Get a collaborator.
+     *
+     * @param ctx The context of the request.
+     * @param id  The collaborator id.
+     */
     @Override
     public void getOne(@NotNull Context ctx, @NotNull String id) {
         Collaborator collaborator = collaboratorService.getCollaboratorById(id);
-        if (collaborator == null)
-            throw new NullPointerException();
+        if (collaborator == null) throw new NullPointerException();
         ctx.json(collaborator);
     }
 
+    /**
+     * Update a collaborator.
+     *
+     * @param ctx The context of the request.
+     * @param id  The collaborator id.
+     */
     @Override
     public void update(@NotNull Context ctx, @NotNull String id) {
         Collaborator updatedCollaborator = ctx.bodyAsClass(Collaborator.class);
-        if (updatedCollaborator == null)
-            throw new NullPointerException();
+        if (updatedCollaborator == null) throw new NullPointerException();
         collaboratorService.updateCollaborator(id, updatedCollaborator);
         ctx.status(200);
     }
-    
+
 }
 

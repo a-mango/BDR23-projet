@@ -22,6 +22,11 @@ public class TechnicianController implements CrudHandler {
     }
 
 
+    /**
+     * Create a technician.
+     *
+     * @param ctx The context of the request.
+     */
     @Override
     public void create(@NotNull Context ctx) {
         Technician technician = ctx.bodyAsClass(Technician.class);
@@ -29,32 +34,52 @@ public class TechnicianController implements CrudHandler {
         ctx.status(201);
     }
 
+    /**
+     * Get a technician.
+     *
+     * @param ctx The context of the request.
+     * @param id  The technician id.
+     */
     @Override
     public void getOne(@NotNull Context ctx, @NotNull String id) {
         Technician t = technicianService.getTechnicianById(id);
-        if (t == null)
-            throw new NullPointerException();
+        if (t == null) throw new NullPointerException();
         ctx.json(t);
     }
 
+    /**
+     * Get all technicians.
+     *
+     * @param ctx The context of the request.
+     */
     @Override
     public void getAll(@NotNull Context ctx) {
 
         ArrayList<Technician> technicians = technicianService.getTechnicians();
-        if (technicians == null)
-            throw new NullPointerException();
+        if (technicians == null) throw new NullPointerException();
         ctx.json(technicians);
     }
 
+    /**
+     * Update a technician.
+     *
+     * @param ctx The context of the request.
+     * @param id  The technician id.
+     */
     @Override
     public void update(@NotNull Context ctx, @NotNull String id) {
         Technician updatedTechnician = ctx.bodyAsClass(Technician.class);
-        if (updatedTechnician == null)
-            throw new NullPointerException();
+        if (updatedTechnician == null) throw new NullPointerException();
         technicianService.updateTechnician(id, updatedTechnician);
         ctx.status(200);
     }
 
+    /**
+     * Delete a technician.
+     *
+     * @param ctx The context of the request.
+     * @param id  The technician id.
+     */
     @Override
     public void delete(@NotNull Context ctx, @NotNull String id) {
         technicianService.deleteTechnician(id);

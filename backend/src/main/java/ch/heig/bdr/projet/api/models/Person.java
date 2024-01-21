@@ -12,6 +12,10 @@ public class Person {
     public String phoneNumber;
     public String name;
     public String comment;
+
+    /**
+     * Person default constructor.
+     */
     public Person() {}
 
     /**

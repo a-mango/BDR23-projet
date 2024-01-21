@@ -11,7 +11,6 @@ import java.util.ArrayList;
  */
 public class Receptionist extends Collaborator {
 
-    // TODO: find a solution to implement languages
     public ArrayList<Language> languages = new ArrayList<>();
 
     /**

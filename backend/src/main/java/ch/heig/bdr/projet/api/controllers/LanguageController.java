@@ -18,9 +18,18 @@ public class LanguageController {
 
     private final LanguageService languageService;
 
+    /**
+     * Default constructor.
+     */
     public LanguageController() {
         this.languageService = new LanguageService();
     }
+
+    /**
+     * Get all languages.
+     *
+     * @param ctx The context of the request.
+     */
     public void getAll(@NotNull Context ctx) {
 
         ArrayList<Language> languages = languageService.getLanguages();

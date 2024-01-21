@@ -9,14 +9,29 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+/**
+ * Specialization CRUD service.
+ *
+ * @author Aubry Mangold <aubry.mangold@heig-vd.ch>
+ * @author Eva Ray <eva.ray@heig-vd.ch>
+ * @author Vitòria Cosmo De Oliviera <maria.cosmodeoliveira@heig-vd.ch>
+ */
 public class SpecializationService {
 
     Connection conn;
 
+    /**
+     * Constructor.
+     */
     public SpecializationService() {
         conn = PostgresConnection.getInstance().getConnection();
     }
 
+    /**
+     * Get all specializations.
+     *
+     * @return ArrayList<Specialization> list of specializations
+     */
     public ArrayList<Specialization> getSpecializations(){
         String query = "SELECT * FROM specialization";
         try(Statement statement = conn.createStatement();

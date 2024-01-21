@@ -25,6 +25,11 @@ public class BrandController {
         this.brandService = new BrandService();
     }
 
+    /**
+     * Get all brands.
+     *
+     * @param ctx The context of the request.
+     */
     public void getAll(@NotNull Context ctx){
         ArrayList<Brand> brands = brandService.getBrands();
         if (brands == null)

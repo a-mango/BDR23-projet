@@ -24,6 +24,12 @@ public class CategoryController {
         this.categoryService = new CategoryService();
     }
 
+
+    /**
+     * Get all categories.
+     *
+     * @param ctx The context of the request.
+     */
     public void getAll(Context ctx){
         ArrayList<Category> categories = categoryService.getCategories();
         if (categories == null)

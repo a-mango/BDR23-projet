@@ -41,11 +41,8 @@ public class Reparation {
      * @param quote The reparation quote.
      * @param repairDescription The reparation description.
      * @param estimatedDuration The reparation estimated duration.
-     //* @param sms The sms conversation related to the reparation.
      * @param reparationState The reparation state.
      * @param quoteState The quote state.
-     //* @param specializations The specializations needed for the reparation.
-     //* @param technicians The technicians working on the reparation.
      * @param receptionist The receptionist in charge of the reparation.
      * @param customer The customer concerned by the reparation.
      * @param object The object concerned by the reparation.

@@ -13,6 +13,11 @@ public class StatisticsController {
         this.statisticsService = new StatisticsService();
     }
 
+    /**
+     * Get statistics.
+     *
+     * @param ctx The context of the request.
+     */
     public void getStatistics(Context ctx) {
         var statistics = statisticsService.getStatistics();
         if (statistics == null) throw new NullPointerException();

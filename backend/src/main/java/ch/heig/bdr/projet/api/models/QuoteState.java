@@ -2,11 +2,13 @@ package ch.heig.bdr.projet.api.models;
 
 /**
  * Enum representing the state of a quote.
- * ACCEPTED: The quote has been accepted.
- * DECLINED: The quote has been declined.
- * WAITING: The quote is waiting to be processed.
+ * accepted: The quote has been accepted.
+ * declined: The quote has been declined.
+ * waiting: The quote is waiting to be processed.
  */
 public enum QuoteState {
 
-    accepted, declined, waiting;
+    accepted,
+    declined,
+    waiting;
 }

@@ -17,21 +17,27 @@ public class LanguageService {
 
     Connection conn;
 
+    /**
+     * Default constructor.
+     */
     public LanguageService() {
         conn = PostgresConnection.getInstance().getConnection();
     }
 
-    // only get all
-    public ArrayList<Language> getLanguages(){
+    /**
+     * Get all languages.
+     *
+     * @return ArrayList<Language> list of languages
+     */
+    public ArrayList<Language> getLanguages() {
         String query = "SELECT * FROM language";
-        try(java.sql.Statement statement = conn.createStatement();
-            java.sql.ResultSet rs = statement.executeQuery(query)) {
+        try (java.sql.Statement statement = conn.createStatement(); java.sql.ResultSet rs = statement.executeQuery(query)) {
             ArrayList<Language> languages = new ArrayList<>();
             while (rs.next()) {
                 languages.add(new Language(rs.getString("name")));
             }
             return languages;
-        } catch (java.sql.SQLException e){
+        } catch (java.sql.SQLException e) {
             System.out.println(e.getMessage());
             return null;
         }

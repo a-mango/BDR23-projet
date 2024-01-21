@@ -19,10 +19,18 @@ public class ManagerController implements CrudHandler {
 
     private final ManagerService managerService;
 
+    /**
+     * Default constructor.
+     */
     public ManagerController() {
         this.managerService = new ManagerService();
     }
 
+    /**
+     * Create a manager.
+     *
+     * @param ctx The context of the request.
+     */
     @Override
     public void create(@NotNull Context ctx) {
         Manager manager = ctx.bodyAsClass(Manager.class);
@@ -30,33 +38,53 @@ public class ManagerController implements CrudHandler {
         ctx.status(201);
     }
 
+    /**
+     * Delete a manager.
+     *
+     * @param ctx The context of the request.
+     * @param id  The manager id.
+     */
     @Override
     public void delete(@NotNull Context ctx, @NotNull String id) {
         managerService.deleteManager(id);
         ctx.status(204);
     }
 
+    /**
+     * Get all managers.
+     *
+     * @param ctx The context of the request.
+     */
     @Override
     public void getAll(@NotNull Context ctx) {
         ArrayList<Manager> managers = managerService.getManagers();
-        if (managerService.getManagers() == null)
-            throw new NullPointerException();
+        if (managerService.getManagers() == null) throw new NullPointerException();
         ctx.json(managers);
     }
 
+    /**
+     * Get a manager.
+     *
+     * @param ctx The context of the request.
+     * @param id  The manager id.
+     */
     @Override
     public void getOne(@NotNull Context ctx, @NotNull String id) {
         Manager m = managerService.getManagerById(id);
-        if (m == null)
-            throw new NullPointerException();
+        if (m == null) throw new NullPointerException();
         ctx.json(m);
     }
 
+    /**
+     * Update a manager.
+     *
+     * @param ctx The context of the request.
+     * @param id  The manager id.
+     */
     @Override
     public void update(@NotNull Context ctx, @NotNull String id) {
         Manager updatedManager = ctx.bodyAsClass(Manager.class);
-        if (updatedManager == null)
-            throw new NullPointerException();
+        if (updatedManager == null) throw new NullPointerException();
         managerService.updateManager(id, updatedManager);
         ctx.status(200);
     }

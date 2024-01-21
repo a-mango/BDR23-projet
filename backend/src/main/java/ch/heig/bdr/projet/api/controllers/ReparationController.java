@@ -22,12 +22,17 @@ public class ReparationController implements CrudHandler {
     private final ReparationService reparationService;
 
     /**
-     * Constructor.
+     * Default constructor.
      */
     public ReparationController() {
         this.reparationService = new ReparationService();
     }
 
+    /**
+     * Create a reparation.
+     *
+     * @param ctx The context of the request.
+     */
     @Override
     public void create(@NotNull Context ctx) {
         Reparation reparation = ctx.bodyAsClass(Reparation.class);
@@ -35,31 +40,51 @@ public class ReparationController implements CrudHandler {
         ctx.status(201);
     }
 
+    /**
+     * Delete a reparation.
+     *
+     * @param ctx The context of the request.
+     * @param id  The reparation id.
+     */
     @Override
     public void getOne(@NotNull Context ctx, @NotNull String id) {
         Reparation r = reparationService.getReparationById(id);
-        if (r == null)
-            throw new NullPointerException();
+        if (r == null) throw new NullPointerException();
         ctx.json(r);
     }
 
+    /**
+     * Get all reparations.
+     *
+     * @param ctx The context of the request.
+     */
     @Override
     public void getAll(@NotNull Context ctx) {
         ArrayList<Reparation> reparations = reparationService.getReparations();
-        if (reparations == null)
-            throw new NullPointerException();
+        if (reparations == null) throw new NullPointerException();
         ctx.json(reparations);
     }
 
+    /**
+     * Update a reparation.
+     *
+     * @param ctx The context of the request.
+     * @param id  The reparation id.
+     */
     @Override
     public void update(@NotNull Context ctx, @NotNull String id) {
         Reparation updatedReparation = ctx.bodyAsClass(Reparation.class);
-        if (updatedReparation == null)
-            throw new NullPointerException();
+        if (updatedReparation == null) throw new NullPointerException();
         reparationService.updateReparation(id, updatedReparation);
         ctx.status(200);
     }
 
+    /**
+     * Delete a reparation.
+     *
+     * @param ctx The context of the request.
+     * @param id  The reparation id.
+     */
     @Override
     public void delete(@NotNull Context ctx, @NotNull String id) {
         reparationService.deleteReparation(id);

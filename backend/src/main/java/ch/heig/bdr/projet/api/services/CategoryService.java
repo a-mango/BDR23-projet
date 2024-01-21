@@ -27,16 +27,20 @@ public class CategoryService {
         conn = PostgresConnection.getInstance().getConnection();
     }
 
-    public ArrayList<Category> getCategories(){
+    /**
+     * Get all categories.
+     *
+     * @return ArrayList<Category> list of categories
+     */
+    public ArrayList<Category> getCategories() {
         String query = "SELECT * FROM category";
-        try(Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery(query)) {
+        try (Statement statement = conn.createStatement(); ResultSet rs = statement.executeQuery(query)) {
             ArrayList<Category> categories = new ArrayList<>();
             while (rs.next()) {
                 categories.add(new Category(rs.getString("name")));
             }
             return categories;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
         }
