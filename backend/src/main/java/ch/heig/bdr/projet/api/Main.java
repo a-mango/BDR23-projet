@@ -1,19 +1,6 @@
 package ch.heig.bdr.projet.api;
 
-import ch.heig.bdr.projet.api.controllers.BrandController;
-import ch.heig.bdr.projet.api.controllers.CategoryController;
-import ch.heig.bdr.projet.api.controllers.CollaboratorController;
-import ch.heig.bdr.projet.api.controllers.CustomerController;
-import ch.heig.bdr.projet.api.controllers.LanguageController;
-import ch.heig.bdr.projet.api.controllers.ManagerController;
-import ch.heig.bdr.projet.api.controllers.ObjectController;
-import ch.heig.bdr.projet.api.controllers.SaleController;
-import ch.heig.bdr.projet.api.controllers.PersonController;
-import ch.heig.bdr.projet.api.controllers.ReceptionistController;
-import ch.heig.bdr.projet.api.controllers.ReparationController;
-import ch.heig.bdr.projet.api.controllers.SmsController;
-import ch.heig.bdr.projet.api.controllers.SpecializationController;
-import ch.heig.bdr.projet.api.controllers.TechnicianController;
+import ch.heig.bdr.projet.api.controllers.*;
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 
@@ -68,7 +55,7 @@ public class Main {
             crud("api/manager/{id}", new ManagerController());
             crud("api/object/{id}", new ObjectController());
             crud("api/sale/{id}", new SaleController());
-            // get("api/statistics", new StatisticsService::getStatistics);
+            get("api/statistics", new StatisticsController()::getStatistics);
             get("api/reparation/{repairId}/sms", new SmsController()::getAllByRepairId);
             get("api/language", new LanguageController()::getAll);
             get("api/brand", new BrandController()::getAll);
