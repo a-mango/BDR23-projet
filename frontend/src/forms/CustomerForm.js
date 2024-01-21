@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { CheckIcon, XMarkIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { GlobalStateContext } from '../providers/GlobalState';
 
-const CustomerForm = ({ selectedCustomer, onClose }) => {
+const CustomerForm = ({ selectedCustomer, setSelectedCustomer, onClose }) => {
     const { state, dispatch, addCustomer, updateCustomer } = useContext(GlobalStateContext);
     const {
         register,
@@ -32,6 +32,10 @@ const CustomerForm = ({ selectedCustomer, onClose }) => {
             selectedCustomer.id = await addCustomer(dispatch, data);
         }
     };
+
+    const resetForm = () => {
+        setSelectedCustomer({});
+    }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -67,7 +71,7 @@ const CustomerForm = ({ selectedCustomer, onClose }) => {
             </div>
             <div className="form-controls">
                 <button type="submit">Submit<CheckIcon className="h-5 w-5" /></button>
-                <button type="reset">Reset<XMarkIcon className="h-5 w-5" /></button>
+                <button type="reset" onClick={resetForm}>Reset<XMarkIcon className="h-5 w-5" /></button>
                 <button type="button" onClick={onClose}>Close<XCircleIcon className="h-5 w-5" /></button>
             </div>
         </form>
