@@ -123,3 +123,31 @@ PATCH localhost:7000/api/technician/73
     "comment": "updated commentaire",
    "email": "mariamaria@cyberchimps.com"
 }
+
+###
+GET localhost:7000/api/receptionist
+
+###
+POST localhost:7000/api/receptionist
+
+
+    {
+    "phoneNumber": "3453545667",
+    "name": "Courtney Coventry",
+    "comment": null,
+    "email": "ccoventry3@alexa.com",
+    "languages": [
+      {
+        "name": "English"
+      },
+      {
+        "name": "French"
+      },
+      {
+        "name": "Portuguese"
+      },
+      {
+        "name": "German"
+      }
+    ]
+  }
