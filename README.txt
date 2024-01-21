@@ -35,3 +35,8 @@ Git, Windows or your IDE may have converted them to CRLF, which will cause the s
 If you get a 500 error while inserting or updating data, make sure that you are not mistakenly sending
 data with values that must be unique. For example, if you are inserting a new user, make sure that the
 phone number is not already used.
+
+See also
+--------
+
+GitHub repository: https://github.com/a-mango/BDR23-projet
