@@ -12,6 +12,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+
 /**
  * Reparation service.
  *
@@ -30,61 +31,57 @@ public class ReparationService {
         conn = PostgresConnection.getInstance().getConnection();
     }
 
-    public Reparation getReparationById(String id){
+    /**
+     * Get a reparation by id.
+     *
+     * @param id id of the reparation to get
+     * @return Reparation with the given id
+     */
+    public Reparation getReparationById(String id) {
         String query = "SELECT * FROM reparation WHERE reparation_id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, Integer.parseInt(id));
-            try(ResultSet rs = pstmt.executeQuery()) {
+            try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    return new Reparation(rs.getInt("reparation_id"),
-                            rs.getObject("date_created", OffsetDateTime.class).toString(),
-                            rs.getObject("date_modified", OffsetDateTime.class).toString(), rs.getInt("quote"),
-                            rs.getString("description"),
-                            rs.getTime("estimated_duration"),
-                            ReparationState.valueOf(rs.getString("reparation_state")),
-                            QuoteState.valueOf(rs.getString("quote_state")),
-                            rs.getInt("receptionist_id"), rs.getInt("customer_id"),
-                            rs.getInt("object_id"),
-                            new ObjectService().getObjectById(Integer.toString(rs.getInt("object_id"))),
-                            new SmsService().getSmsForRepairId(Integer.toString(rs.getInt("reparation_id"))));
+                    return new Reparation(rs.getInt("reparation_id"), rs.getObject("date_created", OffsetDateTime.class).toString(), rs.getObject("date_modified", OffsetDateTime.class).toString(), rs.getInt("quote"), rs.getString("description"), rs.getTime("estimated_duration"), ReparationState.valueOf(rs.getString("reparation_state")), QuoteState.valueOf(rs.getString("quote_state")), rs.getInt("receptionist_id"), rs.getInt("customer_id"), rs.getInt("object_id"), new ObjectService().getObjectById(Integer.toString(rs.getInt("object_id"))), new SmsService().getSmsForRepairId(Integer.toString(rs.getInt("reparation_id"))));
                 } else {
                     return null;
                 }
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
         }
     }
 
-    public ArrayList<Reparation> getReparations(){
+    /**
+     * Get all reparations.
+     *
+     * @return ArrayList<Reparation> list of reparations
+     */
+    public ArrayList<Reparation> getReparations() {
         String query = "SELECT * FROM reparation";
-        try(Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery(query)) {
+        try (Statement statement = conn.createStatement(); ResultSet rs = statement.executeQuery(query)) {
             ArrayList<Reparation> reparations = new ArrayList<>();
             while (rs.next()) {
-                reparations.add(new Reparation(rs.getInt("reparation_id"),
-                            rs.getObject("date_created", OffsetDateTime.class).toString(),
-                            rs.getObject("date_modified", OffsetDateTime.class).toString(), rs.getInt("quote"),
-                            rs.getString("description"),
-                            rs.getTime("estimated_duration"),
-                            ReparationState.valueOf(rs.getString("reparation_state")),
-                            QuoteState.valueOf(rs.getString("quote_state")),
-                            rs.getInt("receptionist_id"), rs.getInt("customer_id"),
-                            rs.getInt("object_id"),
-                            new ObjectService().getObjectById(Integer.toString(rs.getInt("object_id"))),
-                            new SmsService().getSmsForRepairId(Integer.toString(rs.getInt("reparation_id")))));
+                reparations.add(new Reparation(rs.getInt("reparation_id"), rs.getObject("date_created", OffsetDateTime.class).toString(), rs.getObject("date_modified", OffsetDateTime.class).toString(), rs.getInt("quote"), rs.getString("description"), rs.getTime("estimated_duration"), ReparationState.valueOf(rs.getString("reparation_state")), QuoteState.valueOf(rs.getString("quote_state")), rs.getInt("receptionist_id"), rs.getInt("customer_id"), rs.getInt("object_id"), new ObjectService().getObjectById(Integer.toString(rs.getInt("object_id"))), new SmsService().getSmsForRepairId(Integer.toString(rs.getInt("reparation_id")))));
             }
             return reparations;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
         }
     }
 
-    public void updateReparation(String id, Reparation updatedReparation){
+    /**
+     * Update a reparation.
+     *
+     * @param id                id of the reparation to update
+     * @param updatedReparation new reparation
+     */
+    public void updateReparation(String id, Reparation updatedReparation) {
         String query = "UPDATE reparation SET date_created =?, date_modified =?, quote =?, description =?, estimated_duration =CAST(? AS INTERVAL), reparation_state = CAST(? AS reparation_state), quote_state =CAST(? AS quote_state), receptionist_id =?, customer_id =?, object_id =? WHERE reparation_id =?";
-        try(PreparedStatement pstmt = conn.prepareStatement(query)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setObject(1, OffsetDateTime.parse(updatedReparation.dateCreated), Types.TIMESTAMP_WITH_TIMEZONE);
             pstmt.setObject(2, OffsetDateTime.parse(updatedReparation.dateModified), Types.TIMESTAMP_WITH_TIMEZONE);
             pstmt.setInt(3, updatedReparation.quote);
@@ -97,24 +94,35 @@ public class ReparationService {
             pstmt.setInt(10, updatedReparation.object_id);
             pstmt.setInt(11, Integer.parseInt(id));
             pstmt.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void deleteReparation(String id){
+    /**
+     * Delete a reparation.
+     *
+     * @param id id of the reparation to delete
+     */
+    public void deleteReparation(String id) {
         String query = "DELETE FROM reparation WHERE reparation_id =? ";
-        try(PreparedStatement pstmt = conn.prepareStatement(query)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, Integer.parseInt(id));
             pstmt.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public int createReparation(Reparation reparation){
+    /**
+     * Create a reparation.
+     *
+     * @param reparation new reparation
+     * @return id of the created reparation
+     */
+    public int createReparation(Reparation reparation) {
         String query = "CALL create_reparation(?, CAST(? AS TEXT), CAST(? AS INTERVAL), ?, ?, ?, CAST(? AS TEXT), CAST(? AS TEXT), ?, ? ,?, ?)";
-        try(CallableStatement cstmt = conn.prepareCall(query)) {
+        try (CallableStatement cstmt = conn.prepareCall(query)) {
             cstmt.setInt(1, reparation.quote);
             cstmt.setString(2, reparation.description);
             cstmt.setObject(3, Duration.between(LocalTime.MIDNIGHT, reparation.estimatedDuration.toLocalTime()), Types.OTHER);
@@ -131,7 +139,7 @@ public class ReparationService {
 
             cstmt.executeUpdate();
             return cstmt.getInt(12);
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             return -1;
         }
