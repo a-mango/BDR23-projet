@@ -7,6 +7,7 @@ function ReceptionistRouter() {
     return (
         <Routes>
             <Route index element={<CustomersPage />} />
+            <Route path="customers" element={<CustomersPage />} />
             <Route path="reparations" element={<RepairsPage />} />
         </Routes>
     );
