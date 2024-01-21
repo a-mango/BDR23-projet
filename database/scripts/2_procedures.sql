@@ -138,7 +138,7 @@ BEGIN
 END;
 $$;
 
--- Used in the API to update a receptionist
+-- Update a new Person, Collaborator, Receptionist and language into receptionist_language in one transaction
 CREATE OR REPLACE PROCEDURE updateReceptionist(
     IN in_receptionist_id INT,
     IN in_name VARCHAR(128),
