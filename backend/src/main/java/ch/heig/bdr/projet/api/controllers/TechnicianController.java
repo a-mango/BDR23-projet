@@ -25,7 +25,7 @@ public class TechnicianController implements CrudHandler {
     @Override
     public void create(@NotNull Context ctx) {
         Technician technician = ctx.bodyAsClass(Technician.class);
-        technicianService.createTechnician(technician);
+        technician.id = technicianService.createTechnician(technician);
         ctx.status(201);
     }
 

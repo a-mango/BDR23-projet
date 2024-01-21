@@ -32,7 +32,7 @@ public class PersonController implements CrudHandler {
     @Override
     public void create(@NotNull Context ctx) {
         Person person = ctx.bodyAsClass(Person.class);
-        personService.createPerson(person);
+        person.id = personService.createPerson(person);
         ctx.status(201);
     }
 

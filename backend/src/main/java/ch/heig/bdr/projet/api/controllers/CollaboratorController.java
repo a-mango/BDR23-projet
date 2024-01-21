@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * @author Vitòria Cosmo De Oliviera <maria.cosmodeoliveira@heig-vd.ch>
  */
 public class CollaboratorController implements CrudHandler {
-    CollaboratorService collaboratorService;
+    private CollaboratorService collaboratorService;
 
     public CollaboratorController(){
         collaboratorService = new CollaboratorService();
@@ -25,7 +25,7 @@ public class CollaboratorController implements CrudHandler {
     @Override
     public void create(@NotNull Context ctx) {
         Collaborator c = ctx.bodyAsClass(Collaborator.class);
-        collaboratorService.createCollaborator(c);
+        c.id = collaboratorService.createCollaborator(c);
         ctx.status(201);
     }
 

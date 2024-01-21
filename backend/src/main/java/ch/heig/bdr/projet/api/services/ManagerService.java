@@ -77,16 +77,20 @@ public class ManagerService {
         }
     }
 
-    public void createManager(Manager manager){
-        String query = "INSERT INTO manager_info_view (name, phone_no, comment, email) VALUES (?, ?, ?, ?)";
-        try(PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, manager.name);
-            pstmt.setString(2, manager.phoneNumber);
-            pstmt.setString(3, manager.comment);
-            pstmt.setString(4, manager.email);
-            pstmt.executeUpdate();
+    public int createManager(Manager manager){
+        String query = "{CALL projet.InsertManager(?, ?, ?, ?, ?)}";
+        try(CallableStatement cstmt = conn.prepareCall(query)) {
+            cstmt.setString(1, manager.name);
+            cstmt.setString(2, manager.phoneNumber);
+            cstmt.setString(3, manager.comment);
+            cstmt.setString(4, manager.email);
+            cstmt.registerOutParameter(5, Types.INTEGER);
+
+            cstmt.execute();
+            return cstmt.getInt(5);
         } catch (SQLException e){
             System.out.println(e.getMessage());
+            return -1;
         }
     }
 }

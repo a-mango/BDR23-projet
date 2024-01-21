@@ -81,17 +81,21 @@ public class CollaboratorService {
         }
     }
 
-    public void createCollaborator(Collaborator collaborator){
-        String query = "INSERT INTO collab_info_view (name, phone_no, comment, email) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement pstmt = conn.prepareStatement(query)){
-            pstmt.setString(1, collaborator.name);
-            pstmt.setString(2, collaborator.phoneNumber);
-            pstmt.setString(3, collaborator.comment);
-            pstmt.setString(4, collaborator.email);
+    public int createCollaborator(Collaborator collaborator){
+        String query = "{CALL projet.InsertCollaborator(?, ?, ?, ?, ?)}";
+        try (CallableStatement cstmt = conn.prepareCall(query)){
+            cstmt.setString(1, collaborator.name);
+            cstmt.setString(2, collaborator.phoneNumber);
+            cstmt.setString(3, collaborator.comment);
+            cstmt.setString(4, collaborator.email);
+            cstmt.registerOutParameter(5, Types.INTEGER);
 
-            pstmt.executeUpdate();
+            cstmt.execute();
+
+            return cstmt.getInt(5);
         } catch (SQLException e){
             Utils.logError(e);
+            return -1;
         }
     }
 

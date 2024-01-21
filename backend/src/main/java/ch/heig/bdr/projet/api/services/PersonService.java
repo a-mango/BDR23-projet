@@ -78,15 +78,19 @@ public class PersonService {
         }
     }
 
-    public void createPerson(Person person){
-        String query = "INSERT INTO person (name, phone_no, comment) VALUES (?,?,?)";
-        try(PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, person.name);
-            pstmt.setString(2, person.phoneNumber);
-            pstmt.setString(3, person.comment);
-            pstmt.executeUpdate();
+    public int createPerson(Person person){
+        String query = "{CALL projet.InsertPerson(?, ?, ?, ?)}";
+        try(CallableStatement cstmt = conn.prepareCall(query)) {
+            cstmt.setString(1, person.name);
+            cstmt.setString(2, person.phoneNumber);
+            cstmt.setString(3, person.comment);
+            cstmt.registerOutParameter(4, Types.INTEGER);
+
+            cstmt.execute();
+            return cstmt.getInt(4);
         } catch (SQLException e){
             System.out.println(e.getMessage());
+            return -1;
         }
     }
 }

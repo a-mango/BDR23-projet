@@ -35,7 +35,7 @@ public class ReceptionistController implements CrudHandler {
     @Override
     public void create(@NotNull Context context) {
         Receptionist receptionist = context.bodyAsClass(Receptionist.class);
-        receptionistService.createReceptionist(receptionist);
+        receptionist.id = receptionistService.createReceptionist(receptionist);
         context.status(201);
     }
 

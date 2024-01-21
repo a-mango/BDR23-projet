@@ -72,17 +72,21 @@ public class TechnicianService {
         }
     }
 
-    public void createTechnician(Technician technician){
-        String query = "INSERT INTO technician_info_view (name, phone_no, comment, email) VALUES (?,?,?,?)";
-        try(PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, technician.name);
-            pstmt.setString(2, technician.phoneNumber);
-            pstmt.setString(3, technician.comment);
-            pstmt.setString(4, technician.email);
+    public int createTechnician(Technician technician){
+        String query = "{CALL projet.InsertTechnician(?, ?, ?, ?,?)}";
 
-            pstmt.executeUpdate();
+        try(CallableStatement cstmt = conn.prepareCall(query)) {
+            cstmt.setString(1, technician.name);
+            cstmt.setString(2, technician.phoneNumber);
+            cstmt.setString(3, technician.comment);
+            cstmt.setString(4, technician.email);
+            cstmt.registerOutParameter(5, Types.INTEGER);
+
+            cstmt.executeUpdate();
+            return cstmt.getInt(5);
         } catch (SQLException e){
             Utils.logError(e);
+            return -1;
         }
     }
 

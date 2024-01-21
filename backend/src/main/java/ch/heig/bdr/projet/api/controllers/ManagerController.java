@@ -26,7 +26,7 @@ public class ManagerController implements CrudHandler {
     @Override
     public void create(@NotNull Context ctx) {
         Manager manager = ctx.bodyAsClass(Manager.class);
-        managerService.createManager(manager);
+        manager.id = managerService.createManager(manager);
         ctx.status(201);
     }
 
