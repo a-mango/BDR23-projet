@@ -23,7 +23,7 @@ public class BrandService {
     /**
      * Default constructor.
      */
-    BrandService() {
+    public BrandService() {
         conn = PostgresConnection.getInstance().getConnection();
     }
 
