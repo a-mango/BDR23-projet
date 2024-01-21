@@ -1,56 +1,53 @@
 import React, { useContext, useState } from 'react';
 import Page from '../components/Page';
 import Table from '../components/Table';
-import CustomerForm from '../components/CustomerForm';
 import { GlobalStateContext } from '../providers/GlobalState';
 import Title from '../components/Title';
 
 const ReceptionistPage = () => {
-    const { state, dispatch, addCustomer, updateCustomer, removeCustomer } = useContext(GlobalStateContext);
-    const [selectedCustomer, setSelectedCustomer] = useState(null);
+    const { state, dispatch, addReceptionist, updateReceptionist, removeReceptionist } = useContext(GlobalStateContext);
+    const [selectedReceptionist, setSelectedReceptionist] = useState(null);
 
-    const handleAddCustomer = (customer) => {
+    const handleAddReceptionist = (receptionist) => {
         try {
-            addCustomer(dispatch, customer);
+            addReceptionist(dispatch, receptionist);
         } catch (error) {
             dispatch({ type: 'SET_ERROR', payload: error.message });
         }
     };
 
-    const handleSetCustomer = (customer) => {
-        setSelectedCustomer(customer);
+    const handleSetReceptionist = (receptionist) => {
+        setSelectedReceptionist(receptionist);
     };
 
-    const handleDeleteClick = (customer) => {
+    const handleDeleteClick = (receptionist) => {
         try {
-            removeCustomer(dispatch, customer.id);
+            removeReceptionist(dispatch, receptionist.id);
         } catch (error) {
             dispatch({ type: 'SET_ERROR', payload: error.message });
         }
     };
 
-    const handleUpdateCustomer = (customer) => {
+    const handleUpdateReceptionist = (receptionist) => {
         try {
-            updateCustomer(dispatch, customer);
+            updateReceptionist(dispatch, receptionist);
         } catch (error) {
             dispatch({ type: 'SET_ERROR', payload: error.message });
         }
     };
 
     const handleCloseForm = () => {
-        setSelectedCustomer(null);
+        setSelectedReceptionist(null);
     };
 
-    return (
-        <Page>
-            <Title title="Customers" actionText="New Customer" onAction={() => setSelectedCustomer({})} />
-            {selectedCustomer && <CustomerForm selectedCustomer={selectedCustomer} onAddCustomer={handleAddCustomer}
-                                               onUpdateCustomer={handleUpdateCustomer} onClose={handleCloseForm} />}
-            {state.customers && state.customers.length > 0 ? (
-                <Table data={state.customers} onRowClick={handleSetCustomer} onDeleteClick={handleDeleteClick} />) : (
-                <p>No customers found.</p>)}
-        </Page>
-    );
+    return (<Page>
+            <Title title="Receptionists" actionText="New Receptionist" onAction={() => setSelectedReceptionist({})} />
+            {/*{selectedReceptionist && <ReceptionistForm selectedReceptionist={selectedReceptionist} onAddReceptionist={handleAddReceptionist}*/}
+            {state.receptionists && state.receptionists.length > 0 ? (
+                <Table data={state.receptionists} onRowClick={handleSetReceptionist} onDeleteClick={handleDeleteClick}
+                       onUpdateReceptionist={handleUpdateReceptionist} onClose={handleCloseForm} />) : (
+                <p>No receptionists found.</p>)}
+        </Page>);
 };
 
 export default ReceptionistPage;

@@ -121,6 +121,7 @@ const GlobalStateProvider = ({ children }) => {
     useEffect(() => {
         fetchCustomers(dispatch);
         fetchRepairs(dispatch);
+        fetchReceptionists(dispatch);
     }, [dispatch]);
 
     return (<Provider value={{
