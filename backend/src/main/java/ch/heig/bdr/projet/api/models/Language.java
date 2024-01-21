@@ -24,4 +24,8 @@ public class Language {
     public Language(String name){
         this.name = name;
     }
+
+    public String toString() {
+        return name;
+    }
 }
