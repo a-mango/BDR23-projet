@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { CheckIcon, XCircleIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { GlobalStateContext } from '../providers/GlobalState';
 
-const ReceptionistForm = ({ selectedRepair, onClose }) => {
+const ReceptionistForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
     const { dispatch, addRepair, updateRepair } = useContext(GlobalStateContext);
     const {
         register, handleSubmit, watch, formState: { errors }, setValue,
@@ -15,6 +15,7 @@ const ReceptionistForm = ({ selectedRepair, onClose }) => {
             .padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}T${String(now.getHours())
             .padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
     };
+
     useEffect(() => {
         if (new Date(selectedRepair?.dateCreated).toString() !== 'Invalid Date') {
             setValue('dateCreated', formatDate(selectedRepair.dateCreated));
@@ -45,6 +46,10 @@ const ReceptionistForm = ({ selectedRepair, onClose }) => {
             addRepair(dispatch, data);
         }
     };
+
+    const resetForm = () => {
+        setSelectedRepair({});
+    }
 
     const formatDate = (date) => {
         return date.slice(0, 16);
@@ -107,7 +112,7 @@ const ReceptionistForm = ({ selectedRepair, onClose }) => {
         </div>
         <div className="form-controls">
             <button type="submit">Submit<CheckIcon className="h-5 w-5" /></button>
-            <button type="reset">Reset<XMarkIcon className="h-5 w-5" /></button>
+            <button type="reset" onClick={resetForm}>Reset<XMarkIcon className="h-5 w-5" /></button>
             <button type="button" onClick={onClose}>Close<XCircleIcon className="h-5 w-5" /></button>
         </div>
     </form>);

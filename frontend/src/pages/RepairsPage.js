@@ -48,8 +48,9 @@ const RepairsPage = () => {
                 actionText="New Repair"
                 onAction={() => setSelectedRepair({})}
             />
-            {selectedRepair && <RepairForm selectedRepair={selectedRepair} onAddRepair={handleAddRepair}
-                                           onUpdateRepair={handleUpdateRepair} onClose={handleCloseForm} />}
+            {selectedRepair && <RepairForm selectedRepair={selectedRepair} setSelectedRepair={setSelectedRepair}
+                                           onAddRepair={handleAddRepair} onUpdateRepair={handleUpdateRepair}
+                                           onClose={handleCloseForm} />}
             {state.repairs && state.repairs.length > 0 ? (
                 <Table data={state.repairs} onRowClick={handleSetRepair} onDeleteClick={handleDeleteClick} />) : (
                 <p>No repairs found.</p>)}

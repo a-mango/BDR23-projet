@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { CheckIcon, XCircleIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { GlobalStateContext } from '../providers/GlobalState';
 
-const RepairForm = ({ selectedRepair, onClose }) => {
+const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
     const { dispatch, addRepair, updateRepair } = useContext(GlobalStateContext);
     const {
         register, handleSubmit, watch, formState: { errors }, setValue,
@@ -45,6 +45,10 @@ const RepairForm = ({ selectedRepair, onClose }) => {
             addRepair(dispatch, data);
         }
     };
+
+    const resetForm = () => {
+        setSelectedRepair({});
+    }
 
     const formatDate = (date) => {
         return date.slice(0, 16);
@@ -107,7 +111,7 @@ const RepairForm = ({ selectedRepair, onClose }) => {
         </div>
         <div className="form-controls">
             <button type="submit">Submit<CheckIcon className="h-5 w-5" /></button>
-            <button type="reset">Reset<XMarkIcon className="h-5 w-5" /></button>
+            <button type="reset" onClick={resetForm}>Reset<XMarkIcon className="h-5 w-5" /></button>
             <button type="button" onClick={onClose}>Close<XCircleIcon className="h-5 w-5" /></button>
         </div>
     </form>);
