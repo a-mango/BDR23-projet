@@ -11,7 +11,7 @@
     <module name="bdrapi" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="ch.heig.bdr.projet.api.technician.*" />
+        <option name="PATTERN" value="ch.heig.bdr.projet.api.models.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>

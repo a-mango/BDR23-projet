@@ -1,19 +1,19 @@
 package ch.heig.bdr.projet.api;
 
-import ch.heig.bdr.projet.api.brand.BrandController;
-import ch.heig.bdr.projet.api.category.CategoryController;
-import ch.heig.bdr.projet.api.collaborator.CollaboratorController;
-import ch.heig.bdr.projet.api.customer.CustomerController;
-import ch.heig.bdr.projet.api.language.LanguageController;
-import ch.heig.bdr.projet.api.manager.ManagerController;
-import ch.heig.bdr.projet.api.object.ObjectController;
-import ch.heig.bdr.projet.api.sale.SaleController;
-import ch.heig.bdr.projet.api.person.PersonController;
-import ch.heig.bdr.projet.api.receptionist.ReceptionistController;
-import ch.heig.bdr.projet.api.reparation.ReparationController;
-import ch.heig.bdr.projet.api.sms.SmsController;
-import ch.heig.bdr.projet.api.specialization.SpecializationController;
-import ch.heig.bdr.projet.api.technician.TechnicianController;
+import ch.heig.bdr.projet.api.controllers.BrandController;
+import ch.heig.bdr.projet.api.controllers.CategoryController;
+import ch.heig.bdr.projet.api.controllers.CollaboratorController;
+import ch.heig.bdr.projet.api.controllers.CustomerController;
+import ch.heig.bdr.projet.api.controllers.LanguageController;
+import ch.heig.bdr.projet.api.controllers.ManagerController;
+import ch.heig.bdr.projet.api.controllers.ObjectController;
+import ch.heig.bdr.projet.api.controllers.SaleController;
+import ch.heig.bdr.projet.api.controllers.PersonController;
+import ch.heig.bdr.projet.api.controllers.ReceptionistController;
+import ch.heig.bdr.projet.api.controllers.ReparationController;
+import ch.heig.bdr.projet.api.controllers.SmsController;
+import ch.heig.bdr.projet.api.controllers.SpecializationController;
+import ch.heig.bdr.projet.api.controllers.TechnicianController;
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 
