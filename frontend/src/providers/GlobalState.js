@@ -96,7 +96,6 @@ const GlobalStateProvider = ({ children }) => {
                 return state;
         }
     }, initialState, state => {
-        console.log('State updated:', state);
         return state;
     });
 
