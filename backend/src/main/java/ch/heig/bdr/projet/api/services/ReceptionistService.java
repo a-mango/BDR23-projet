@@ -49,12 +49,12 @@ public class ReceptionistService {
         }
     }
 
-    public void createReceptionist(Receptionist receptionist) {
+/*    public void createReceptionist(Receptionist receptionist) {
         String insertReceptionistQuery = "INSERT INTO receptionist_info_view (phone_no, name, comment, email) VALUES (?, ?, ?, ?)";
         //String insertLanguageQuery = "INSERT INTO receptionist_language (receptionist_id, language) VALUES (?, ?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(insertReceptionistQuery, Statement.RETURN_GENERATED_KEYS);
-             /*PreparedStatement pstmt2 = conn.prepareStatement(insertLanguageQuery)*/) {
+             //PreparedStatement pstmt2 = conn.prepareStatement(insertLanguageQuery)){
 
             pstmt.setString(1, receptionist.phoneNumber);
             pstmt.setString(2, receptionist.name);
@@ -87,10 +87,10 @@ public class ReceptionistService {
             System.out.println(e.getMessage());
         }
     }
+*/
 
-    /*
-        void createReceptionist(Receptionist receptionist) {
-        String query = "CALL create_receptionist(?, ?, ?, ?, ?)";
+    public void createReceptionist(Receptionist receptionist) {
+        String query = "CALL create_receptionist(?, ?, ?, ?, ?::character varying[])";
         //String insertLanguageQuery = "INSERT INTO receptionist_language (receptionist_id, language) VALUES (?, ?)";
 
         try (CallableStatement statement = conn.prepareCall(query)) {
@@ -100,21 +100,23 @@ public class ReceptionistService {
             statement.setString(3, receptionist.phoneNumber);
             statement.setString(4, receptionist.comment);
 
-    // Convert the ArrayList to an array
-    Language[] dataArray = receptionist.languages.toArray(new Language[receptionist.languages.size()]);
+            // Convert the ArrayList to an array of string representations
+            String[] languageStrings = receptionist.languages.stream()
+                    .map(Language::toString)
+                    .toArray(String[]::new);
 
-    // Convert the array to SQL array using Array class
-    Array sqlArray = conn.createArrayOf("Language", dataArray);
+            // Convert the array of string representations to SQL array using Array class
+            Array sqlArray = conn.createArrayOf("VARCHAR", languageStrings);
 
-    // Set the SQL array as a parameter
+            // Set the SQL array as a parameter
             statement.setArray(5, sqlArray);
 
             statement.executeUpdate();
     } catch (SQLException e) {
             throw new RuntimeException(e);
             }
-            }
-    * */
+    }
+
 
 
     public void updateReceptionist(String id, Receptionist updatedReceptionist){
