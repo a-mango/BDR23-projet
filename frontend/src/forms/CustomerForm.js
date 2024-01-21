@@ -4,7 +4,7 @@ import { CheckIcon, XMarkIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { GlobalStateContext } from '../providers/GlobalState';
 
 const CustomerForm = ({ selectedCustomer, onClose }) => {
-    const { dispatch, addCustomer, updateCustomer } = useContext(GlobalStateContext);
+    const { state, dispatch, addCustomer, updateCustomer } = useContext(GlobalStateContext);
     const {
         register,
         handleSubmit,
@@ -24,12 +24,12 @@ const CustomerForm = ({ selectedCustomer, onClose }) => {
         }
     }, [selectedCustomer, setValue]);
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         data.phoneNumber = data.phoneNumber.replace(/\s/g, '');
         if (selectedCustomer && selectedCustomer.id) {
             updateCustomer(dispatch, { ...selectedCustomer, ...data });
         } else {
-            addCustomer(dispatch, data);
+            selectedCustomer.id = await addCustomer(dispatch, data);
         }
     };
 

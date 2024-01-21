@@ -21,6 +21,7 @@ const addCustomer = async (dispatch, customer) => {
         const response = await axios.post('/customer', customer);
         dispatch({ type: ADD_CUSTOMER, payload: response.data });
         dispatch({ type: SET_ALERT, payload: { type: 'success', message: 'Customer added successfully' } });
+        return response.data.id;
     } catch (error) {
         dispatch({
             type: SET_ALERT,
