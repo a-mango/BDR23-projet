@@ -82,7 +82,7 @@ public class ReceptionistService {
 
 
     public void updateReceptionist(String id, Receptionist updatedReceptionist) {
-        String query = "{CALL UpdateReceptionist(?, ?, ?, ?, ?, ?::character varying[],?::character varying[])}";
+        String query = "CALL UpdateReceptionist(?, ?, ?, ?, ?, ?::character varying[],?::character varying[])";
 
         try (CallableStatement cstmt = conn.prepareCall(query)) {
 
