@@ -273,9 +273,13 @@ GROUP BY date
 ORDER BY date DESC;
 
 -- Total number of repairs created per receptionist
-SELECT receptionist_id, COUNT(*) AS nb_rep_per_recept
-FROM reparation
-GROUP BY receptionist_id;
+SELECT p.name, COUNT(*) AS nb_rep_per_recept
+FROM reparation r
+        INNER JOIN receptionist re
+                ON r.receptionist_id = re.receptionist_id
+        INNER JOIN person p
+                ON re.receptionist_id = p.person_id
+GROUP BY p.name;
 
 -- Total number of receptionist per language
 SELECT language, COUNT(*) AS nb_recept_per_lang
