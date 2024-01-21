@@ -1,9 +1,13 @@
+/**
+ * @fileoverview Receptionist related actions.
+ */
+
 import {
-    SET_RECEPTIONISTS,
     ADD_RECEPTIONIST,
-    UPDATE_RECEPTIONIST,
     REMOVE_RECEPTIONIST,
     SET_ALERT,
+    SET_RECEPTIONISTS,
+    UPDATE_RECEPTIONIST,
 } from '../config/actionTypes';
 import axios from 'axios';
 
@@ -53,8 +57,5 @@ const removeReceptionist = async (dispatch, receptionistId) => {
 };
 
 export {
-    fetchReceptionists,
-    addReceptionist,
-    updateReceptionist,
-    removeReceptionist,
-}
+    fetchReceptionists, addReceptionist, updateReceptionist, removeReceptionist,
+};

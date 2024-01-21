@@ -114,68 +114,31 @@ BEGIN
 END;
 $$;
 
--- Create a new Person, Collaborator and Technician in one transaction
-CREATE OR REPLACE PROCEDURE projet.InsertTechnician(
-    _name VARCHAR,
-    _phone_no VARCHAR,
-    _comment TEXT,
-    _email TEXT,
-    OUT _new_id INTEGER
-)
-    LANGUAGE plpgsql
-AS $$
-DECLARE
-    new_person_id INTEGER := 0;
-BEGIN
-    -- Insert into a Collaborator and get the new ID
-    CALL projet.InsertCollaborator(_name, _phone_no, _comment, _email, new_person_id);
-
-    -- Insert into Technician using the new Person ID
-    INSERT INTO projet.technician (technician_id)
-    VALUES (new_person_id)
-    RETURNING technician_id INTO _new_id;
-
-END;
-$$;
-
--- Used in the API to create a new receptionist
+-- Create a new Person, Collaborator, Receptionist and language into receptionist_language in one transaction
 CREATE OR REPLACE PROCEDURE createReceptionist(
-    IN in_name VARCHAR(128),
-    IN in_phone_no VARCHAR(11),
-    IN in_comment TEXT,
-    IN in_email VARCHAR(128),
-    IN in_languages VARCHAR(32)[],
+    IN _name VARCHAR(128),
+    IN _phone_no VARCHAR(11),
+    IN _comment TEXT,
+    IN _email VARCHAR(128),
+    IN _languages VARCHAR(32)[],
     OUT _new_id INTEGER
 )
     LANGUAGE plpgsql
 AS $$
-DECLARE
-    i INT;
 BEGIN
-    -- Insert into person table
-    INSERT INTO person(name, phone_no, comment)
-    VALUES (in_name, in_phone_no, in_comment)
-    RETURNING person_id INTO i;
 
-    -- Insert into collaborator table
-    INSERT INTO collaborator(collaborator_id, email)
-    VALUES (i, in_email);
-
-    -- Insert into receptionist table
-    INSERT INTO receptionist(receptionist_id)
-    VALUES (i)
-    RETURNING receptionist_id INTO _new_id;
+    CALL projet.InsertReceptionist(_name, _phone_no, _comment, _email, _new_id);
 
     -- Insert languages into receptionist_language table
-    FOR j IN 1..array_length(in_languages, 1)
+    FOR j IN 1..array_length(_languages, 1)
         LOOP
             INSERT INTO receptionist_language(receptionist_id, language)
-            VALUES (_new_id, in_languages[j]);
+            VALUES (_new_id, _languages[j]);
         END LOOP;
 END;
 $$;
 
--- Used in the API to update a receptionist
+-- Update a new Person, Collaborator, Receptionist and language into receptionist_language in one transaction
 CREATE OR REPLACE PROCEDURE updateReceptionist(
     IN in_receptionist_id INT,
     IN in_name VARCHAR(128),

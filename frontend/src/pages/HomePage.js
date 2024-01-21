@@ -5,8 +5,13 @@ import { GlobalStateContext } from '../providers/GlobalState';
 import BarChart from '../components/BarChart';
 import PieChart from '../components/PieChart';
 
+/**
+ * Home page component.
+ *
+ * @returns {Element} The home page.
+ */
 const HomePage = () => {
-    const { state, dispatch } = useContext(GlobalStateContext);
+    const { state } = useContext(GlobalStateContext);
 
     return (<Page>
         <Title title={'Dashboard'} />

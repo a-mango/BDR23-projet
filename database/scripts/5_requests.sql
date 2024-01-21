@@ -70,6 +70,7 @@ SET time_worked = time_worked + :time_worked
 WHERE technician_id = :technician_id
   AND reparation_id = :reparation_id
 RETURNING *;
+
 --
 -- Receptionist
 --

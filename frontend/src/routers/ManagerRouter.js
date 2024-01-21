@@ -6,6 +6,11 @@ import ReceptionistPage from '../pages/ReceptionistPage';
 import TechnicianPage from '../pages/TechnicianPage';
 import ManagerPage from '../pages/ManagerPage';
 
+/**
+ * Manager router component.
+ *
+ * @returns {Element} The manager router.
+ */
 function ManagerRouter() {
     return (
         <Routes>

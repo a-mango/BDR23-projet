@@ -1,3 +1,7 @@
+/**
+ * Global styles for the application
+ */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -18,7 +22,7 @@ main {
 }
 
 h1 {
-    @apply text-4xl p-2 py-4 my-8 font-bold text-stone-800 decorated;
+    @apply text-4xl p-2 py-4 my-8 font-bold text-stone-800 decorated decoration-dotted decoration-1;
 }
 
 h2 {
@@ -172,10 +176,6 @@ table {
     tr {
         @apply h-20;
     }
-}
-
-input[type="time"]::-webkit-datetime-edit-ampm-field {
-    display: none !important;
 }
 
 .stats-container {

@@ -6,6 +6,11 @@ import ReceptionistRouter from './routers/ReceptionistRouter';
 import TechnicianRouter from './routers/TechnicianRouter';
 import ManagerRouter from './routers/ManagerRouter';
 
+/**
+ * App component. This is the main component of the application. The router includes the layout and sub-routers.
+ *
+ * @returns {Element} The app component.
+ */
 function App() {
     return (
         <Router>

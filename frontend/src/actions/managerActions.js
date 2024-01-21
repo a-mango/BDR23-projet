@@ -7,6 +7,12 @@ import {
 } from '../config/actionTypes';
 import axios from 'axios';
 
+/**
+ * Fetches all managers.
+
+ * @param dispatch The dispatch method.
+ * @returns {Promise<void>} A promise that resolves when the managers have been fetched.
+ */
 const fetchManagers = async (dispatch) => {
     try {
         const response = await axios.get('/manager');

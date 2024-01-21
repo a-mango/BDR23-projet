@@ -1,7 +1,8 @@
-import {
-    SET_BRANDS,
-    SET_ALERT,
-} from '../config/actionTypes';
+/**
+ * @fileoverview Brand related actions.
+ */
+
+import { SET_ALERT, SET_BRANDS } from '../config/actionTypes';
 import axios from 'axios';
 
 const fetchBrands = async (dispatch) => {
@@ -15,4 +16,4 @@ const fetchBrands = async (dispatch) => {
 
 export {
     fetchBrands,
-}
+};

@@ -1,7 +1,8 @@
-import {
-    SET_LANGUAGES,
-    SET_ALERT,
-} from '../config/actionTypes';
+/**
+ * @fileoverview Language related actions.
+ */
+
+import { SET_ALERT, SET_LANGUAGES } from '../config/actionTypes';
 import axios from 'axios';
 
 const fetchLanguages = async (dispatch) => {
@@ -15,4 +16,4 @@ const fetchLanguages = async (dispatch) => {
 
 export {
     fetchLanguages,
-}
+};

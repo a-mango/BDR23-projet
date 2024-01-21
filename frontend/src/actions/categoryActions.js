@@ -1,7 +1,8 @@
-import {
-    SET_CATEGORIES,
-    SET_ALERT,
-} from '../config/actionTypes';
+/**
+ * @fileoverview Category related actions.
+ */
+
+import { SET_ALERT, SET_CATEGORIES } from '../config/actionTypes';
 import axios from 'axios';
 
 const fetchCategories = async (dispatch) => {
@@ -15,4 +16,4 @@ const fetchCategories = async (dispatch) => {
 
 export {
     fetchCategories,
-}
+};

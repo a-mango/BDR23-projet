@@ -4,6 +4,11 @@ import './index.css';
 import App from './App';
 import { GlobalStateProvider } from './providers/GlobalState';
 
+/**
+ * React root component.
+ *
+ * @type {Root} The root component.
+ */
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

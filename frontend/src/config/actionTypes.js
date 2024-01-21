@@ -1,13 +1,12 @@
+/**
+ * @fileoverview This file contains all the action types used in the application.
+ */
 export const SET_CUSTOMERS = 'SET_CUSTOMERS';
 export const ADD_CUSTOMER = 'ADD_CUSTOMER';
 export const UPDATE_CUSTOMER = 'UPDATE_CUSTOMER';
 export const REMOVE_CUSTOMER = 'REMOVE_CUSTOMER';
 export const SET_ALERT = 'SET_ALERT';
 export const CLEAR_ALERT = 'CLEAR_ALERT';
-export const SET_COLLABORATORS = 'SET_COLLABORATORS';
-export const ADD_COLLABORATOR = 'ADD_COLLABORATOR';
-export const UPDATE_COLLABORATOR = 'UPDATE_COLLABORATOR';
-export const REMOVE_COLLABORATOR = 'REMOVE_COLLABORATOR';
 export const SET_TECHNICIANS = 'SET_TECHNICIANS';
 export const ADD_TECHNICIAN = 'ADD_TECHNICIAN';
 export const UPDATE_TECHNICIAN = 'UPDATE_TECHNICIAN';
