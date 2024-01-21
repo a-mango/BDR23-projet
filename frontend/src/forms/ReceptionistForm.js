@@ -39,7 +39,7 @@ const ReceptionistForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
     const onSubmit = (data) => {
         data.dateCreated = new Date(data.dateCreated).toISOString().split('.')[0] + 'Z';
         data.dateModified = new Date(data.dateModified).toISOString().split('.')[0] + 'Z';
-
+        console.log("Adding receptionist", data);
         if (selectedRepair && selectedRepair.id) {
             updateRepair(dispatch, { ...selectedRepair, ...data });
         } else {
@@ -59,30 +59,30 @@ const ReceptionistForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
         {selectedRepair && selectedRepair.id && <h2>Details for repair #{selectedRepair.id}</h2>}
         <div className="col-1">
             <div className="row">
-                <div>
+                <div className="item">
                     <label>Date created</label>
                     <input type="datetime-local" {...register('dateCreated')} />
                 </div>
-                <div>
+                <div className="item">
                     <label>Date modified</label>
                     <input type="datetime-local" {...register('dateModified')} />
                 </div>
             </div>
 
             <div className="row">
-                <div>
+                <div className="item">
                     <label>Quote</label>
                     <input {...register('quote', { required: true })} />
                     {errors.quote && <span>This field is required</span>}
                 </div>
-                <div>
+                <div className="item">
                     <label>Estimated duration</label>
                     <input type="time" {...register('estimatedDuration', { required: true })} />
                 </div>
             </div>
 
             <div className="row">
-                <div>
+                <div className="item">
                     <label>Description</label>
                     <textarea {...register('description', { required: true })} rows={5} />
                 </div>
@@ -91,7 +91,7 @@ const ReceptionistForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
 
         <div className="col-2">
             <div className="row">
-                <div>
+                <div className="item">
                     <label>Reparation state</label>
                     <select {...register('reparationState', { required: true })}>
                         <option value="waiting">Waiting</option>
@@ -100,7 +100,7 @@ const ReceptionistForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
                         <option value="abandoned">Abandoned</option>
                     </select>
                 </div>
-                <div>
+                <div className="item">
                     <label>Quote state</label>
                     <select {...register('quoteState', { required: true })}>
                         <option value="accepted">Accepted</option>

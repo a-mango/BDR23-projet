@@ -6,7 +6,7 @@ import CustomSelect from '../components/CustomSelect';
 
 const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
     const { state, dispatch, addRepair, updateRepair } = useContext(GlobalStateContext);
-    const { brands, categories } = state;
+    const { customers, receptionists, brands, categories } = state;
     const {
         register, control, handleSubmit, watch, formState: { errors }, setValue,
     } = useForm();
@@ -61,7 +61,7 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
     const onSubmit = (data) => {
         data.dateCreated = new Date(data.dateCreated).toISOString().split('.')[0] + 'Z';
         data.dateModified = new Date(data.dateModified).toISOString().split('.')[0] + 'Z';
-
+        console.log("Adding repair", data);
         if (selectedRepair && selectedRepair.id) {
             updateRepair(dispatch, { ...selectedRepair, ...data });
         } else {
@@ -70,7 +70,9 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
     };
 
     const resetForm = () => {
-        setSelectedRepair({});
+        setSelectedRepair({
+            object: {},
+        });
     }
 
     const formatDate = (date) => {
@@ -84,52 +86,50 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
 
         <div className="col-1">
             <div className="row">
-                <div>
+                <div className="item">
                     <label>Date created</label>
                     <input type="datetime-local" {...register('dateCreated')} />
                 </div>
-                <div>
+                <div className="item">
                     <label>Date modified</label>
                     <input type="datetime-local" {...register('dateModified')} />
                 </div>
             </div>
-
             <div className="row">
-                <div>
-                    <label>Receptionist ID</label>
-                    <input {...register('receptionist_id', { required: true })} />
-                </div>
-                <div>
-                    <label>Customer ID</label>
+                <div className="item">
+                    <label>Customer</label>
                     <input {...register('customer_id', { required: true })} />
+                </div>
+                <div className="item">
+                    <label>Receptionist</label>
+                    <input {...register('receptionist_id', { required: true })} />
                 </div>
             </div>
             <div className="row">
-                <div>
+                <div className="item">
                     <label>Object Name</label>
                     <input {...register('object.name', { required: true })} />
                 </div>
-                <div>
+                <div className="item">
                     <label>Object Serial Number</label>
                     <input {...register('object.serialNo')} />
                 </div>
             </div>
             <div className="row">
-                <div>
+                <div className="item">
                     <label>Object Brand</label>
-                    <CustomSelect control={control} name="object.brand.name" options={brandOptions} />
+                    <CustomSelect control={control} name="object.brand.name" options={brandOptions} defaultValue={{ label: selectedRepair?.object?.brand?.name, value: selectedRepair?.object?.brand?.name }} />
                 </div>
-                <div>
+                <div className="item">
                     <label>Object Category</label>
-                    <CustomSelect control={control} name="object.category.name" options={categoryOptions} />
-                </div>
+                    <CustomSelect control={control} name="object.category.name" options={categoryOptions} defaultValue={{ label: selectedRepair?.object?.category?.name, value: selectedRepair?.object?.category?.name }} />                </div>
             </div>
             <div className="row">
-                <div>
+                <div className="item">
                     <label>Object Fault Description</label>
                     <input {...register('object.faultDesc', { required: true })} />
                 </div>
-                <div>
+                <div className="item">
                     <label>Object Location</label>
                     <select {...register('object.location', { required: true })}>
                         <option value="in_stock">In Stock</option>
@@ -143,7 +143,7 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
 
         <div className="col-2">
             <div className="row">
-                <div>
+                <div className="item">
                     <label>Reparation state</label>
                     <select {...register('reparationState', { required: true })}>
                         <option value="waiting">Waiting</option>
@@ -152,7 +152,7 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
                         <option value="abandoned">Abandoned</option>
                     </select>
                 </div>
-                <div>
+                <div className="item">
                     <label>Quote state</label>
                     <select {...register('quoteState', { required: true })}>
                         <option value="accepted">Accepted</option>
@@ -162,24 +162,24 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
                 </div>
             </div>
             <div className="row">
-                <div>
+                <div className="item">
                     <label>Quote</label>
                     <input type="number" {...register('quote')} />
                     {errors.quote && <span>This field is required</span>}
                 </div>
-                <div>
+                <div className="item">
                     <label>Estimated duration</label>
                     <input type="time" {...register('estimatedDuration', { required: true })} />
                 </div>
             </div>
             <div className="row">
-                <div>
+                <div className="item">
                     <label>Description</label>
                     <textarea {...register('description', { required: true })} rows={5} />
                 </div>
             </div>
             <div className="row">
-                <div>
+                <div className="item">
                     <label>Object Remark</label>
                     <textarea {...register('object.remark')} />
                 </div>
