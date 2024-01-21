@@ -1,37 +1,37 @@
 import React, { createContext, useEffect, useReducer } from 'react';
 import axios from 'axios';
-import { BASE_URL } from './config';
-import * as actionTypes from './actionTypes';
+import { BASE_URL } from '../config';
+import * as actionTypes from '../actionTypes';
 import {
     fetchCustomers,
     addCustomer,
     updateCustomer,
     removeCustomer,
-} from './actions/customerActions';
+} from '../actions/customerActions';
 import {
     fetchTechnicians,
     addTechnician,
     updateTechnician,
     removeTechnician,
-} from './actions/technicianActions';
+} from '../actions/technicianActions';
 import {
     fetchReceptionists,
     addReceptionist,
     updateReceptionist,
     removeReceptionist,
-} from './actions/receptionistActions';
+} from '../actions/receptionistActions';
 import {
     fetchManagers,
     addManager,
     updateManager,
     removeManager,
-} from './actions/managerActions';
+} from '../actions/managerActions';
 import {
     fetchRepairs,
     addRepair,
     updateRepair,
     removeRepair,
-} from './actions/repairActions';
+} from '../actions/repairActions';
 
 const initialState = { customers: [], alert: { type: '', message: '' } };
 const GlobalStateContext = createContext(initialState);

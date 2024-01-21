@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { CheckIcon, XCircleIcon, XMarkIcon } from '@heroicons/react/24/solid';
-import { GlobalStateContext } from '../GlobalState';
+import { GlobalStateContext } from '../providers/GlobalState';
 
 const RepairForm = ({ selectedRepair, onClose }) => {
     const { dispatch, addRepair, updateRepair } = useContext(GlobalStateContext);

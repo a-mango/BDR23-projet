@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import Page from '../components/Page';
 import Table from '../components/Table';
 import CustomerForm from '../components/CustomerForm';
-import { GlobalStateContext } from '../GlobalState';
+import { GlobalStateContext } from '../providers/GlobalState';
 import Title from '../components/Title';
 
 const TechnicianPage = () => {

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { CheckIcon, XMarkIcon, XCircleIcon } from '@heroicons/react/24/solid';
-import { GlobalStateContext } from '../GlobalState';
+import { GlobalStateContext } from '../providers/GlobalState';
 
 const CustomerForm = ({ selectedCustomer, onClose }) => {
     const { dispatch, addCustomer, updateCustomer } = useContext(GlobalStateContext);

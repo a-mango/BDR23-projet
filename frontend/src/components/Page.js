@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { GlobalStateContext } from '../GlobalState';
+import { GlobalStateContext } from '../providers/GlobalState';
 import SubNavigation from './SubNavigation';
 import Alert from './Alert';
 

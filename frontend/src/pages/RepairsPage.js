@@ -3,7 +3,7 @@ import Page from '../components/Page';
 import Table from '../components/Table';
 import RepairForm from '../components/RepairForm';
 import Title from '../components/Title';
-import { GlobalStateContext } from '../GlobalState';
+import { GlobalStateContext } from '../providers/GlobalState';
 
 const RepairsPage = () => {
     const { state, dispatch, addRepair, updateRepair, removeRepair } = useContext(GlobalStateContext);

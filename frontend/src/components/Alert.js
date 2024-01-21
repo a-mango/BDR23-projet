@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { GlobalStateContext } from '../GlobalState';
+import { GlobalStateContext } from '../providers/GlobalState';
 import { CheckIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
 const Alert = ({ type, message }) => {
