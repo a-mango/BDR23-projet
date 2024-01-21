@@ -19,22 +19,22 @@ public class StatisticsService {
         conn = PostgresConnection.getInstance().getConnection();
     }
 
-public HashMap<String, Object> getStatistics() {
-    var statistics = new HashMap<String, Object>();
-    statistics.put("numbers", Map.of("name", "Numbers", "type", GraphType.Bar, "data", numbers()));
-    statistics.put("employeesPerType", Map.of("name", "Employees per role", "type", GraphType.Pie, "data", employeesPerType()));
-    statistics.put("ongoingRepairsPerCategory", Map.of("name", "Ongoing Repairs Per Category", "type", GraphType.Bar, "data", ongoingRepairsPerCategory()));
-    statistics.put("finishedRepairsPerCategory", Map.of("name", "Finished Repairs Per Category", "type", GraphType.Bar, "data", finishedRepairsPerCategory()));
-    statistics.put("objectsPerCategory", Map.of("name", "Objects Per Category", "type", GraphType.Bar, "data", objectsPerCategory()));
-    statistics.put("objectsPerBrand", Map.of("name", "Objects Per Brand", "type", GraphType.Bar, "data", objectsPerBrand()));
-    statistics.put("hoursWorkedPerSpecialisation", Map.of("name", "Hours Worked Per Specialisation", "type", GraphType.Pie, "data", hoursWorkedPerSpecialisation()));
-    statistics.put("repairsPerMonth", Map.of("name", "Repairs Per Month", "type", GraphType.Bar, "data", repairsPerMonth()));
-    statistics.put("repairsCreatedPerReceptionist", Map.of("name", "Repairs Created Per Receptionist", "type", GraphType.Bar, "data", repairsCreatedPerReceptionist()));
-    statistics.put("receptionistsPerLanguage", Map.of("name", "Receptionists Per Language", "type", GraphType.Pie, "data", receptionistsPerLanguage()));
-//    statistics.put("smsReceivedPerDay", Map.of("name", "SMS Received Per Day", "type", GraphType.Bar, "data", smsReceivedPerDay()));
-//    statistics.put("smsSentPerDay", Map.of("name", "SMS Sent Per Day", "type", GraphType.Bar, "data", smsSentPerDay()));
-    return statistics;
-}
+    public HashMap<String, Object> getStatistics() {
+        var statistics = new HashMap<String, Object>();
+        statistics.put("numbers", Map.of("name", "Numbers", "type", GraphType.Bar, "data", numbers()));
+        statistics.put("employeesPerType", Map.of("name", "Employees per role", "type", GraphType.Pie, "data", employeesPerType()));
+        statistics.put("ongoingRepairsPerCategory", Map.of("name", "Ongoing Repairs Per Category", "type", GraphType.Bar, "data", ongoingRepairsPerCategory()));
+        statistics.put("finishedRepairsPerCategory", Map.of("name", "Finished Repairs Per Category", "type", GraphType.Bar, "data", finishedRepairsPerCategory()));
+        statistics.put("objectsPerCategory", Map.of("name", "Objects Per Category", "type", GraphType.Bar, "data", objectsPerCategory()));
+        statistics.put("objectsPerBrand", Map.of("name", "Objects Per Brand", "type", GraphType.Bar, "data", objectsPerBrand()));
+        statistics.put("hoursWorkedPerSpecialisation", Map.of("name", "Hours Worked Per Specialisation", "type", GraphType.Pie, "data", hoursWorkedPerSpecialisation()));
+        statistics.put("repairsPerMonth", Map.of("name", "Repairs Per Month", "type", GraphType.Bar, "data", repairsPerMonth()));
+        statistics.put("repairsCreatedPerReceptionist", Map.of("name", "Repairs Created Per Receptionist", "type", GraphType.Bar, "data", repairsCreatedPerReceptionist()));
+        statistics.put("receptionistsPerLanguage", Map.of("name", "Receptionists Per Language", "type", GraphType.Pie, "data", receptionistsPerLanguage()));
+        statistics.put("smsReceivedPerDay", Map.of("name", "SMS Received Per Day", "type", GraphType.Bar, "data", smsReceivedPerDay()));
+        statistics.put("smsSentPerDay", Map.of("name", "SMS Sent Per Day", "type", GraphType.Bar, "data", smsSentPerDay()));
+        return statistics;
+    }
 
     private HashMap<String, Integer> numbers() {
         HashMap<String, Integer> numbers = new HashMap<>();
@@ -336,7 +336,7 @@ public HashMap<String, Object> getStatistics() {
         try (Statement statement = conn.createStatement(); ResultSet rs = statement.executeQuery(query)) {
             HashMap<String, Integer> smsSentPerDay = new HashMap<>();
             while (rs.next()) {
-                smsSentPerDay.put(rs.getString("category"), rs.getInt("nb_sent_sms_per_day"));
+                smsSentPerDay.put(rs.getString("date"), rs.getInt("nb_sent_sms_per_day"));
             }
             return smsSentPerDay;
         } catch (SQLException e) {
