@@ -31,7 +31,7 @@ public class ReparationController implements CrudHandler {
     @Override
     public void create(@NotNull Context ctx) {
         Reparation reparation = ctx.bodyAsClass(Reparation.class);
-        reparationService.createReparation(reparation);
+        reparation.id = reparationService.createReparation(reparation);
         ctx.status(201);
     }
 

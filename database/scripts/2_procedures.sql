@@ -217,7 +217,8 @@ CREATE OR REPLACE PROCEDURE create_reparation(
     IN in_remark TEXT,
     IN in_serial_no VARCHAR(128),
     IN in_brand_name VARCHAR(128),
-    IN in_category_name VARCHAR(128)
+    IN in_category_name VARCHAR(128),
+    OUT _new_id INTEGER
 )
     LANGUAGE plpgsql
 AS
@@ -234,7 +235,8 @@ BEGIN
 
     -- Insert into reparation table
     INSERT INTO reparation(quote, description, estimated_duration, receptionist_id, customer_id, object_id)
-    VALUES (in_quote, in_repair_description, in_estimated_duration, in_receptionist_id, in_customer_id, new_object_id);
+    VALUES (in_quote, in_repair_description, in_estimated_duration, in_receptionist_id, in_customer_id, new_object_id)
+    RETURNING reparation_id INTO _new_id;
 
 END;
 $$;

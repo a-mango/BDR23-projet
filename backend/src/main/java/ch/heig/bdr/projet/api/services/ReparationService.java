@@ -112,25 +112,28 @@ public class ReparationService {
         }
     }
 
-    public void createReparation(Reparation reparation){
-        String query = "CALL create_reparation(?, CAST(? AS TEXT), CAST(? AS INTERVAL), ?, ?, ?, CAST(? AS TEXT), CAST(? AS TEXT), ?, ? ,?)";
-        try(PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setInt(1, reparation.quote);
-            pstmt.setString(2, reparation.description);
-            pstmt.setObject(3, Duration.between(LocalTime.MIDNIGHT, reparation.estimatedDuration.toLocalTime()), Types.OTHER);
-            pstmt.setInt(4, reparation.receptionist_id);
-            pstmt.setInt(5, reparation.customer_id);
+    public int createReparation(Reparation reparation){
+        String query = "CALL create_reparation(?, CAST(? AS TEXT), CAST(? AS INTERVAL), ?, ?, ?, CAST(? AS TEXT), CAST(? AS TEXT), ?, ? ,?, ?)";
+        try(CallableStatement cstmt = conn.prepareCall(query)) {
+            cstmt.setInt(1, reparation.quote);
+            cstmt.setString(2, reparation.description);
+            cstmt.setObject(3, Duration.between(LocalTime.MIDNIGHT, reparation.estimatedDuration.toLocalTime()), Types.OTHER);
+            cstmt.setInt(4, reparation.receptionist_id);
+            cstmt.setInt(5, reparation.customer_id);
 
-            pstmt.setString(6, reparation.object.name);
-            pstmt.setString(7, reparation.object.faultDesc);
-            pstmt.setString(8, reparation.object.remark);
-            pstmt.setString(9, reparation.object.serialNo);
-            pstmt.setString(10, reparation.object.brand.name);
-            pstmt.setString(11, reparation.object.category.name);
+            cstmt.setString(6, reparation.object.name);
+            cstmt.setString(7, reparation.object.faultDesc);
+            cstmt.setString(8, reparation.object.remark);
+            cstmt.setString(9, reparation.object.serialNo);
+            cstmt.setString(10, reparation.object.brand.name);
+            cstmt.setString(11, reparation.object.category.name);
+            cstmt.registerOutParameter(12, Types.INTEGER);
 
-            pstmt.executeUpdate();
+            cstmt.executeUpdate();
+            return cstmt.getInt(12);
         } catch (SQLException e){
             System.out.println(e.getMessage());
+            return -1;
         }
     }
 
