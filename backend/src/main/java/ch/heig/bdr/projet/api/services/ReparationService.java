@@ -80,6 +80,9 @@ public class ReparationService {
      * @param updatedReparation new reparation
      */
     public void updateReparation(String id, Reparation updatedReparation) {
+        final var objectService = new ObjectService();
+        objectService.updateObject(Integer.toString(updatedReparation.object_id), updatedReparation.object);
+
         String query = "UPDATE reparation SET date_created =?, date_modified =?, quote =?, description =?, estimated_duration =CAST(? AS INTERVAL), reparation_state = CAST(? AS reparation_state), quote_state =CAST(? AS quote_state), receptionist_id =?, customer_id =?, object_id =? WHERE reparation_id =?";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setObject(1, OffsetDateTime.parse(updatedReparation.dateCreated), Types.TIMESTAMP_WITH_TIMEZONE);
@@ -93,6 +96,7 @@ public class ReparationService {
             pstmt.setInt(9, updatedReparation.customer_id);
             pstmt.setInt(10, updatedReparation.object_id);
             pstmt.setInt(11, Integer.parseInt(id));
+
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());

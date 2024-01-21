@@ -76,7 +76,9 @@ public class ReparationController implements CrudHandler {
     public void update(@NotNull Context ctx, @NotNull String id) {
         Reparation updatedReparation = ctx.bodyAsClass(Reparation.class);
         if (updatedReparation == null) throw new NullPointerException();
+        updatedReparation.object.id = updatedReparation.object_id;
         reparationService.updateReparation(id, updatedReparation);
+        ctx.json(updatedReparation);
         ctx.status(200);
     }
 
