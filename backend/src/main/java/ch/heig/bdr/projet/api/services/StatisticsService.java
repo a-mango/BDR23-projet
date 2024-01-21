@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StatisticsService {
-    enum GraphType { Bar, Pie, Line, None }
+    enum GraphType { Bar, Pie, Line }
 
     private final Connection conn;
 
@@ -21,23 +21,29 @@ public class StatisticsService {
 
 public HashMap<String, Object> getStatistics() {
     var statistics = new HashMap<String, Object>();
-    statistics.put("employeesPerType", Map.of("name", "Employees per role", "type", GraphType.Bar, "data", employeesPerType()));
-    statistics.put("ongoingRepairCount", Map.of("name", "Ongoing Repair Count", "type", GraphType.Bar, "data", ongoingRepairCount()));
+    statistics.put("numbers", Map.of("name", "Numbers", "type", GraphType.Bar, "data", numbers()));
+    statistics.put("employeesPerType", Map.of("name", "Employees per role", "type", GraphType.Pie, "data", employeesPerType()));
     statistics.put("ongoingRepairsPerCategory", Map.of("name", "Ongoing Repairs Per Category", "type", GraphType.Bar, "data", ongoingRepairsPerCategory()));
-    statistics.put("finishedRepairs", Map.of("name", "Finished Repairs", "type", GraphType.Bar, "data", finishedRepairs()));
     statistics.put("finishedRepairsPerCategory", Map.of("name", "Finished Repairs Per Category", "type", GraphType.Bar, "data", finishedRepairsPerCategory()));
-    statistics.put("objectsForSale", Map.of("name", "Objects For Sale", "type", GraphType.Bar, "data", objectsForSale()));
-    statistics.put("soldObjects", Map.of("name", "Sold Objects", "type", GraphType.Bar, "data", soldObjects()));
     statistics.put("objectsPerCategory", Map.of("name", "Objects Per Category", "type", GraphType.Bar, "data", objectsPerCategory()));
     statistics.put("objectsPerBrand", Map.of("name", "Objects Per Brand", "type", GraphType.Bar, "data", objectsPerBrand()));
-    statistics.put("hoursWorkedPerSpecialisation", Map.of("name", "Hours Worked Per Specialisation", "type", GraphType.Bar, "data", hoursWorkedPerSpecialisation()));
+    statistics.put("hoursWorkedPerSpecialisation", Map.of("name", "Hours Worked Per Specialisation", "type", GraphType.Pie, "data", hoursWorkedPerSpecialisation()));
     statistics.put("repairsPerMonth", Map.of("name", "Repairs Per Month", "type", GraphType.Bar, "data", repairsPerMonth()));
     statistics.put("repairsCreatedPerReceptionist", Map.of("name", "Repairs Created Per Receptionist", "type", GraphType.Bar, "data", repairsCreatedPerReceptionist()));
-    statistics.put("receptionistsPerLanguage", Map.of("name", "Receptionists Per Language", "type", GraphType.Bar, "data", receptionistsPerLanguage()));
+    statistics.put("receptionistsPerLanguage", Map.of("name", "Receptionists Per Language", "type", GraphType.Pie, "data", receptionistsPerLanguage()));
 //    statistics.put("smsReceivedPerDay", Map.of("name", "SMS Received Per Day", "type", GraphType.Bar, "data", smsReceivedPerDay()));
 //    statistics.put("smsSentPerDay", Map.of("name", "SMS Sent Per Day", "type", GraphType.Bar, "data", smsSentPerDay()));
     return statistics;
 }
+
+    private HashMap<String, Integer> numbers() {
+        HashMap<String, Integer> numbers = new HashMap<>();
+        numbers.put("ongoingRepairCount", ongoingRepairCount());
+        numbers.put("finishedRepairs", finishedRepairs());
+        numbers.put("objectsForSale", objectsForSale());
+        numbers.put("soldObjects", soldObjects());
+        return numbers;
+    }
 
     private HashMap<String, Integer> employeesPerType() {
         final String query = """
