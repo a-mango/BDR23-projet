@@ -23,7 +23,6 @@ const CustomerForm = ({ selectedCustomer, setSelectedCustomer, onClose }) => {
     const onSubmit = async (data) => {
         data.phoneNumber = data.phoneNumber.replace(/\s/g, '');
         data.tosAccepted = data.tosAccepted === 'on' || data.tosAccepted === true;
-        console.log("Adding customer", data);
         if (selectedCustomer && selectedCustomer.id) {
             updateCustomer(dispatch, { ...selectedCustomer, ...data });
         } else {

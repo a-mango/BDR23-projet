@@ -86,8 +86,6 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
     }, [selectedRepair, setValue]);
 
     const onSubmit = (data) => {
-        console.log("Repair before transformation", data);
-
         data.object.id = data.object.objectId;
         delete data.object.objectId;
         delete data.objectId;
@@ -106,8 +104,6 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
         data.object.brand = { "name": brandValue };
         data.object.category = { "name": categoryValue };
         data.object.location = locationValue;
-
-        console.log("Adding repair", data);
 
         if (selectedRepair && selectedRepair.id) {
             updateRepair(dispatch, { ...selectedRepair, ...data });

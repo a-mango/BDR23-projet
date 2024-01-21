@@ -26,7 +26,7 @@ const Table = ({ data, onRowClick, onDeleteClick, hideDelete }) => {
         return array;
     }
 
-    const sortedData = [...data].sort((a, b) => a.id - b.id);
+    const sortedData = [...data].sort((a, b) => a.id + b.id);
 
     if (sortedData.length === 0) {
         return <></>;

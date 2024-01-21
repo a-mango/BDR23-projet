@@ -6,15 +6,7 @@ import Title from '../components/Title';
 
 const ReceptionistPage = () => {
     const { state, dispatch, addReceptionist, updateReceptionist, removeReceptionist } = useContext(GlobalStateContext);
-    const [selectedReceptionist, setSelectedReceptionist] = useState(null);
-
-    const handleAddReceptionist = (receptionist) => {
-        try {
-            addReceptionist(dispatch, receptionist);
-        } catch (error) {
-            dispatch({ type: 'SET_ERROR', payload: error.message });
-        }
-    };
+    const [setSelectedReceptionist] = useState(null);
 
     const handleSetReceptionist = (receptionist) => {
         setSelectedReceptionist(receptionist);

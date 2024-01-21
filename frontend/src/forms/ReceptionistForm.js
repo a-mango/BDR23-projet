@@ -39,7 +39,6 @@ const ReceptionistForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
     const onSubmit = (data) => {
         data.dateCreated = new Date(data.dateCreated).toISOString().split('.')[0] + 'Z';
         data.dateModified = new Date(data.dateModified).toISOString().split('.')[0] + 'Z';
-        console.log("Adding receptionist", data);
         if (selectedRepair && selectedRepair.id) {
             updateRepair(dispatch, { ...selectedRepair, ...data });
         } else {
