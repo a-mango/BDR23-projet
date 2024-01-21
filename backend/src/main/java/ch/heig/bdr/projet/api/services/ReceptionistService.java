@@ -3,6 +3,7 @@ package ch.heig.bdr.projet.api.services;
 import ch.heig.bdr.projet.api.PostgresConnection;
 import ch.heig.bdr.projet.api.models.Language;
 import ch.heig.bdr.projet.api.models.Receptionist;
+import ch.heig.bdr.projet.api.util.Utils;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -49,107 +50,70 @@ public class ReceptionistService {
         }
     }
 
-/*    public void createReceptionist(Receptionist receptionist) {
-        String insertReceptionistQuery = "INSERT INTO receptionist_info_view (phone_no, name, comment, email) VALUES (?, ?, ?, ?)";
-        //String insertLanguageQuery = "INSERT INTO receptionist_language (receptionist_id, language) VALUES (?, ?)";
-
-        try (PreparedStatement pstmt = conn.prepareStatement(insertReceptionistQuery, Statement.RETURN_GENERATED_KEYS);
-             //PreparedStatement pstmt2 = conn.prepareStatement(insertLanguageQuery)){
-
-            pstmt.setString(1, receptionist.phoneNumber);
-            pstmt.setString(2, receptionist.name);
-            pstmt.setString(3, receptionist.comment);
-            pstmt.setString(4, receptionist.email);
-
-            // Execute the insert query for receptionist_info_view
-            int rowsAffected = pstmt.executeUpdate();
-
-            // Check if the insertion was successful
-            if (rowsAffected > 0) {
-                // Retrieve the generated keys (including the generated ID)
-                try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        int receptionistId = generatedKeys.getInt(1);
-
-                        // Update the receptionist object with the generated ID
-                        receptionist.id = receptionistId;
-
-                        // Insert language rows with the generated receptionist ID
-                        for (Language language : receptionist.languages) {
-                            addReceptionistLanguage(receptionistId, language.name);
-                        }
-                    }
-                }
-            } else {
-                System.out.println("Failed to insert receptionist.");
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-*/
-
     public int createReceptionist(Receptionist receptionist) {
-        String query = "{CALL projet.InsertReceptionist(?, ?, ?, ?, ?::character varying[], ?)}";
-        //String insertLanguageQuery = "INSERT INTO receptionist_language (receptionist_id, language) VALUES (?, ?)";
+            String query = "CALL createReceptionist(?, ?, ?, ?, ?::character varying[], ?)";
+
+            try (CallableStatement cstmt = conn.prepareCall(query)) {
+                cstmt.setString(1, receptionist.name);
+                cstmt.setString(2, receptionist.phoneNumber);
+                cstmt.setString(3, receptionist.comment);
+                cstmt.setString(4, receptionist.email);
+
+                // Convert the ArrayList to an array of string representations
+                String[] languageStrings = receptionist.languages.stream()
+                        .map(Language::toString)
+                        .toArray(String[]::new);
+
+                // Convert the array of string representations to SQL array using Array class
+                Array sqlArray = conn.createArrayOf("VARCHAR", languageStrings);
+
+
+                // Set the SQL array as a parameter
+                cstmt.setArray(5, sqlArray);
+                cstmt.registerOutParameter(6, Types.INTEGER);
+
+                cstmt.execute();
+                return cstmt.getInt(6);
+            } catch (SQLException e) {
+                Utils.logError(e);
+                return -1;
+            }
+    }
+
+
+    public void updateReceptionist(String id, Receptionist updatedReceptionist) {
+        String query = "{CALL UpdateReceptionist(?, ?, ?, ?, ?, ?::character varying[],?::character varying[])}";
 
         try (CallableStatement cstmt = conn.prepareCall(query)) {
 
-            cstmt.setString(1, receptionist.email);
-            cstmt.setString(2, receptionist.name);
-            cstmt.setString(3, receptionist.phoneNumber);
-            cstmt.setString(4, receptionist.comment);
+            cstmt.setInt(1, Integer.parseInt(id));
+            cstmt.setString(2, updatedReceptionist.name);
+            cstmt.setString(3, updatedReceptionist.phoneNumber);
+            cstmt.setString(4, updatedReceptionist.comment);
+            cstmt.setString(5, updatedReceptionist.email);
 
             // Convert the ArrayList to an array of string representations
-            String[] languageStrings = receptionist.languages.stream()
+            String[] newLanguages = updatedReceptionist.languages.stream()
                     .map(Language::toString)
                     .toArray(String[]::new);
 
             // Convert the array of string representations to SQL array using Array class
-            Array sqlArray = conn.createArrayOf("VARCHAR", languageStrings);
+            Array newLanguagesArray = conn.createArrayOf("VARCHAR", newLanguages);
+
+            Receptionist r = getReceptionistByIs(id);
+            String[] oldLanguages = r.languages.stream()
+                    .map(Language::toString)
+                    .toArray(String[]::new);
+
+            // Convert the array of string representations to SQL array using Array class
+            Array oldLanguagesArray = conn.createArrayOf("VARCHAR", oldLanguages);
 
             // Set the SQL array as a parameter
-            cstmt.setArray(5, sqlArray);
-
-            cstmt.registerOutParameter(6, Types.INTEGER);
+            cstmt.setArray(6, newLanguagesArray);
+            cstmt.setArray(7, oldLanguagesArray);
 
             cstmt.execute();
-
-            return  cstmt.getInt(6);
-    } catch (SQLException e) {
-            throw new RuntimeException(e);
-            }
-    }
-
-
-
-    public void updateReceptionist(String id, Receptionist updatedReceptionist){
-        String query = "UPDATE receptionist_info_view SET name =?, phone_no =?, comment =?, email =? WHERE receptionist_id =?";
-        String query2 = "DELETE FROM receptionist_language WHERE receptionist_id =?";
-        String query3 = "INSERT INTO receptionist_language (receptionist_id, language) VALUES (?, ?)";
-        ArrayList<Language> currentLanguages = getReceptionistLanguages(id);
-        ArrayList<Language> languagesToAdd = new ArrayList<>(updatedReceptionist.languages);
-        languagesToAdd.removeAll(currentLanguages);
-        ArrayList<Language> languagesToDelete = new ArrayList<>(currentLanguages);
-        languagesToDelete.removeAll(updatedReceptionist.languages);
-        try(PreparedStatement pstmt = conn.prepareStatement(query);
-            PreparedStatement pstmt2 = conn.prepareStatement(query2);
-            PreparedStatement pstmt3 = conn.prepareStatement(query3)) {
-            pstmt.setString(1, updatedReceptionist.name);
-            pstmt.setString(2, updatedReceptionist.phoneNumber);
-            pstmt.setString(3, updatedReceptionist.comment);
-            pstmt.setString(4, updatedReceptionist.email);
-            pstmt.setInt(5, Integer.parseInt(id));
-            pstmt.executeUpdate();
-            for(Language language : languagesToAdd){
-                pstmt3.setInt(1, updatedReceptionist.id);
-                pstmt3.setString(2, language.name);
-                pstmt3.executeUpdate();
-            }
-            for(Language language : languagesToDelete){
-                deleteReceptionistLanguage(id, language.name);
-            }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
