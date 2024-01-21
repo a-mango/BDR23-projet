@@ -6,34 +6,38 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 public class StatisticsService {
+    enum GraphType { Bar, Pie, Line, None }
+
     private final Connection conn;
 
     public StatisticsService() {
         conn = PostgresConnection.getInstance().getConnection();
     }
 
-    public HashMap<String, Object> getStatistics() {
-        var statistics = new HashMap<String, Object>();
-        statistics.put("employeesPerType", employeesPerType());
-        statistics.put("ongoingRepairCount", ongoingRepairCount());
-        statistics.put("ongoingRepairsPerCategory", ongoingRepairsPerCategory());
-        statistics.put("finishedRepairs", finishedRepairs());
-        statistics.put("finishedRepairsPerCategory", finishedRepairsPerCategory());
-        statistics.put("objectsForSale", objectsForSale());
-        statistics.put("soldObjects", soldObjects());
-        statistics.put("objectsPerCategory", objectsPerCategory());
-        statistics.put("objectsPerBrand", objectsPerBrand());
-        statistics.put("hoursWOrkedPerSpecialisation", hoursWorkedPerSpecialisation());
-        statistics.put("repairsPerMonth", repairsPerMonth());
-        statistics.put("repairsCreatedPerReceptionist", repairsCreatedPerReceptionist());
-        statistics.put("receptionistsPerLanguage", receptionistsPerLanguage());
-        statistics.put("smsReceivedPerDay", smsReceivedPerDay());
-        statistics.put("smsSentPerDay", smsSentPerDay());
-        return statistics;
-    }
+public HashMap<String, Object> getStatistics() {
+    var statistics = new HashMap<String, Object>();
+    statistics.put("employeesPerType", Map.of("name", "Employees per role", "type", GraphType.Bar, "data", employeesPerType()));
+    statistics.put("ongoingRepairCount", Map.of("name", "Ongoing Repair Count", "type", GraphType.Bar, "data", ongoingRepairCount()));
+    statistics.put("ongoingRepairsPerCategory", Map.of("name", "Ongoing Repairs Per Category", "type", GraphType.Bar, "data", ongoingRepairsPerCategory()));
+    statistics.put("finishedRepairs", Map.of("name", "Finished Repairs", "type", GraphType.Bar, "data", finishedRepairs()));
+    statistics.put("finishedRepairsPerCategory", Map.of("name", "Finished Repairs Per Category", "type", GraphType.Bar, "data", finishedRepairsPerCategory()));
+    statistics.put("objectsForSale", Map.of("name", "Objects For Sale", "type", GraphType.Bar, "data", objectsForSale()));
+    statistics.put("soldObjects", Map.of("name", "Sold Objects", "type", GraphType.Bar, "data", soldObjects()));
+    statistics.put("objectsPerCategory", Map.of("name", "Objects Per Category", "type", GraphType.Bar, "data", objectsPerCategory()));
+    statistics.put("objectsPerBrand", Map.of("name", "Objects Per Brand", "type", GraphType.Bar, "data", objectsPerBrand()));
+    statistics.put("hoursWorkedPerSpecialisation", Map.of("name", "Hours Worked Per Specialisation", "type", GraphType.Bar, "data", hoursWorkedPerSpecialisation()));
+    statistics.put("repairsPerMonth", Map.of("name", "Repairs Per Month", "type", GraphType.Bar, "data", repairsPerMonth()));
+    statistics.put("repairsCreatedPerReceptionist", Map.of("name", "Repairs Created Per Receptionist", "type", GraphType.Bar, "data", repairsCreatedPerReceptionist()));
+    statistics.put("receptionistsPerLanguage", Map.of("name", "Receptionists Per Language", "type", GraphType.Bar, "data", receptionistsPerLanguage()));
+//    statistics.put("smsReceivedPerDay", Map.of("name", "SMS Received Per Day", "type", GraphType.Bar, "data", smsReceivedPerDay()));
+//    statistics.put("smsSentPerDay", Map.of("name", "SMS Sent Per Day", "type", GraphType.Bar, "data", smsSentPerDay()));
+    return statistics;
+}
 
     private HashMap<String, Integer> employeesPerType() {
         final String query = """
