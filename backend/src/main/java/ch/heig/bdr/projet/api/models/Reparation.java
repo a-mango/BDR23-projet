@@ -27,6 +27,7 @@ public class Reparation {
     public int receptionist_id;
     public int customer_id;
     public int object_id;
+    public Object object;
 
     /**
      * Reparation default constructor.
@@ -51,7 +52,7 @@ public class Reparation {
      * @param customer The customer concerned by the reparation.
      * @param object The object concerned by the reparation.
      */
-    public Reparation(int id, String dateCreated, String dateModified, int quote, String repairDescription, Time estimatedDuration/*, ArrayList<Sms> sms*/, ReparationState reparationState, QuoteState quoteState/*, ArrayList<Specialization> specializations, ArrayList<Technician> technicians*/, int receptionist, int customer, int object) {
+    public Reparation(int id, String dateCreated, String dateModified, int quote, String repairDescription, Time estimatedDuration/*, ArrayList<Sms> sms*/, ReparationState reparationState, QuoteState quoteState/*, ArrayList<Specialization> specializations, ArrayList<Technician> technicians*/, int receptionist, int customer, int object_id, Object object) {
         this.id = id;
         this.dateCreated = dateCreated;
         this.dateModified = dateModified;
@@ -65,6 +66,7 @@ public class Reparation {
         //this.technicians = technicians;
         this.receptionist_id = receptionist;
         this.customer_id = customer;
-        this.object_id = object;
+        this.object_id = object_id;
+        this.object = object;
     }
 }

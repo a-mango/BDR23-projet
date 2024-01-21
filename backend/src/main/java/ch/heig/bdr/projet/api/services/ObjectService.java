@@ -30,7 +30,6 @@ public class ObjectService {
             pstmt.setInt(1, Integer.parseInt(id));
             try(ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    ;
                     Object o =  new Object(rs.getInt("object_id"), rs.getString("name"),
                             rs.getString("fault_desc"), rs.getString("remark"),
                             rs.getString("serial_no"),

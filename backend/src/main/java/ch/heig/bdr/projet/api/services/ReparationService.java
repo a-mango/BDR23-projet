@@ -43,7 +43,8 @@ public class ReparationService {
                             ReparationState.valueOf(rs.getString("reparation_state")),
                             QuoteState.valueOf(rs.getString("quote_state")),
                             rs.getInt("receptionist_id"), rs.getInt("customer_id"),
-                            rs.getInt("object_id"));
+                            rs.getInt("object_id"),
+                            new ObjectService().getObjectById(Integer.toString(rs.getInt("object_id"))));
                 } else {
                     return null;
                 }
@@ -68,7 +69,8 @@ public class ReparationService {
                             ReparationState.valueOf(rs.getString("reparation_state")),
                             QuoteState.valueOf(rs.getString("quote_state")),
                             rs.getInt("receptionist_id"), rs.getInt("customer_id"),
-                            rs.getInt("object_id")));
+                            rs.getInt("object_id"),
+                            new ObjectService().getObjectById(Integer.toString(rs.getInt("object_id")))));
             }
             return reparations;
         } catch (SQLException e){
@@ -108,7 +110,8 @@ public class ReparationService {
     }
 
     public void createReparation(Reparation reparation){
-        String query = "INSERT INTO reparation (date_created, date_modified, quote, description, estimated_duration, reparation_state, quote_state, receptionist_id, customer_id, object_id) VALUES (?,?,?,?,CAST(? AS INTERVAL),CAST(? AS reparation_state),CAST(? AS quote_state),?,?,?)";
+        //String query = "CALL create_reparation(?,?,?,?,CAST(? AS INTERVAL),CAST(? AS reparation_state),CAST(? AS quote_state),?,?,?)";
+        String query = "CALL create_reparation(?, ?, ?, ?, CAST(? AS INTERVAL), CAST(? AS reparation_state), CAST(? AS quote_state), ?, ?, ?, ?, ?, ?, ? ,?, ?)";
         try(PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setObject(1, OffsetDateTime.parse(reparation.dateCreated), Types.TIMESTAMP_WITH_TIMEZONE);
             pstmt.setObject(2, OffsetDateTime.parse(reparation.dateModified), Types.TIMESTAMP_WITH_TIMEZONE);
