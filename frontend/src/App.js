@@ -2,10 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
-import CollaboratorsPage from './pages/CollaboratorsPage';
-import Page from './components/Page';
-import RepairsPage from './pages/RepairsPage';
-import CustomersPage from './pages/CustomersPage';
+import ReceptionistRouter from './pages/ReceptionistRouter';
+import TechnicianRouter from './pages/TechnicianRouter';
+import ManagerRouter from './pages/ManagerRouter';
 
 function App() {
     return (
@@ -13,14 +12,9 @@ function App() {
             <Layout>
                 <Routes>
                     <Route path="/" element={<HomePage />} />
-                    <Route path="technician" element={<RepairsPage/>} />
-                    <Route path="receptionist" element={<CustomersPage/>}>
-                        <Route index path="customers" element={<CustomersPage/>} />
-                        <Route path="reparations" element={<RepairsPage/>} />
-                    </Route>
-                    <Route path="manager" element={<Page/>}>
-                        <Route index path="collaborators" element={<CollaboratorsPage/>} />
-                    </Route>
+                    <Route path="technician/*" element={<TechnicianRouter/>} />
+                    <Route path="receptionist/*" element={<ReceptionistRouter/>} />
+                    <Route path="manager/*" element={<ManagerRouter/>} />
                 </Routes>
             </Layout>
         </Router>

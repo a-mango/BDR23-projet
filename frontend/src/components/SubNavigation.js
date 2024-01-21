@@ -1,3 +1,4 @@
+// SubNavigation.js
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { routes } from '../routes';
@@ -19,7 +20,7 @@ const SubNavigation = () => {
                         <li key={index}>
                             <Link
                                 className="text-white hover:underline"
-                                to={item.path}
+                                to={`/${currentPath}/${item.path}`} // prepend the current path to the item path
                             >
                                 {item.name}
                             </Link>

@@ -27,7 +27,7 @@ export const routes = [
         name: 'Manager', path: MANAGER, children: [
             { name: 'Dashboard', path: DASHBOARD },
             { name: 'Customers', path: CUSTOMERS },
-            { name: 'Repairs', path: CUSTOMERS },
+            { name: 'Repairs', path: REPAIRS },
             { name: 'Technicians', path: TECHNICIANS },
             { name: 'Receptionists', path: RECEPTIONISTS },
             { name: 'Manager', path: MANAGERS },
