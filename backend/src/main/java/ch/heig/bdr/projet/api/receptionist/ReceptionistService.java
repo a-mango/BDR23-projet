@@ -88,6 +88,34 @@ public class ReceptionistService {
         }
     }
 
+    /*
+        void createReceptionist(Receptionist receptionist) {
+        String query = "CALL create_receptionist(?, ?, ?, ?, ?)";
+        //String insertLanguageQuery = "INSERT INTO receptionist_language (receptionist_id, language) VALUES (?, ?)";
+
+        try (CallableStatement statement = conn.prepareCall(query)) {
+
+            statement.setString(1, receptionist.email);
+            statement.setString(2, receptionist.name);
+            statement.setString(3, receptionist.phoneNumber);
+            statement.setString(4, receptionist.comment);
+
+    // Convert the ArrayList to an array
+    Language[] dataArray = receptionist.languages.toArray(new Language[receptionist.languages.size()]);
+
+    // Convert the array to SQL array using Array class
+    Array sqlArray = conn.createArrayOf("Language", dataArray);
+
+    // Set the SQL array as a parameter
+            statement.setArray(5, sqlArray);
+
+            statement.executeUpdate();
+    } catch (SQLException e) {
+            throw new RuntimeException(e);
+            }
+            }
+    * */
+
 
     void updateReceptionist(String id, Receptionist updatedReceptionist){
         String query = "UPDATE receptionist_info_view SET name =?, phone_no =?, comment =?, email =? WHERE receptionist_id =?";
