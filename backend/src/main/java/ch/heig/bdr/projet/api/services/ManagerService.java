@@ -78,7 +78,7 @@ public class ManagerService {
     }
 
     public int createManager(Manager manager){
-        String query = "{CALL projet.InsertManager(?, ?, ?, ?, ?)}";
+        String query = "CALL projet.InsertManager(?, ?, ?, ?, ?)";
         try(CallableStatement cstmt = conn.prepareCall(query)) {
             cstmt.setString(1, manager.name);
             cstmt.setString(2, manager.phoneNumber);

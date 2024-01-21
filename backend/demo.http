@@ -1,10 +1,10 @@
 ### Person GET ALL
 
-GET localhost:7000/api/receptionist
+GET localhost:7000/api/person
 
 ### Person GET BY ID
 
-GET localhost:7000/api/person/67
+GET localhost:7000/api/person/1
 
 ### Person POST request
 
@@ -25,7 +25,7 @@ Content-Type: application/json
 {
   "phoneNumber": "111111111",
   "name": "Jeffrey Dayne",
-  "comment": "Test PUT"
+  "comment": "Test PATCH"
 }
 
 ### Person DELETE request
@@ -69,7 +69,7 @@ DELETE localhost:7000/api/person/1
 GET localhost:7000/api/customer/
 
 ### get one customer NOT WORKING 500
-GET localhost:7000/api/customer/1
+GET localhost:7000/api/customer/72
 
 ### create a customer OK
 POST localhost:7000/api/customer
@@ -84,25 +84,25 @@ Content-Type: application/json
 }
 
 ### update a customer OK
-PATCH localhost:7000/api/customer/1
+PATCH localhost:7000/api/customer/72
 
 {
-    "name": "maria",
-    "phoneNumber": 333,
+    "name": "vit",
+    "phoneNumber": 333695968,
     "comment": "another commentaire",
   "tosAccepted": true,
   "privateNote": "another note"
 }
 
 ### delete a customer OK
-DELETE localhost:7000/api/customer/1
+DELETE localhost:7000/api/customer/72
 
 ### technician tests
 ### get all technicians OK
 GET localhost:7000/api/technician/
 
 ### get one technician OK
-GET localhost:7000/api/technician/73
+GET localhost:7000/api/technician/72
 
 ### create a technician OK
 POST localhost:7000/api/technician
@@ -115,14 +115,17 @@ POST localhost:7000/api/technician
 }
 
 ### update a technician
-PATCH localhost:7000/api/technician/73
+PATCH localhost:7000/api/technician/72
 
 {
-    "name": "maria",
+    "name": "vit",
     "phoneNumber": 555555,
     "comment": "updated commentaire",
    "email": "mariamaria@cyberchimps.com"
 }
+
+###
+DELETE localhost:7000/api/technician/72
 
 ### OK
 GET localhost:7000/api/receptionist
@@ -149,9 +152,9 @@ POST localhost:7000/api/receptionist
 }
 
 ###
-GET localhost:7000/api/receptionist/72
+GET localhost:7000/api/receptionist/73
 ###
-PATCH localhost:7000/api/receptionist/72
+PATCH localhost:7000/api/receptionist/73
 
     {
     "name": "Courtney Sawer",
@@ -168,4 +171,63 @@ PATCH localhost:7000/api/receptionist/72
     ]
   }
 ###
-DELETE localhost:7000/api/receptionist/72
+DELETE localhost:7000/api/receptionist/73
+
+
+###
+GET localhost:7000/api/collaborator
+
+###
+GET localhost:7000/api/collaborator/72
+
+###
+POST localhost:7000/api/collaborator
+
+{
+    "name": "Cloe",
+    "phoneNumber": "3435999",
+    "comment": "a comment",
+    "email": "blablah@heig.com"
+}
+
+###
+PATCH localhost:7000/api/collaborator/72
+
+{
+    "name": "CloeCloe",
+    "phoneNumber": "3435999",
+    "comment": "boop",
+    "email": "blablah@heig.com"
+}
+
+###
+DELETE localhost:7000/api/collaborator/72
+
+###
+GET localhost:7000/api/manager
+
+###
+GET localhost:7000/api/manager/72
+
+###
+POST localhost:7000/api/manager
+
+{
+    "name": "Cloe",
+    "phoneNumber": "3435999",
+    "comment": "a comment",
+    "email": "manager@email.com"
+    }
+
+###
+PATCH localhost:7000/api/manager/72
+
+{
+    "name": "CloeCloe",
+    "phoneNumber": "3435999",
+    "comment": "boop",
+    "email": "a.@heig.com"
+}
+
+###
+DELETE localhost:7000/api/manager/72

@@ -79,7 +79,7 @@ public class PersonService {
     }
 
     public int createPerson(Person person){
-        String query = "{CALL projet.InsertPerson(?, ?, ?, ?)}";
+        String query = "CALL projet.InsertPerson(?, ?, ?, ?)";
         try(CallableStatement cstmt = conn.prepareCall(query)) {
             cstmt.setString(1, person.name);
             cstmt.setString(2, person.phoneNumber);

@@ -46,7 +46,6 @@ public class TechnicianService {
     }
 
     public void updateTechnician(String id, Technician updatedTechnician){
-        //        String query = "UPDATE technician_info_view SET name =?, phone_no =?, email =?, comment =?, specializations =?, reparations =? WHERE technician_id =?";
         String query = "UPDATE technician_info_view SET name =?, phone_no =?, email =?, comment =? WHERE technician_id =?";
         try(PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, updatedTechnician.name);
@@ -55,7 +54,7 @@ public class TechnicianService {
             pstmt.setString(4, updatedTechnician.comment);
             //pstmt.setArray(5, conn.createArrayOf("specialization", updatedTechnician.specializations.toArray()));
             //pstmt.setArray(6, conn.createArrayOf("reparation", updatedTechnician.reparations.toArray()));
-            pstmt.setInt(7, Integer.parseInt(id));
+            pstmt.setInt(5, Integer.parseInt(id));
             pstmt.executeUpdate();
         } catch (SQLException e){
             Utils.logError(e);
@@ -73,7 +72,7 @@ public class TechnicianService {
     }
 
     public int createTechnician(Technician technician){
-        String query = "{CALL projet.InsertTechnician(?, ?, ?, ?,?)}";
+        String query = "CALL projet.InsertTechnician(?, ?, ?, ?,?)";
 
         try(CallableStatement cstmt = conn.prepareCall(query)) {
             cstmt.setString(1, technician.name);
@@ -91,7 +90,6 @@ public class TechnicianService {
     }
 
     protected Technician newTechnicianFromResultSet(ResultSet rs) throws SQLException {
-        //        return new Technician(rs.getInt("technician_id"), rs.getString("name"), rs.getString("phone_no"), rs.getString("email"), rs.getString("comment"), (ArrayList<Specialization>) (rs.getArray("specializations")), (ArrayList<Reparation>) (rs.getArray("reparations")));
         return new Technician(rs.getInt("technician_id"), rs.getString("name"), rs.getString("phone_no"), rs.getString("email"), rs.getString("comment")/*, (ArrayList<Specialization>) (rs.getArray("specializations")), (ArrayList<Reparation>) (rs.getArray("reparations"))*/);
     }
 }
