@@ -11,8 +11,27 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
         register, control, handleSubmit, watch, formState: { errors }, setValue,
     } = useForm();
 
+    const customerOptions = customers.map(customer => ({ value: customer.id, label: customer.name }));
+    const receptionistOptions = receptionists.map(receptionist => ({ value: receptionist.id, label: receptionist.name }));
     const brandOptions = brands.map(brand => ({ value: brand.name, label: brand.name }));
     const categoryOptions = categories.map(category => ({ value: category.name, label: category.name }));
+    const objectLocationOptions = [
+        { value: 'in_stock', label: 'In Stock' },
+        { value: 'for_sale', label: 'For Sale' },
+        { value: 'returned', label: 'Returned' },
+        { value: 'sold', label: 'Sold' },
+    ];
+    const reparationStateOptions = [
+        { value: 'waiting', label: 'Waiting' },
+        { value: 'ongoing', label: 'Ongoing' },
+        { value: 'done', label: 'Done' },
+        { value: 'abandoned', label: 'Abandoned' },
+    ];
+    const quoteStateOptions = [
+        { value: 'accepted', label: 'Accepted' },
+        { value: 'declined', label: 'Declined' },
+        { value: 'waiting', label: 'Waiting' },
+    ];
 
     const formattedNow = () => {
         const now = new Date();
@@ -22,6 +41,8 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
     };
 
     useEffect(() => {
+        console.log("Selected repair", selectedRepair);
+        console.log(receptionistOptions);
         if (new Date(selectedRepair?.dateCreated).toString() !== 'Invalid Date') {
             setValue('dateCreated', formatDate(selectedRepair.dateCreated));
         } else {
@@ -98,11 +119,11 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
             <div className="row">
                 <div className="item">
                     <label>Customer</label>
-                    <input {...register('customer_id', { required: true })} />
+                    <CustomSelect control={control} name="customer_id" options={customerOptions} defaultValue={customerOptions.find(customer => customer.value === selectedRepair?.customer_id)} />
                 </div>
                 <div className="item">
                     <label>Receptionist</label>
-                    <input {...register('receptionist_id', { required: true })} />
+                    <CustomSelect control={control} name="receptionist_id" options={receptionistOptions} defaultValue={receptionistOptions.find(receptionist => receptionist.value === selectedRepair?.receptionist_id)} />
                 </div>
             </div>
             <div className="row">
@@ -118,11 +139,12 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
             <div className="row">
                 <div className="item">
                     <label>Object Brand</label>
-                    <CustomSelect control={control} name="object.brand.name" options={brandOptions} defaultValue={{ label: selectedRepair?.object?.brand?.name, value: selectedRepair?.object?.brand?.name }} />
+                    <CustomSelect control={control} name="object.brand.name" options={brandOptions} defaultValue={brandOptions.find(option => option.value === selectedRepair?.object?.brand?.name)} />
                 </div>
                 <div className="item">
                     <label>Object Category</label>
-                    <CustomSelect control={control} name="object.category.name" options={categoryOptions} defaultValue={{ label: selectedRepair?.object?.category?.name, value: selectedRepair?.object?.category?.name }} />                </div>
+                    <CustomSelect control={control} name="object.category.name" options={categoryOptions} defaultValue={categoryOptions.find(option => option.value === selectedRepair?.object?.category?.name)} />
+                </div>
             </div>
             <div className="row">
                 <div className="item">
@@ -131,12 +153,7 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
                 </div>
                 <div className="item">
                     <label>Object Location</label>
-                    <select {...register('object.location', { required: true })}>
-                        <option value="in_stock">In Stock</option>
-                        <option value="for_sale">For Sale</option>
-                        <option value="returned">Returned</option>
-                        <option value="sold">Sold</option>
-                    </select>
+                    <CustomSelect control={control} name="object.location" options={objectLocationOptions} defaultValue={objectLocationOptions.find(option => option.value === selectedRepair?.object?.location)} />
                 </div>
             </div>
         </div>
@@ -145,20 +162,11 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
             <div className="row">
                 <div className="item">
                     <label>Reparation state</label>
-                    <select {...register('reparationState', { required: true })}>
-                        <option value="waiting">Waiting</option>
-                        <option value="ongoing">Ongoing</option>
-                        <option value="done">Done</option>
-                        <option value="abandoned">Abandoned</option>
-                    </select>
+                    <CustomSelect control={control} name="reparationState" options={reparationStateOptions} defaultValue={reparationStateOptions.find(option => option.value === selectedRepair?.reparationState)} />
                 </div>
                 <div className="item">
                     <label>Quote state</label>
-                    <select {...register('quoteState', { required: true })}>
-                        <option value="accepted">Accepted</option>
-                        <option value="declined">Declined</option>
-                        <option value="waiting">Waiting</option>
-                    </select>
+                    <CustomSelect control={control} name="quoteState" options={quoteStateOptions} defaultValue={quoteStateOptions.find(option => option.value === selectedRepair?.quoteState)} />
                 </div>
             </div>
             <div className="row">
