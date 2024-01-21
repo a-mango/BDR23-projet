@@ -82,7 +82,7 @@ public class CollaboratorService {
     }
 
     public int createCollaborator(Collaborator collaborator){
-        String query = "{CALL projet.InsertCollaborator(?, ?, ?, ?, ?)}";
+        String query = "CALL projet.InsertCollaborator(?, ?, ?, ?, ?)";
         try (CallableStatement cstmt = conn.prepareCall(query)){
             cstmt.setString(1, collaborator.name);
             cstmt.setString(2, collaborator.phoneNumber);
