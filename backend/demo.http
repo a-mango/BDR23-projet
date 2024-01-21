@@ -1,6 +1,6 @@
 ### Person GET ALL
 
-GET localhost:7000/api/person
+GET localhost:7000/api/receptionist
 
 ### Person GET BY ID
 
@@ -124,17 +124,16 @@ PATCH localhost:7000/api/technician/73
    "email": "mariamaria@cyberchimps.com"
 }
 
-###
+### OK
 GET localhost:7000/api/receptionist
 
-###
+### post receptionist
 POST localhost:7000/api/receptionist
 
-
-    {
-    "phoneNumber": "3453545667",
+{
     "name": "Courtney Coventry",
-    "comment": null,
+    "phoneNumber": "2333333333",
+    "comment": "another comment",
     "email": "ccoventry3@alexa.com",
     "languages": [
       {
@@ -144,10 +143,29 @@ POST localhost:7000/api/receptionist
         "name": "French"
       },
       {
-        "name": "Portuguese"
+        "name": "Spanish"
+      }
+    ]
+}
+
+###
+GET localhost:7000/api/receptionist/72
+###
+PATCH localhost:7000/api/receptionist/72
+
+    {
+    "name": "Courtney Sawer",
+    "phoneNumber": "2333333333",
+    "comment": "comment",
+    "email": "ccoventry3@alexa.com",
+    "languages": [
+      {
+        "name": "English"
       },
       {
-        "name": "German"
+        "name": "Portuguese"
       }
     ]
   }
+###
+DELETE localhost:7000/api/receptionist/72
