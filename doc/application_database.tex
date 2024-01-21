@@ -1,0 +1,66 @@
+\documentclass{article}
+
+% \usepackage[latin1]{inputenc}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{pdflscape}
+
+\usepackage[a4paper, margin=2.2cm, footskip=12.3pt]{geometry}
+
+\setcounter{secnumdepth}{0}
+
+\newcommand{\header} {
+    \setlength{\headheight}{30pt}\pagestyle{fancy}
+    \fancyhead[L]{\includegraphics[height=20pt]{../assets/logo.pdf}}\fancyhead[C]{}
+    \fancyhead[R]{Vitória Cosmo, Aubry Mangold, Eva Ray\\\today}\fancyfoot[C]{}
+    \fancyfoot[R]{Page \thepage~sur \pageref{LastPage}}\renewcommand{\footrulewidth}{0.3pt}
+}
+
+\title{Gestion d'un service de réparation d'objets\\[1ex]Application de base de données}
+\author{Vitória Cosmo, Aubry Mangold, Eva Ray}
+\date{21 janvier 2024}
+
+\begin{document}
+\header
+
+\maketitle
+
+\section{Architecture}
+L'application contient trois composants principaux: une base de données, une API et un site web. Le frontend communique avec l'API qui, à son tour, interroge la base de données afin de récupérer
+les informations. L'API traite la réponse de la base de données au frontend, qui l'affiche.  
+
+\section{Technologies}
+
+\begin{itemize}
+\item La base de données est construite et peut être interrogée en utilisant la language \texttt{postgresql}.
+\item L'API a été codée en \texttt{Java} à l'aide du web framework \texttt{Javalin}. Le connecteur \texttt{JDBC} postgresql est utilisé pour se connecter à l'instance de la base de donnée.
+\item Le frontend a été développé avec \texttt{React}. Les requêtes sont effectuées avec la librairie \texttt{Axios} 
+\item \texttt{Docker compose} est utilisé pour définir l'environnement nécessaire au fonctionnement de l'application.
+\end{itemize}
+    
+\section{Requêtes}
+Les requêtes de l'API sur la base de données sont effectuées en utilisant des \textit{prepared statement}. Le résultat des requêtes est transformé en \texttt{POJO} (\textit{Plain Old Java Object}) qui sont ensuite sérialisés puis envoyés par Javalin au travers du \texttt{Context}.
+
+\section{Fonctionnalités}
+L'application dispose des fonctionnalités suivantes:
+\begin{itemize}
+\item Des statistiques concernant la base données qui sont consultables dans le dashboard se trouvant sur la page \texttt{home} du site web.
+\item Un formulaire disponible sur le site web permettant d'ajouter et de mettre à jour des réparations.
+\item Un formulaire disponible sur le site web permettant d'ajouter et de mettre à jour des customers.
+\item Des données concernant les réceptionistes, techniciens, managers, clients, et réparations sont affichées sur leurs pages respectives sur le site.
+\item Sur le site web, trois sections différentes selon le rôle que prend l'utilisateur: technicien, réceptionniste et manager. Un technicien a accès aux réparations. 
+Un réceptionniste a accès aux clients et aux réparations. Un manager a accès à toutes les pages disponibles. Chaque utilisateur a accès au dashboard, indépendemment de son rôle.
+\end{itemize}
+
+\section{Axes de développement}
+\begin{itemize}
+\item Ajouter des formulaires sur le site web permettant de gérer les réceptionistes et les managers.
+\item Ajouter une section permettant de consulter et gérer les objets en vente sur le site web.
+\item Ajouter une page permettant de visualiser et de gérer le temps passé par les techniciens sur les réparations.
+\end{itemize}
+
+\end{document}
