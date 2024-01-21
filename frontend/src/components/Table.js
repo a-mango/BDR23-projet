@@ -28,6 +28,10 @@ const Table = ({ data, onRowClick, onDeleteClick, hideDelete }) => {
 
     const sortedData = [...data].sort((a, b) => a.id - b.id);
 
+    if (sortedData.length === 0) {
+        return <></>;
+    }
+
     return (
         <table className="table-auto w-full">
         <thead>
