@@ -133,3 +133,24 @@ CREATE OR REPLACE TRIGGER set_reservation_state_ongoing
     FOR EACH ROW
 EXECUTE FUNCTION reservation_state_ongoing();
 
+-- When a row is inserted in receptionist_language with a language that is not yet present in the language table,
+-- the new language is added to the table
+
+CREATE OR REPLACE FUNCTION insert_language_if_not_exists()
+    RETURNS TRIGGER AS
+$$
+BEGIN
+
+    IF NOT EXISTS (SELECT 1 FROM language WHERE name = NEW.language) THEN
+        INSERT INTO language(name) VALUES (NEW.language);
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER before_insert_receptionist_language
+BEFORE INSERT ON receptionist_language
+FOR EACH ROW
+EXECUTE FUNCTION insert_language_if_not_exists();
+
