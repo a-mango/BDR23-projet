@@ -56,6 +56,7 @@
         \item Modifier les données d'un collaborateur.
         \item Effacer une personne.
         \item Effacer une vente.
+        \item Dans l'API, des requêtes basiques pour mettre en place les opérations CRUD (SELECT, INSERT, UPDATE, DELETE) sur les différentes tables ont été créées.
     \end{itemize}
 
     Les requêtes suivantes ont été réalisées à de fins statistiques :
@@ -100,10 +101,22 @@
         \item \ttt{verify\_quote\_state\_is\_accepted} : vérifie que le champ \ttt{quote\_state} est bien à \ttt{accepted} lorsque le champ \ttt{reparation\_state} de réparation est mis à jour en \ttt{ongoing} ou \ttt{done}.
         \item \ttt{verify\_tos\_accepted} : vérifie que les \ttt{tos} sont bien acceptés lors de la création d'une réparation.
         \item \ttt{set\_reservation\_state\_ongoing} : met à jour le champ \ttt{reparation\_state} en \ttt{ongoing} lorsque le champ \ttt{quote\_state} de la réparation est mis à jour en \ttt{accepted}.
-        \item \ttt{verify\_processing\_state\_consistency} : vérifie la consistance des états de l'énumération \ttt{processing\_state} lorsque le champ est mis à jour.
-        \item \ttt{verify\_location\_consistency} : vérifie la consistance des états de l'énumération \ttt{consistency} lorsque le champ est mis à jour.
-        \item \ttt{verify\_reparation\_state\_consistency} : vérifie la consistance des états de l'énumération \ttt{reparation\_state} lorsque le champ est mis à jour.
-        \item \ttt{verify\_quote\_state\_consistency} : vérifie la consistance des états de l'énumération \ttt{quote\_state} lorsque le champ est mis à jour.
+        \item \ttt{before\_insert\_receptionist\_language} : si un langage n'est pas présent dans la table \ttt{language}, lors d'une insertion dans la table de jointure \ttt{receptionist\_language}, le langage est inséré dans la table \ttt{language}.
+        \item \ttt{update\_collaborator\_person\_trigger} : update les tables \ttt{collaborator} et \ttt{person} lors d'une mise à jour de la view \ttt{collab\_info\_view}.
+        \item \ttt{update\_collaborator\_person\_trigger\_on\_insert} : update les tables \ttt{collaborator} et \ttt{person} lors d'une insertion dans la view \ttt{collab\_info\_view}.
+        \item \ttt{delete\_collaborator\_person_trigger\_on\_delete} : supprime les lignes des tables \ttt{collaborator} et \ttt{person} lors d'une suppression dans la view \ttt{collab\_info\_view}.
+        \item \ttt{update\_customer\_person\_trigger} : update les tables \ttt{customer} et \ttt{person} lors d'une mise à jour de la view \ttt{customer\_info\_view}.
+        \item \ttt{update\_customer\_person\_trigger\_on\_insert} : update les tables \ttt{customer} et \ttt{person} lors d'une insertion dans la view \ttt{customer\_info\_view}.
+        \item \ttt{delete\_customer\_person\_trigger\_on\_delete} : supprime les lignes des tables \ttt{customer} et \ttt{person} lors d'une suppression dans la view \ttt{customer\_info\_view}.
+        \item \ttt{update\_collaborator\_person\_receptionist\_trigger} : update les tables \ttt{collaborator}, \ttt{person} et \ttt{receptionist} lors d'une mise à jour de la view \ttt{receptionist\_view}.
+        \item \ttt{update\_collaborator\_person\_receptionist\_trigger\_on\_insert} : update les tables \ttt{collaborator}, \ttt{person} et \ttt{receptionist} lors d'une insertion dans la view \ttt{receptionist\_view}.
+        \item \ttt{delete\_collaborator\_person\_receptionist\_trigger\_on\_delete} : supprime les lignes des tables \ttt{collaborator}, \ttt{person} et \ttt{receptionist} lors d'une suppression dans la view \ttt{receptionist\_view}.
+        \item \ttt{update\_collaborator\_person\_technician\_trigger} : update les tables \ttt{collaborator}, \ttt{person} et \ttt{technician} lors d'une mise à jour de la view \ttt{technician\_view}.
+        \item \ttt{update\_collaborator\_person\_technician\_trigger\_on\_insert} : update les tables \ttt{collaborator}, \ttt{person} et \ttt{technician} lors d'une insertion dans la view \ttt{technician\_view}.
+        \item \ttt{delete\_collaborator\_person\_technician\_trigger\_on\_delete} : supprime les lignes des tables \ttt{collaborator}, \ttt{person} et \ttt{technician} lors d'une suppression dans la view \ttt{technician\_view}.
+        \item \ttt{update\_collaborator\_person\_manager\_trigger} : update les tables \ttt{collaborator}, \ttt{person} et \ttt{manager} lors d'une mise à jour de la view \ttt{manager\_view}.
+        \item \ttt{update\_collaborator\_person\_manager\_trigger\_on\_insert} : update les tables \ttt{collaborator}, \ttt{person} et \ttt{manager} lors d'une insertion dans la view \ttt{manager\_view}.
+        \item \ttt{delete\_collaborator\_person\_manager\_trigger\_on\_delete} : supprime les lignes des tables \ttt{collaborator}, \ttt{person} et \ttt{manager} lors d'une suppression dans la view \ttt{manager\_view}.
         \item
     \end{itemize}
 
@@ -117,6 +130,9 @@
         \item \ttt{InsertManager} : insère un manager dans la base de données.
         \item \ttt{InsertReceptionist} : insère un réceptionniste dans la base de données.
         \item \ttt{InsertTechnician} : insère un technicien dans la base de données.
+        \item \ttt{createReceptionist} : crée un nouveau réceptionniste (utilisée par l'api)
+        \item \ttt{updateReceptionist} : met à jour un réceptionniste (utilisée par l'api)
+        \item \ttt{createReparation} : crée une nouvelle réparation (utilisée par l'api)
     \end{itemize}
 
 
