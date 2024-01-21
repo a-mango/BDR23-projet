@@ -1,6 +1,7 @@
 package ch.heig.bdr.projet.api.models;
 
 import java.sql.Time;
+import java.util.ArrayList;
 
 
 /**
@@ -18,12 +19,9 @@ public class Reparation {
     public int quote;
     public String description;
     public Time estimatedDuration;
-    // public ArrayList<Sms> sms = new ArrayList<>();
+    public ArrayList<Sms> sms = new ArrayList<>();
     public ReparationState reparationState;
     public QuoteState quoteState;
-    // TODO
-    //public ArrayList<Specialization> specializations = new ArrayList<>();
-    //public ArrayList<Technician> technicians = new ArrayList<>();
     public int receptionist_id;
     public int customer_id;
     public int object_id;
@@ -52,21 +50,19 @@ public class Reparation {
      * @param customer The customer concerned by the reparation.
      * @param object The object concerned by the reparation.
      */
-    public Reparation(int id, String dateCreated, String dateModified, int quote, String repairDescription, Time estimatedDuration/*, ArrayList<Sms> sms*/, ReparationState reparationState, QuoteState quoteState/*, ArrayList<Specialization> specializations, ArrayList<Technician> technicians*/, int receptionist, int customer, int object_id, Object object) {
+    public Reparation(int id, String dateCreated, String dateModified, int quote, String repairDescription, Time estimatedDuration, ReparationState reparationState, QuoteState quoteState, int receptionist, int customer, int object_id, Object object, ArrayList<Sms> sms) {
         this.id = id;
         this.dateCreated = dateCreated;
         this.dateModified = dateModified;
         this.quote = quote;
         this.description = repairDescription;
         this.estimatedDuration = estimatedDuration;
-        //this.sms = sms;
         this.reparationState = reparationState;
         this.quoteState = quoteState;
-        //this.specializations = specializations;
-        //this.technicians = technicians;
         this.receptionist_id = receptionist;
         this.customer_id = customer;
         this.object_id = object_id;
         this.object = object;
+        this.sms = sms;
     }
 }

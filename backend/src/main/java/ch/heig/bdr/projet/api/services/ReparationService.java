@@ -45,7 +45,8 @@ public class ReparationService {
                             QuoteState.valueOf(rs.getString("quote_state")),
                             rs.getInt("receptionist_id"), rs.getInt("customer_id"),
                             rs.getInt("object_id"),
-                            new ObjectService().getObjectById(Integer.toString(rs.getInt("object_id"))));
+                            new ObjectService().getObjectById(Integer.toString(rs.getInt("object_id"))),
+                            new SmsService().getSmsForRepairId(Integer.toString(rs.getInt("reparation_id"))));
                 } else {
                     return null;
                 }
@@ -71,7 +72,8 @@ public class ReparationService {
                             QuoteState.valueOf(rs.getString("quote_state")),
                             rs.getInt("receptionist_id"), rs.getInt("customer_id"),
                             rs.getInt("object_id"),
-                            new ObjectService().getObjectById(Integer.toString(rs.getInt("object_id")))));
+                            new ObjectService().getObjectById(Integer.toString(rs.getInt("object_id"))),
+                            new SmsService().getSmsForRepairId(Integer.toString(rs.getInt("reparation_id")))));
             }
             return reparations;
         } catch (SQLException e){
