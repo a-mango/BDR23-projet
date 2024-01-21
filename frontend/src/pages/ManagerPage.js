@@ -1,56 +1,44 @@
 import React, { useContext, useState } from 'react';
 import Page from '../components/Page';
 import Table from '../components/Table';
-import CustomerForm from '../forms/CustomerForm';
 import { GlobalStateContext } from '../providers/GlobalState';
 import Title from '../components/Title';
 
 const ManagerPage = () => {
-    const { state, dispatch, addCustomer, updateCustomer, removeCustomer } = useContext(GlobalStateContext);
-    const [selectedCustomer, setSelectedCustomer] = useState(null);
+    const { state, dispatch, addManager, updateManager, removeManager } = useContext(GlobalStateContext);
+    const [selectedManager, setSelectedManager] = useState(null);
 
-    const handleAddCustomer = (customer) => {
+    const handleSetManager = (manager) => {
+        setSelectedManager(manager);
+    };
+
+    const handleDeleteClick = (manager) => {
         try {
-            addCustomer(dispatch, customer);
+            removeManager(dispatch, manager.id);
         } catch (error) {
             dispatch({ type: 'SET_ERROR', payload: error.message });
         }
     };
 
-    const handleSetCustomer = (customer) => {
-        setSelectedCustomer(customer);
-    };
-
-    const handleDeleteClick = (customer) => {
+    const handleUpdateManager = (manager) => {
         try {
-            removeCustomer(dispatch, customer.id);
-        } catch (error) {
-            dispatch({ type: 'SET_ERROR', payload: error.message });
-        }
-    };
-
-    const handleUpdateCustomer = (customer) => {
-        try {
-            updateCustomer(dispatch, customer);
+            updateManager(dispatch, manager);
         } catch (error) {
             dispatch({ type: 'SET_ERROR', payload: error.message });
         }
     };
 
     const handleCloseForm = () => {
-        setSelectedCustomer(null);
+        setSelectedManager(null);
     };
 
-    return (
-        <Page>
-            <Title title="Customers" actionText="New Customer" onAction={() => setSelectedCustomer({})} />
-            {selectedCustomer && <CustomerForm selectedCustomer={selectedCustomer} onAddCustomer={handleAddCustomer}
-                                               onUpdateCustomer={handleUpdateCustomer} onClose={handleCloseForm} />}
-            {state.customers && state.customers.length > 0 ? (
-                <Table data={state.customers} onRowClick={handleSetCustomer} onDeleteClick={handleDeleteClick} />) : (
-                <p>No customers found.</p>)}
-        </Page>
-    );
+    return (<Page>
+            <Title title="Managers" />
+            {state.managers && state.managers.length > 0 ? (
+                <Table data={state.managers} hideDelete={true} onRowClick={handleSetManager} onDeleteClick={handleDeleteClick}
+                       onUpdateManager={handleUpdateManager} onClose={handleCloseForm} />) : (
+                <p>No managers found.</p>)}
+        </Page>);
 };
 
 export default ManagerPage;
