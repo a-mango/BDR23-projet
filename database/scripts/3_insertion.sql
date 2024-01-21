@@ -69,7 +69,7 @@ CALL projet.InsertManager('Julius Wasielewicz', '8921298385', NULL, 'jwasielewic
 
 --
 -- Technician insertion
--- Returns IDs 53 to 68
+-- Returns IDs 54 to 68
 --
 CALL InsertTechnician('Alphonso Kerrich', '9949134373', 'Aliquam sit amet diam in magna bibendum imperdiet.',
                       'akerrich0@dion.ne.jp', NULL); -- 54
@@ -90,6 +90,7 @@ CALL InsertTechnician('Ebba Lerer', '1371807550', NULL, 'elerere@netvibes.com', 
 
 --
 -- Receptionist insertion
+-- Returns IDs 69 to 71
 --
 CALL InsertReceptionist('Alic Klagges', '1167567619', NULL, 'aklagges0@shop-pro.jp', NULL); -- 69
 CALL InsertReceptionist('Celestyn Deeth', '8254514158', 'Quisque ut erat.', 'cdeeth1@nydailynews.com', NULL); -- 70
@@ -219,6 +220,9 @@ VALUES ('Electronics'),
        ('Vehicle'),
        ('Miscellaneous');
 
+--
+-- Object insertion
+--
 INSERT INTO object (customer_id, name, fault_desc, location, remark, serial_no, brand, category)
 VALUES (1, 'Laptop', 'Not powering on', 'in_stock', 'Needs urgent repair', 'SN123456', 'Apeul', 'Electronics'),
        (2, 'Smartphone', 'Cracked screen', 'returned', 'Screen replacement needed', 'SN789012', 'Bousch',
@@ -307,7 +311,7 @@ VALUES (1, 'Laptop', 'Not powering on', 'in_stock', 'Needs urgent repair', 'SN12
         'Bousch', 'Clothing');
 
 --
--- Sale insertion
+-- Reparation insertion
 --
 INSERT INTO reparation (object_id, customer_id, receptionist_id, quote, description, estimated_duration,
                         reparation_state, quote_state, date_created, date_modified)
@@ -386,103 +390,87 @@ VALUES (54, 1, '2 hours'); -- Laptop reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (54, 2, '1.5 hours'); -- Smartphone reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (54, 3, '2.5 hours');
--- Desktop Computer reparation
+VALUES (54, 3, '2.5 hours'); -- Desktop Computer reparation
 
 -- Technician ID 55 (Electrical specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (55, 5, '1 hour'); -- Vacuum Cleaner reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (55, 6, '1.5 hours');
--- Toaster reparation
+VALUES (55, 6, '1.5 hours'); -- Toaster reparation
 
 -- Technician ID 56 (Woodworking specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (56, 7, '3 hours'); -- Dining Table reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (56, 8, '2 hours');
--- Sofa reparation
--- ...
+VALUES (56, 8, '2 hours'); -- Sofa reparation
 
 -- Technician ID 57 (Mechanics specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (57, 9, '2 hours'); -- Drill reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (57, 10, '2.5 hours');
--- Circular Saw reparation
+VALUES (57, 10, '2.5 hours'); -- Circular Saw reparation
 
 -- Technician ID 58 (Sewing specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (58, 13, '1.5 hours'); -- Leather Jacket reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (58, 14, '1 hour');
--- Running Shoes reparation
+VALUES (58, 14, '1 hour'); -- Running Shoes reparation
 
 -- Technician ID 59 (Miscellaneous specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (59, 17, '2 hours'); -- Watch reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (59, 18, '1.5 hours');
--- Bluetooth Speaker reparation
+VALUES (59, 18, '1.5 hours'); -- Bluetooth Speaker reparation
 
 -- Technician ID 60 (Electronics specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (60, 19, '3 hours'); -- Digital Camera reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (60, 20, '2 hours');
--- Headphones reparation
--- ...
+VALUES (60, 20, '2 hours'); -- Headphones reparation
 
 -- Technician ID 61 (Electrical specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (61, 21, '2.5 hours'); -- Laser Printer reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (61, 22, '2 hours');
--- External Hard Drive reparation
+VALUES (61, 22, '2 hours'); -- External Hard Drive reparation
 
 -- Technician ID 62 (Woodworking specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (62, 25, '3.5 hours'); -- Bookshelf reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (62, 26, '2.5 hours');
--- Office Chair reparation
+VALUES (62, 26, '2.5 hours'); -- Office Chair reparation
 
 -- Technician ID 63 (Mechanics specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (63, 27, '4 hours'); -- Angle Grinder reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (63, 28, '3 hours');
--- Electric Screwdriver reparation
+VALUES (63, 28, '3 hours'); -- Electric Screwdriver reparation
 
 -- Technician ID 64 (Sewing specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (64, 31, '2 hours'); -- Leather Boots reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (64, 32, '1.5 hours');
--- Winter Jacket reparation
+VALUES (64, 32, '1.5 hours'); -- Winter Jacket reparation
 
 -- Technician ID 65 (Mechanics specialization)
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (65, 33, '3.5 hours'); -- Motorcycle reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (65, 34, '2 hours');
--- Skateboard reparation
+VALUES (65, 34, '2 hours'); -- Skateboard reparation
 
 -- Technician ID 66 (Electronics specialization)
 -- Assuming these technicians also take on Electronics-related tasks
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (66, 37, '2.5 hours'); -- Smartwatch reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (66, 38, '2 hours');
--- Bluetooth Earbuds reparation
+VALUES (66, 38, '2 hours'); -- Bluetooth Earbuds reparation
 
 -- Technician ID 67 (Electrical specialization)
 -- Assuming these technicians also take on Electrical-related tasks
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (67, 41, '3 hours'); -- Microwave reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (67, 42, '1.5 hours');
--- Air Purifier reparation
+VALUES (67, 42, '1.5 hours'); -- Air Purifier reparation
 
 -- Technician ID 68 (Miscellaneous specialization)
 -- Assigning miscellaneous tasks
@@ -493,8 +481,7 @@ VALUES (68, 36, '2.5 hours'); -- Portable Fan reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (68, 29, '2 hours'); -- Tape Measure reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (68, 30, '1 hour');
--- Hacksaw reparation
+VALUES (68, 30, '1 hour'); -- Hacksaw reparation
 
 -- Looping back to Technician ID 54 (Electronics specialization) for remaining Electronics reparations
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
@@ -504,22 +491,19 @@ VALUES (54, 38, '1.5 hours'); -- Bluetooth Earbuds reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (54, 39, '3 hours'); -- Laptop Docking Station reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (54, 40, '2.5 hours');
--- Graphics Card reparation
+VALUES (54, 40, '2.5 hours'); -- Graphics Card reparation
 
 -- Technician ID 55 (Electrical specialization) for remaining Electrical reparations
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (55, 41, '2 hours'); -- Microwave reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (55, 42, '1.5 hours');
--- Air Purifier reparation
+VALUES (55, 42, '1.5 hours'); -- Air Purifier reparation
 
 -- Technician ID 56 (Woodworking specialization) for remaining Woodworking reparations
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (56, 43, '2 hours'); -- Coffee Table reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (56, 44, '2.5 hours');
--- Office Desk reparation
+VALUES (56, 44, '2.5 hours'); -- Office Desk reparation
 
 -- Technician ID 57 (Mechanics specialization) for remaining Mechanics reparations
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
@@ -529,15 +513,13 @@ VALUES (57, 46, '2 hours'); -- Impact Driver reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (57, 47, '1.5 hours'); -- Utility Knife reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (57, 48, '2 hours');
--- Adjustable Wrench reparation
+VALUES (57, 48, '2 hours'); -- Adjustable Wrench reparation
 
 -- Technician ID 58 (Sewing specialization) for remaining Sewing reparations
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
 VALUES (58, 49, '2 hours'); -- Winter Gloves reparation
 INSERT INTO technician_reparation (technician_id, reparation_id, time_worked)
-VALUES (58, 50, '1.5 hours');
--- Hiking Backpack reparation
+VALUES (58, 50, '1.5 hours'); -- Hiking Backpack reparation
 
 
 --
