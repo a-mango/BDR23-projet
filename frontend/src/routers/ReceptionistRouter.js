@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
-import CustomersPage from './CustomersPage';
-import RepairsPage from './RepairsPage';
+import CustomersPage from '../pages/CustomersPage';
+import RepairsPage from '../pages/RepairsPage';
 import React from 'react';
 
 function ReceptionistRouter() {

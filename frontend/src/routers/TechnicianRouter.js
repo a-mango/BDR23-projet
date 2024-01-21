@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import RepairsPage from './RepairsPage';
+import RepairsPage from '../pages/RepairsPage';
 import React from 'react';
 
 function TechnicianRouter() {

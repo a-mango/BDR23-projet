@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import RepairsPage from './RepairsPage';
-import CustomersPage from './CustomersPage';
-import ReceptionistPage from './ReceptionistPage';
-import TechnicianPage from './TechnicianPage';
-import ManagerPage from './ManagerPage';
+import RepairsPage from '../pages/RepairsPage';
+import CustomersPage from '../pages/CustomersPage';
+import ReceptionistPage from '../pages/ReceptionistPage';
+import TechnicianPage from '../pages/TechnicianPage';
+import ManagerPage from '../pages/ManagerPage';
 
 function ManagerRouter() {
     return (
