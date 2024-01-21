@@ -11,7 +11,7 @@ CALL InsertCustomer('Jamaal Eaglestone', '4153821884', NULL, TRUE, NULL, NULL);
 CALL InsertCustomer('Shaw Hurich', '9289485117', NULL, TRUE, NULL, NULL);
 CALL InsertCustomer('Shari Huniwall', '3748280535', NULL, TRUE, NULL, NULL);
 CALL InsertCustomer('Alvin Binch', '1576059000', NULL, TRUE, NULL, NULL);
-CALL InsertCustomer('Kordula Goulter', '2117079631', 'Vivamus vel nulla eget eros elementum pellentesque.', TRU, NULLE,
+CALL InsertCustomer('Kordula Goulter', '2117079631', 'Vivamus vel nulla eget eros elementum pellentesque.', TRUE, NULL,
                     'Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim.', NULL);
 CALL InsertCustomer('Daphne Roly', '5841556990', NULL, TRUE, NULL, NULL);
 CALL InsertCustomer('Francisca Bouldon', '1554714353', NULL, TRUE, NULL, NULL);
