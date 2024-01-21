@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useReducer } from 'react';
 import axios from 'axios';
-import { BASE_URL } from '../config';
-import * as actionTypes from '../actionTypes';
+import { BASE_URL } from '../config/config';
+import * as actionTypes from '../config/actionTypes';
 import {
     fetchCustomers,
     addCustomer,

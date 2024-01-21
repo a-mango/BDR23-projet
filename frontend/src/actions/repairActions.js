@@ -4,7 +4,7 @@ import {
     UPDATE_REPAIR,
     REMOVE_REPAIR,
     SET_ALERT,
-} from '../actionTypes';
+} from '../config/actionTypes';
 import axios from 'axios';
 
 const fetchRepairs = async (dispatch) => {

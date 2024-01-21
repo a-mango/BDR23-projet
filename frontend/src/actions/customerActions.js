@@ -4,7 +4,7 @@ import {
     UPDATE_CUSTOMER,
     REMOVE_CUSTOMER,
     SET_ALERT,
-} from '../actionTypes';
+} from '../config/actionTypes';
 import axios from 'axios';
 
 const fetchCustomers = async (dispatch) => {

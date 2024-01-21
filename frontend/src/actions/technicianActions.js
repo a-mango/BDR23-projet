@@ -4,7 +4,7 @@ import {
     UPDATE_TECHNICIAN,
     REMOVE_TECHNICIAN,
     SET_ALERT,
-} from '../actionTypes';
+} from '../config/actionTypes';
 import axios from 'axios';
 
 const fetchTechnicians = async (dispatch) => {

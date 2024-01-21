@@ -4,7 +4,7 @@ import {
     UPDATE_RECEPTIONIST,
     REMOVE_RECEPTIONIST,
     SET_ALERT,
-} from '../actionTypes';
+} from '../config/actionTypes';
 import axios from 'axios';
 
 const fetchReceptionists = async (dispatch) => {

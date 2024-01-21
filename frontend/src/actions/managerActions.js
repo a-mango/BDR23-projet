@@ -4,7 +4,7 @@ import {
     UPDATE_MANAGER,
     REMOVE_MANAGER,
     SET_ALERT,
-} from '../actionTypes';
+} from '../config/actionTypes';
 import axios from 'axios';
 
 const fetchManagers = async (dispatch) => {
