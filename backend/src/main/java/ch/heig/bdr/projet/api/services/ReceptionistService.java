@@ -89,16 +89,16 @@ public class ReceptionistService {
     }
 */
 
-    public void createReceptionist(Receptionist receptionist) {
-        String query = "CALL create_receptionist(?, ?, ?, ?, ?::character varying[])";
+    public int createReceptionist(Receptionist receptionist) {
+        String query = "{CALL projet.InsertReceptionist(?, ?, ?, ?, ?::character varying[], ?)}";
         //String insertLanguageQuery = "INSERT INTO receptionist_language (receptionist_id, language) VALUES (?, ?)";
 
-        try (CallableStatement statement = conn.prepareCall(query)) {
+        try (CallableStatement cstmt = conn.prepareCall(query)) {
 
-            statement.setString(1, receptionist.email);
-            statement.setString(2, receptionist.name);
-            statement.setString(3, receptionist.phoneNumber);
-            statement.setString(4, receptionist.comment);
+            cstmt.setString(1, receptionist.email);
+            cstmt.setString(2, receptionist.name);
+            cstmt.setString(3, receptionist.phoneNumber);
+            cstmt.setString(4, receptionist.comment);
 
             // Convert the ArrayList to an array of string representations
             String[] languageStrings = receptionist.languages.stream()
@@ -109,9 +109,13 @@ public class ReceptionistService {
             Array sqlArray = conn.createArrayOf("VARCHAR", languageStrings);
 
             // Set the SQL array as a parameter
-            statement.setArray(5, sqlArray);
+            cstmt.setArray(5, sqlArray);
 
-            statement.executeUpdate();
+            cstmt.registerOutParameter(6, Types.INTEGER);
+
+            cstmt.execute();
+
+            return  cstmt.getInt(6);
     } catch (SQLException e) {
             throw new RuntimeException(e);
             }
