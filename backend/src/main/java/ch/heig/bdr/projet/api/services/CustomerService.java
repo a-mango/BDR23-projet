@@ -85,7 +85,7 @@ public class CustomerService {
     }
 
     public int createCustomer(Customer customer) {
-        String query = "{CALL projet.InsertCustomer(?, ?, ?, ?, ?, ?)}";
+        String query = "CALL projet.InsertCustomer(?, ?, ?, ?, ?, ?)";
 
         try (CallableStatement cstmt = conn.prepareCall(query)) {
             cstmt.setString(1, customer.name);
