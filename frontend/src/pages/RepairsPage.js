@@ -17,8 +17,8 @@ const RepairsPage = () => {
         }
     };
 
-    const handleSetRepair = (repair) => {
-        setSelectedRepair(repair);
+    const handleSetRepair = (id) => {
+        setSelectedRepair(state.repairs.find((repair) => repair.id === id));
     };
 
     const handleDeleteClick = (repair) => {
@@ -44,12 +44,14 @@ const RepairsPage = () => {
     const filterColumns = (data) => {
         const columnDenyList = ['dateModified', 'receptionist_id', 'customer_id', 'object_id', 'sms'];
         return data.map((row) => {
-            columnDenyList.forEach((column) => {
-                delete row[column];
-            });
-            return row;
+            return Object.keys(row).reduce((newRow, key) => {
+                if (!columnDenyList.includes(key)) {
+                    newRow[key] = row[key];
+                }
+                return newRow;
+            }, {});
         });
-    }
+    };
 
     return (
         <Page>

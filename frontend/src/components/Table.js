@@ -39,7 +39,7 @@ const Table = ({ data, onRowClick, onDeleteClick }) => {
         </thead>
         <tbody>
             {sortedData.map((row, index) => (
-                <tr key={index} onClick={() => onRowClick(row)}
+                <tr key={index} onClick={() => onRowClick(row.id)}
                     className={`cursor-pointer hover:bg-apache ${index % 2 === 0 ? 'bg-gray-200' : ''}`}>
                     {Object.values(row).map((cell, index) => (
                         <td key={index} className="border px-4 py-2">

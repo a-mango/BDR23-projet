@@ -17,8 +17,8 @@ const CustomersPage = () => {
         }
     };
 
-    const handleSetCustomer = (customer) => {
-        setSelectedCustomer(customer);
+    const handleSetCustomer = (id) => {
+        setSelectedCustomer(state.customers.find((customer) => customer.id === id));
     };
 
     const handleDeleteClick = (customer) => {
