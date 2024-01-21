@@ -92,7 +92,7 @@ form {
     }
 
     input, textarea, select {
-        @apply inline-block w-full border border-gray-300 shadow-sm !important;
+        @apply inline-block w-full border border-gray-300 shadow-sm;
     }
 
     div.form-tos {
@@ -116,7 +116,6 @@ form {
     }
 }
 
-label {}
 input, textarea, select, button {
     @apply shadow !important;
 }
