@@ -13,6 +13,10 @@ body {
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
+main {
+    @apply mb-8;
+}
+
 h1 {
     @apply text-4xl p-2 py-4 my-8;
 }
@@ -137,9 +141,13 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 }
 
 .stats-container {
-    @apply grid grid-cols-2 gap-x-4;
+    @apply grid grid-cols-2 gap-8;
 
     div {
-        @apply p-8 border border-apache shadow;
+        @apply p-8 border border-apache shadow max-h-96;
+    }
+
+    .chart-pie {
+        @apply flex flex-col items-center justify-center;
     }
 }

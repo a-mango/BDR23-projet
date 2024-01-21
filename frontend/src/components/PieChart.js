@@ -1,13 +1,12 @@
 import React from 'react';
 import {
-    Chart as ChartJS, registerables, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
+    Chart as ChartJS, registerables, CategoryScale, LinearScale, Title, Tooltip, Legend,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Pie } from 'react-chartjs-2';
 
 ChartJS.register(...registerables);
 
-
-const BarChart = ({ title, data }) => {
+const PieChart = ({ title, data }) => {
     const chartData = {
         labels: Object.keys(data),
         datasets: [{
@@ -20,16 +19,12 @@ const BarChart = ({ title, data }) => {
     };
 
     const options = {
-        scales: {
-            y: {
-                beginAtZero: true,
-            },
-        },
         plugins: {
             legend: {
-                display: false,
+                display: true,
+                position: 'right',
             },
-             title: {
+            title: {
                 display: true,
                 text: title,
                 font: {
@@ -40,10 +35,10 @@ const BarChart = ({ title, data }) => {
     };
 
     return (
-        <div className="chart-bar">
-            <Bar data={chartData} options={options} />
+        <div className="chart-pie">
+            <Pie data={chartData} options={options} />
         </div>
     );
 };
 
-export default BarChart;
+export default PieChart;
