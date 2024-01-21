@@ -96,6 +96,7 @@ CREATE OR REPLACE PROCEDURE projet.InsertReceptionist(
     _phone_no VARCHAR,
     _comment TEXT,
     _email TEXT,
+    IN in_languages VARCHAR(32)[],
     OUT _new_id INTEGER
 )
     LANGUAGE plpgsql
@@ -111,6 +112,12 @@ BEGIN
     VALUES (new_person_id)
     RETURNING receptionist_id INTO _new_id;
 
+    -- Insert languages into receptionist_language table
+    FOR i IN 1..array_length(in_languages, 1)
+        LOOP
+            INSERT INTO receptionist_language(receptionist_id, language)
+            VALUES (i, in_languages[i]);
+        END LOOP;
 END;
 $$;
 
@@ -138,38 +145,7 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE PROCEDURE create_receptionist(
-    IN in_email VARCHAR(128),
-    IN in_name VARCHAR(128),
-    IN in_phone_no VARCHAR(11),
-    IN in_comment TEXT,
-    IN in_languages VARCHAR(32)[]
-)
-    LANGUAGE plpgsql
-AS $$
-DECLARE
-    i INT;
-BEGIN
-    -- Insert into person table
-    INSERT INTO person(name, phone_no, comment)
-    VALUES (in_name, in_phone_no, in_comment)
-    RETURNING person_id INTO i;
-
-    -- Insert into collaborator table
-    INSERT INTO collaborator(collaborator_id, email)
-    VALUES (i, in_email);
-
-    -- Insert languages into receptionist_language table
-    FOR i IN 1..array_length(in_languages, 1)
-        LOOP
-            INSERT INTO receptionist_language(receptionist_id, language)
-            VALUES (i, in_languages[i]);
-        END LOOP;
-END;
-$$;
-
-
-CREATE OR REPLACE PROCEDURE update_receptionist(
+CREATE OR REPLACE PROCEDURE UpdateReceptionist(
     IN in_receptionist_id INT,
     IN in_email VARCHAR(128),
     IN in_name VARCHAR(128),
