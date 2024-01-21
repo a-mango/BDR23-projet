@@ -231,6 +231,41 @@ BEGIN
     INSERT INTO projet.technician (technician_id)
     VALUES (new_person_id)
     RETURNING technician_id INTO _new_id;
+END;
+$$;
 
+
+-- Create a new Reparation and Object in one transaction
+
+CREATE OR REPLACE PROCEDURE create_reparation(
+    IN in_quote INT,
+    IN in_repair_description TEXT,
+    IN in_estimated_duration INTERVAL,
+    IN in_receptionist_id INT,
+    IN in_customer_id INT,
+    IN in_object_name VARCHAR(128),
+    IN in_fault_description TEXT,
+    IN in_remark TEXT,
+    IN in_serial_no VARCHAR(128),
+    IN in_brand_name VARCHAR(128),
+    IN in_category_name VARCHAR(128),
+    OUT _new_id INTEGER
+)
+    LANGUAGE plpgsql
+AS
+$$
+DECLARE
+    new_object_id INT;
+BEGIN
+    -- Insert into object table
+    INSERT INTO object(name, fault_desc, remark, serial_no, brand, category, customer_id)
+    VALUES (in_object_name, in_fault_description, in_remark, in_serial_no, in_brand_name,
+            in_category_name, in_customer_id)
+    RETURNING object_id INTO new_object_id;
+
+    -- Insert into reparation table
+    INSERT INTO reparation(quote, description, estimated_duration, receptionist_id, customer_id, object_id)
+    VALUES (in_quote, in_repair_description, in_estimated_duration, in_receptionist_id, in_customer_id, new_object_id)
+    RETURNING reparation_id INTO _new_id;
 END;
 $$;
