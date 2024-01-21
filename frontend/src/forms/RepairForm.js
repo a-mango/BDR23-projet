@@ -33,6 +33,17 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
             setValue('receptionist_id', selectedRepair.receptionist_id || '');
             setValue('customer_id', selectedRepair.customer_id || '');
             setValue('object_id', selectedRepair.object_id || '');
+
+            // Object properties
+            setValue('object.brand.name', selectedRepair.object?.brand?.name || '');
+            setValue('object.category.name', selectedRepair.object?.category?.name || '');
+            setValue('object.customerId', selectedRepair.object?.customerId || '');
+            setValue('object.faultDesc', selectedRepair.object?.faultDesc || '');
+            setValue('object.id', selectedRepair.object?.id || '');
+            setValue('object.location', selectedRepair.object?.location || '');
+            setValue('object.name', selectedRepair.object?.name || '');
+            setValue('object.remark', selectedRepair.object?.remark || '');
+            setValue('object.serialNo', selectedRepair.object?.serialNo || '');
         }
     }, [selectedRepair, setValue]);
 
@@ -57,6 +68,9 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
 
     return (<form onSubmit={handleSubmit(onSubmit)}>
         {selectedRepair && selectedRepair.id && <h2>Details for repair #{selectedRepair.id}</h2>}
+        <input type="hidden" {...register('id')} />
+        <input type="hidden" {...register('objectId')} />
+
         <div className="col-1">
             <div className="row">
                 <div>
@@ -71,20 +85,47 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
 
             <div className="row">
                 <div>
-                    <label>Quote</label>
-                    <input {...register('quote', { required: true })} />
-                    {errors.quote && <span>This field is required</span>}
+                    <label>Receptionist ID</label>
+                    <input {...register('receptionist_id', { required: true })} />
                 </div>
                 <div>
-                    <label>Estimated duration</label>
-                    <input type="time" {...register('estimatedDuration', { required: true })} />
+                    <label>Customer ID</label>
+                    <input {...register('customer_id', { required: true })} />
                 </div>
             </div>
-
             <div className="row">
                 <div>
-                    <label>Description</label>
-                    <textarea {...register('description', { required: true })} rows={5} />
+                    <label>Object Name</label>
+                    <input {...register('object.name', { required: true })} />
+                </div>
+                <div>
+                    <label>Object Serial Number</label>
+                    <input {...register('object.serialNo')} />
+                </div>
+            </div>
+            <div className="row">
+                <div>
+                    <label>Object Brand</label>
+                    <input {...register('object.brand.name', { required: true })} />
+                </div>
+                <div>
+                    <label>Object Category</label>
+                    <input {...register('object.category.name', { required: true })} />
+                </div>
+            </div>
+            <div className="row">
+                <div>
+                    <label>Object Fault Description</label>
+                    <input {...register('object.faultDesc', { required: true })} />
+                </div>
+                <div>
+                    <label>Object Location</label>
+                    <select {...register('object.location', { required: true })}>
+                        <option value="in_stock">In Stock</option>
+                        <option value="for_sale">For Sale</option>
+                        <option value="returned">Returned</option>
+                        <option value="sold">Sold</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -109,7 +150,31 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
                     </select>
                 </div>
             </div>
+            <div className="row">
+                <div>
+                    <label>Quote</label>
+                    <input type="number" {...register('quote')} />
+                    {errors.quote && <span>This field is required</span>}
+                </div>
+                <div>
+                    <label>Estimated duration</label>
+                    <input type="time" {...register('estimatedDuration', { required: true })} />
+                </div>
+            </div>
+            <div className="row">
+                <div>
+                    <label>Description</label>
+                    <textarea {...register('description', { required: true })} rows={5} />
+                </div>
+            </div>
+            <div className="row">
+                <div>
+                    <label>Object Remark</label>
+                    <textarea {...register('object.remark')} />
+                </div>
+            </div>
         </div>
+
         <div className="form-controls">
             <button type="submit">Submit<CheckIcon className="h-5 w-5" /></button>
             <button type="reset" onClick={resetForm}>Reset<XMarkIcon className="h-5 w-5" /></button>
