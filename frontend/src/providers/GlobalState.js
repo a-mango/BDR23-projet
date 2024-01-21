@@ -4,24 +4,30 @@ import { BASE_URL } from '../config/config';
 import * as actionTypes from '../config/actionTypes';
 import { addCustomer, fetchCustomers, removeCustomer, updateCustomer } from '../actions/customerActions';
 import { addTechnician, fetchTechnicians, removeTechnician, updateTechnician } from '../actions/technicianActions';
-import {
-    addReceptionist,
-    fetchReceptionists,
-    removeReceptionist,
-    updateReceptionist,
-} from '../actions/receptionistActions';
+import { addReceptionist, fetchReceptionists, removeReceptionist, updateReceptionist } from '../actions/receptionistActions';
 import { addManager, fetchManagers, removeManager, updateManager } from '../actions/managerActions';
 import { addRepair, fetchRepairs, removeRepair, updateRepair } from '../actions/repairActions';
 import { fetchStatistics } from '../actions/statisticsActions';
+import { fetchBrands } from '../actions/brandActions';
+import { fetchCategories } from '../actions/categoryActions';
+import { fetchLanguages } from '../actions/languageActions';
+import { fetchSpecializations } from '../actions/specializationActions';
 
 const initialState = { customers: [], alert: { type: '', message: '' } };
 const GlobalStateContext = createContext(initialState);
 const { Provider } = GlobalStateContext;
 
+/* Axios configuration */
 axios.defaults.baseURL = BASE_URL;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 axios.defaults.headers.common['Accept'] = 'application/json';
 
+/**
+ * Monolithic data provider.
+ *
+ * @param children The children to render.
+ * @returns {Element} The element to render.
+ */
 const GlobalStateProvider = ({ children }) => {
     const [state, dispatch] = useReducer((state, action) => {
         switch (action.type) {
@@ -59,8 +65,7 @@ const GlobalStateProvider = ({ children }) => {
                 return { ...state, receptionists: [...state.receptionists, action.payload] };
             case actionTypes.UPDATE_RECEPTIONIST:
                 return {
-                    ...state,
-                    receptionists: state.receptionists.map(c => c.id === action.payload.id ? action.payload : c),
+                    ...state, receptionists: state.receptionists.map(c => c.id === action.payload.id ? action.payload : c),
                 };
             case actionTypes.REMOVE_RECEPTIONIST:
                 return {
@@ -92,6 +97,14 @@ const GlobalStateProvider = ({ children }) => {
                 };
             case actionTypes.SET_STATISTICS:
                 return { ...state, statistics: action.payload };
+            case actionTypes.SET_BRANDS:
+                return { ...state, brands: action.payload };
+            case actionTypes.SET_CATEGORIES:
+                return { ...state, categories: action.payload };
+            case actionTypes.SET_LANGUAGES:
+                return { ...state, languages: action.payload };
+            case actionTypes.SET_SPECIALIZATIONS:
+                return { ...state, specializations: action.payload };
             default:
                 return state;
         }
@@ -99,11 +112,16 @@ const GlobalStateProvider = ({ children }) => {
         return state;
     });
 
+    /* Data fetched on application load */
     useEffect(() => {
         fetchCustomers(dispatch);
         fetchRepairs(dispatch);
         fetchReceptionists(dispatch);
         fetchStatistics(dispatch);
+        fetchBrands(dispatch);
+        fetchCategories(dispatch);
+        fetchLanguages(dispatch);
+        fetchSpecializations(dispatch);
     }, [dispatch]);
 
     return (<Provider value={{
