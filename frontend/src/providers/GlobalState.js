@@ -117,6 +117,8 @@ const GlobalStateProvider = ({ children }) => {
         fetchCustomers(dispatch);
         fetchRepairs(dispatch);
         fetchReceptionists(dispatch);
+        fetchTechnicians(dispatch);
+        fetchManagers(dispatch);
         fetchStatistics(dispatch);
         fetchBrands(dispatch);
         fetchCategories(dispatch);

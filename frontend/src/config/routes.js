@@ -5,7 +5,6 @@ export const REPAIRS = 'reparations';
 export const RECEPTIONIST = 'receptionist';
 export const CUSTOMERS = 'customers';
 export const MANAGER = 'manager';
-export const DASHBOARD = 'dashboard';
 export const TECHNICIANS = 'technicians';
 export const RECEPTIONISTS = 'receptionists';
 export const MANAGERS = 'managers';
@@ -25,7 +24,6 @@ export const routes = [
     },
     {
         name: 'Manager', path: MANAGER, children: [
-            { name: 'Dashboard', path: DASHBOARD },
             { name: 'Customers', path: CUSTOMERS },
             { name: 'Repairs', path: REPAIRS },
             { name: 'Technicians', path: TECHNICIANS },

@@ -2,7 +2,8 @@ package ch.heig.bdr.projet.api.models;
 
 import java.sql.Time;
 import java.util.ArrayList;
-
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import ch.heig.bdr.projet.api.util.SqlTimeDeserializer;
 
 /**
  * Class representing a reparation.
@@ -18,6 +19,7 @@ public class Reparation {
     public String dateModified;
     public int quote;
     public String description;
+    @JsonDeserialize(using = SqlTimeDeserializer.class)
     public Time estimatedDuration;
     public ArrayList<Sms> sms = new ArrayList<>();
     public ReparationState reparationState;
@@ -25,6 +27,7 @@ public class Reparation {
     public int receptionist_id;
     public int customer_id;
     public int object_id;
+
     public Object object;
 
     /**

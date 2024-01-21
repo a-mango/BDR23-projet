@@ -37,6 +37,7 @@ public class ReparationController implements CrudHandler {
     public void create(@NotNull Context ctx) {
         Reparation reparation = ctx.bodyAsClass(Reparation.class);
         reparation.id = reparationService.createReparation(reparation);
+        ctx.json(reparation);
         ctx.status(201);
     }
 

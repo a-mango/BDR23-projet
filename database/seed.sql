@@ -1591,4 +1591,3 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER delete_manager_person_trigger_on_delete
 INSTEAD OF DELETE ON manager_info_view
 FOR EACH ROW EXECUTE PROCEDURE delete_manager_person_on_delete();
-
