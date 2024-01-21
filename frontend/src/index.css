@@ -135,3 +135,11 @@ table {
 input[type="time"]::-webkit-datetime-edit-ampm-field {
     display: none;
 }
+
+.stats-container {
+    @apply grid grid-cols-2 gap-x-4;
+
+    div {
+        @apply p-8 border border-apache shadow;
+    }
+}
