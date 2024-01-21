@@ -1,10 +1,8 @@
-import {
-    SET_CUSTOMERS,
-    ADD_CUSTOMER,
-    UPDATE_CUSTOMER,
-    REMOVE_CUSTOMER,
-    SET_ALERT,
-} from '../config/actionTypes';
+/**
+ * @fileoverview Customer related actions.
+ */
+
+import { ADD_CUSTOMER, REMOVE_CUSTOMER, SET_ALERT, SET_CUSTOMERS, UPDATE_CUSTOMER } from '../config/actionTypes';
 import axios from 'axios';
 
 const fetchCustomers = async (dispatch) => {
@@ -54,8 +52,5 @@ const removeCustomer = async (dispatch, customerId) => {
 };
 
 export {
-    fetchCustomers,
-    addCustomer,
-    updateCustomer,
-    removeCustomer,
-}
+    fetchCustomers, addCustomer, updateCustomer, removeCustomer,
+};

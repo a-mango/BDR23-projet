@@ -1,4 +1,7 @@
-export const BASE_URL = 'http://localhost:7000/api';
+/**
+ * @fileoverview Routes configuration file.
+ */
+
 export const HOME = '';
 export const TECHNICIAN = 'technician';
 export const REPAIRS = 'reparations';

@@ -1,11 +1,18 @@
 import React from 'react';
 import {
-    Chart as ChartJS, registerables, CategoryScale, LinearScale, Title, Tooltip, Legend,
+    Chart as ChartJS, registerables
 } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 
 ChartJS.register(...registerables);
 
+/**
+ * Pie chart component.
+ *
+ * @param title The title of the chart.
+ * @param data The data to display in the chart.
+ * @returns {Element} The pie chart.
+ */
 const PieChart = ({ title, data }) => {
     const chartData = {
         labels: Object.keys(data),

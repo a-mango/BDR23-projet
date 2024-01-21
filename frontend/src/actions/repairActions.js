@@ -1,10 +1,8 @@
-import {
-    SET_REPAIRS,
-    ADD_REPAIR,
-    UPDATE_REPAIR,
-    REMOVE_REPAIR,
-    SET_ALERT,
-} from '../config/actionTypes';
+/**
+ * @fileoverview Repair related actions.
+ */
+
+import { ADD_REPAIR, REMOVE_REPAIR, SET_ALERT, SET_REPAIRS, UPDATE_REPAIR } from '../config/actionTypes';
 import axios from 'axios';
 
 const fetchRepairs = async (dispatch) => {
@@ -53,8 +51,5 @@ const removeRepair = async (dispatch, repairId) => {
 };
 
 export {
-    fetchRepairs,
-    addRepair,
-    updateRepair,
-    removeRepair,
-}
+    fetchRepairs, addRepair, updateRepair, removeRepair,
+};

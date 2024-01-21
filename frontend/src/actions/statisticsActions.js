@@ -1,4 +1,8 @@
-import { SET_ALERT, SET_REPAIRS, SET_STATISTICS } from '../config/actionTypes';
+/**
+ * @fileoverview Statistics related actions.
+ */
+
+import { SET_ALERT, SET_STATISTICS } from '../config/actionTypes';
 import axios from 'axios';
 
 const fetchStatistics = async (dispatch) => {

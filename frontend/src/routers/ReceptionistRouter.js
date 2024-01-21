@@ -3,6 +3,11 @@ import CustomersPage from '../pages/CustomersPage';
 import RepairsPage from '../pages/RepairsPage';
 import React from 'react';
 
+/**
+ * Receptionist router component.
+ *
+ * @returns {Element} The receptionist router.
+ */
 function ReceptionistRouter() {
     return (
         <Routes>

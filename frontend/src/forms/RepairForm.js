@@ -5,15 +5,26 @@ import { GlobalStateContext } from '../providers/GlobalState';
 import CustomSelect from '../components/CustomSelect';
 import Table from '../components/Table';
 
+/**
+ * Repair form component.
+ *
+ * @param selectedRepair The selected repair to edit.
+ * @param setSelectedRepair The setter for the selected repair.
+ * @param onClose The function to call when the form is closed.
+ * @returns {Element} The repair form.
+ * @constructor The repair form.
+ */
 const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
     const { state, dispatch, addRepair, updateRepair } = useContext(GlobalStateContext);
     const { customers, receptionists, brands, categories } = state;
     const {
-        register, control, handleSubmit, watch, formState: { errors }, setValue,
+        register, control, handleSubmit, formState: { errors }, setValue,
     } = useForm();
 
     const customerOptions = customers.map(customer => ({ value: customer.id, label: customer.name }));
-    const receptionistOptions = receptionists.map(receptionist => ({ value: receptionist.id, label: receptionist.name }));
+    const receptionistOptions = receptionists.map(receptionist => ({
+        value: receptionist.id, label: receptionist.name,
+    }));
     const brandOptions = brands.map(brand => ({ value: brand.name, label: brand.name }));
     const categoryOptions = categories.map(category => ({ value: category.name, label: category.name }));
     const objectLocationOptions = [
@@ -45,7 +56,9 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
         if (!data) {
             return [];
         }
-        return data.map((row) => { return { message: row.message }; });
+        return data.map((row) => {
+            return { message: row.message };
+        });
     };
 
     useEffect(() => {
@@ -83,7 +96,10 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
             setValue('object.remark', selectedRepair.object?.remark || '');
             setValue('object.serialNo', selectedRepair.object?.serialNo || '');
         }
-    }, [selectedRepair, setValue]);
+    }, [
+        selectedRepair,
+        setValue,
+    ]);
 
     const onSubmit = (data) => {
         data.object.id = data.object.objectId;
@@ -101,8 +117,8 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
         const brandValue = data?.object?.brand?.name?.value || data?.object?.brand?.name;
         const categoryValue = data?.object?.category?.name?.value || data?.object?.category?.name;
         const locationValue = data?.object?.location?.value || data?.object?.location;
-        data.object.brand = { "name": brandValue };
-        data.object.category = { "name": categoryValue };
+        data.object.brand = { 'name': brandValue };
+        data.object.category = { 'name': categoryValue };
         data.object.location = locationValue;
 
         if (selectedRepair && selectedRepair.id) {
@@ -114,10 +130,9 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
 
     const resetForm = () => {
         setSelectedRepair({
-            object: {},
-            sms: [],
+            object: {}, sms: [],
         });
-    }
+    };
 
     const formatDate = (date) => {
         return date.slice(0, 16);

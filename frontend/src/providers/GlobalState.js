@@ -4,7 +4,12 @@ import { BASE_URL } from '../config/config';
 import * as actionTypes from '../config/actionTypes';
 import { addCustomer, fetchCustomers, removeCustomer, updateCustomer } from '../actions/customerActions';
 import { addTechnician, fetchTechnicians, removeTechnician, updateTechnician } from '../actions/technicianActions';
-import { addReceptionist, fetchReceptionists, removeReceptionist, updateReceptionist } from '../actions/receptionistActions';
+import {
+    addReceptionist,
+    fetchReceptionists,
+    removeReceptionist,
+    updateReceptionist,
+} from '../actions/receptionistActions';
 import { addManager, fetchManagers, removeManager, updateManager } from '../actions/managerActions';
 import { addRepair, fetchRepairs, removeRepair, updateRepair } from '../actions/repairActions';
 import { fetchStatistics } from '../actions/statisticsActions';
@@ -23,7 +28,7 @@ axios.defaults.headers.common['Content-Type'] = 'application/json';
 axios.defaults.headers.common['Accept'] = 'application/json';
 
 /**
- * Monolithic data provider.
+ * Monolithic data provider. Forgive me, for I have sinned.
  *
  * @param children The children to render.
  * @returns {Element} The element to render.
@@ -34,7 +39,13 @@ const GlobalStateProvider = ({ children }) => {
             case actionTypes.SET_CUSTOMERS:
                 return { ...state, customers: action.payload };
             case actionTypes.ADD_CUSTOMER:
-                return { ...state, customers: [...state.customers, action.payload] };
+                return {
+                    ...state,
+                    customers: [
+                        ...state.customers,
+                        action.payload,
+                    ],
+                };
             case actionTypes.UPDATE_CUSTOMER:
                 return {
                     ...state, customers: state.customers.map(c => c.id === action.payload.id ? action.payload : c),
@@ -50,7 +61,13 @@ const GlobalStateProvider = ({ children }) => {
             case actionTypes.SET_TECHNICIANS:
                 return { ...state, technicians: action.payload };
             case actionTypes.ADD_TECHNICIAN:
-                return { ...state, technicians: [...state.technicians, action.payload] };
+                return {
+                    ...state,
+                    technicians: [
+                        ...state.technicians,
+                        action.payload,
+                    ],
+                };
             case actionTypes.UPDATE_TECHNICIAN:
                 return {
                     ...state, technicians: state.technicians.map(c => c.id === action.payload.id ? action.payload : c),
@@ -62,10 +79,17 @@ const GlobalStateProvider = ({ children }) => {
             case actionTypes.SET_RECEPTIONISTS:
                 return { ...state, receptionists: action.payload };
             case actionTypes.ADD_RECEPTIONIST:
-                return { ...state, receptionists: [...state.receptionists, action.payload] };
+                return {
+                    ...state,
+                    receptionists: [
+                        ...state.receptionists,
+                        action.payload,
+                    ],
+                };
             case actionTypes.UPDATE_RECEPTIONIST:
                 return {
-                    ...state, receptionists: state.receptionists.map(c => c.id === action.payload.id ? action.payload : c),
+                    ...state,
+                    receptionists: state.receptionists.map(c => c.id === action.payload.id ? action.payload : c),
                 };
             case actionTypes.REMOVE_RECEPTIONIST:
                 return {
@@ -74,7 +98,13 @@ const GlobalStateProvider = ({ children }) => {
             case actionTypes.SET_MANAGERS:
                 return { ...state, managers: action.payload };
             case actionTypes.ADD_MANAGER:
-                return { ...state, managers: [...state.managers, action.payload] };
+                return {
+                    ...state,
+                    managers: [
+                        ...state.managers,
+                        action.payload,
+                    ],
+                };
             case actionTypes.UPDATE_MANAGER:
                 return {
                     ...state, managers: state.managers.map(c => c.id === action.payload.id ? action.payload : c),
@@ -86,7 +116,13 @@ const GlobalStateProvider = ({ children }) => {
             case actionTypes.SET_REPAIRS:
                 return { ...state, repairs: action.payload };
             case actionTypes.ADD_REPAIR:
-                return { ...state, repairs: [...state.repairs, action.payload] };
+                return {
+                    ...state,
+                    repairs: [
+                        ...state.repairs,
+                        action.payload,
+                    ],
+                };
             case actionTypes.UPDATE_REPAIR:
                 return {
                     ...state, repairs: state.repairs.map(c => c.id === action.payload.id ? action.payload : c),

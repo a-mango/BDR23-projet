@@ -1,7 +1,8 @@
-import {
-    SET_SPECIALIZATIONS,
-    SET_ALERT,
-} from '../config/actionTypes';
+/**
+ * @fileoverview Specialization related actions.
+ */
+
+import { SET_ALERT, SET_SPECIALIZATIONS } from '../config/actionTypes';
 import axios from 'axios';
 
 const fetchSpecializations = async (dispatch) => {
@@ -15,4 +16,4 @@ const fetchSpecializations = async (dispatch) => {
 
 export {
     fetchSpecializations,
-}
+};

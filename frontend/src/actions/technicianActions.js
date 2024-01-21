@@ -1,9 +1,13 @@
+/**
+ * @fileoverview Technician related actions.
+ */
+
 import {
-    SET_TECHNICIANS,
     ADD_TECHNICIAN,
-    UPDATE_TECHNICIAN,
     REMOVE_TECHNICIAN,
     SET_ALERT,
+    SET_TECHNICIANS,
+    UPDATE_TECHNICIAN,
 } from '../config/actionTypes';
 import axios from 'axios';
 
@@ -53,8 +57,5 @@ const removeTechnician = async (dispatch, technicianId) => {
 };
 
 export {
-    fetchTechnicians,
-    addTechnician,
-    updateTechnician,
-    removeTechnician,
-}
+    fetchTechnicians, addTechnician, updateTechnician, removeTechnician,
+};
