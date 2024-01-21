@@ -15,7 +15,6 @@ BEGIN
     INSERT INTO projet.person (name, phone_no, comment)
     VALUES (_name, _phone_no, _comment)
     RETURNING person_id INTO _new_id;
-
 END;
 $$;
 
@@ -32,7 +31,7 @@ CREATE OR REPLACE PROCEDURE projet.InsertCustomer(
 AS
 $$
 DECLARE
-    new_person_id INTEGER;
+    new_person_id INTEGER := 0;
 BEGIN
     -- Insert into Person and get the new ID
     CALL projet.InsertPerson(_name, _phone_no, _comment, new_person_id);
@@ -56,7 +55,7 @@ CREATE OR REPLACE PROCEDURE projet.InsertCollaborator(
 AS
 $$
 DECLARE
-    new_person_id INTEGER;
+    new_person_id INTEGER := 0;
 BEGIN
     -- Insert into Person and get the new ID
     CALL projet.InsertPerson(_name, _phone_no, _comment, new_person_id);
@@ -79,7 +78,7 @@ CREATE OR REPLACE PROCEDURE projet.InsertManager(
     LANGUAGE plpgsql
 AS $$
 DECLARE
-    new_person_id INTEGER;
+    new_person_id INTEGER := 0;
 BEGIN
     -- Insert into a Collaborator and get the new ID
     CALL projet.InsertCollaborator(_name, _phone_no, _comment, _email, new_person_id);
@@ -88,7 +87,6 @@ BEGIN
     INSERT INTO projet.manager (manager_id)
     VALUES (new_person_id)
     RETURNING manager_id INTO _new_id;
-
 END;
 $$;
 
@@ -103,7 +101,7 @@ CREATE OR REPLACE PROCEDURE projet.InsertReceptionist(
     LANGUAGE plpgsql
 AS $$
 DECLARE
-    new_person_id INTEGER;
+    new_person_id INTEGER := 0;
 BEGIN
     -- Insert into a Collaborator and get the new ID
     CALL projet.InsertCollaborator(_name, _phone_no, _comment, _email, new_person_id);
@@ -127,7 +125,7 @@ CREATE OR REPLACE PROCEDURE projet.InsertTechnician(
     LANGUAGE plpgsql
 AS $$
 DECLARE
-    new_person_id INTEGER;
+    new_person_id INTEGER := 0;
 BEGIN
     -- Insert into a Collaborator and get the new ID
     CALL projet.InsertCollaborator(_name, _phone_no, _comment, _email, new_person_id);

@@ -39,7 +39,7 @@ CALL InsertCustomer('Jeffy Hopfer', '1086694457', NULL, TRUE, NULL, NULL);
 CALL InsertCustomer('Aggy Lee', '2356940339', NULL, TRUE,
                     'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.',
                     NULL);
-CALL InsertCustomer('Torie Caskie', '9845978906', NULL, TRUE, 'Suspendisse potenti. Cras in purus eu magna vulputate luctus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus, NULL.');
+CALL InsertCustomer('Torie Caskie', '9845978906', NULL, TRUE, 'Suspendisse potenti. Cras in purus eu magna vulputate luctus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.', NULL);
 CALL InsertCustomer('Magdaia Capelin', '9631312077', NULL, TRUE, NULL, NULL);
 CALL InsertCustomer('Wylma Scamwell', '2507780331', NULL, TRUE, NULL, NULL);
 CALL InsertCustomer('Gwendolen Boulstridge', '7841546275', NULL, TRUE, NULL, NULL);
@@ -57,6 +57,7 @@ CALL InsertCustomer('Drew Bircher', '9342736859', NULL, TRUE, NULL, NULL);
 CALL InsertCustomer('Lotta Ellaman', '3444095541', NULL, TRUE, 'Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem. Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat.', NULL);
 CALL InsertCustomer('Aryn Santos', '4406289262', NULL, TRUE, 'Morbi a ipsum. Integer a nibh.', NULL);
 CALL InsertCustomer('Zane Entissle', '9898594506', 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.', TRUE, NULL, NULL);
+CALL InsertCustomer('Jane Doe', '1238594506', '', TRUE, NULL, NULL);
 
 --
 -- Manager insertion
@@ -218,7 +219,7 @@ VALUES ('Electronics'),
        ('Vehicle'),
        ('Miscellaneous');
 
-INSERT INTO object (customer_id, name, fault_desc, location, remark, serial_no, brand, category)
+INSERT INTO object (object_id, name, fault_desc, location, remark, serial_no, brand, category)
 VALUES (1, 'Laptop', 'Not powering on', 'in_stock', 'Needs urgent repair', 'SN123456', 'Apeul', 'Electronics'),
        (2, 'Smartphone', 'Cracked screen', 'returned', 'Screen replacement needed', 'SN789012', 'Bousch',
         'Electronics'),
