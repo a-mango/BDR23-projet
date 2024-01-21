@@ -91,8 +91,12 @@ form {
         @apply inline-block text-lg text-gray-700 mr-2 decorated mb-1;
     }
 
+    /*input:not([type="checkbox"]), textarea, select {*/
+    /*    @apply inline-block w-full border border-gray-300 shadow-sm !important;*/
+    /*}*/
+
     input, textarea, select {
-        @apply inline-block w-full border border-gray-300 shadow-sm;
+        @apply inline-block w-full border border-gray-300 shadow-sm !important;
     }
 
     div.form-tos {
@@ -121,7 +125,7 @@ input, textarea, select, button {
 }
 
 input:focus, input:active, textarea:focus, textarea:active, select:focus, select:active, button:focus, button:active {
-    @apply border-4 border-apache outline-none ring-0 ring-apache;
+    @apply border-4 border-apache outline-none ring-0 ring-apache !important;
 }
 
 input[type="checkbox"]:checked {
