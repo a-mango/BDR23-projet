@@ -23,6 +23,12 @@ const RepairForm = ({ selectedRepair, setSelectedRepair, onClose }) => {
             setValue('dateCreated', formattedNow());
         }
 
+        if (new Date(selectedRepair?.dateModified).toString() !== 'Invalid Date') {
+            setValue('dateModified', formatDate(selectedRepair.dateModified));
+        } else {
+            setValue('dateModified', formattedNow());
+        }
+
         if (selectedRepair) {
             setValue('id', selectedRepair.id || '');
             setValue('quote', selectedRepair.quote || '0');
